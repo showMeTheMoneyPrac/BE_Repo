@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
+import java.util.Optional;
 
 
 @Service
@@ -43,10 +44,10 @@ public class MemberService {
     }
 
     //2번 API 로그인
-    public String Login(Member2 member){
+    public String login(Member2 member){
         Member2 LoginMember = memberJpaRepository.findByEmail(member.getEmail());
         if (LoginMember == null){
-            throw new IllegalArgumentException("존재하지 않는 아이디입니다.");
+            throw new IllegalArgumentException("존재하지 않는 이메일입니다.");
         }
         if(!Objects.equals(LoginMember.getPassword(), member.getPassword())){
             throw new IllegalStateException("비밀번호가 틀렸습니다.");
@@ -57,18 +58,36 @@ public class MemberService {
 
     //3번 API 사용자 정보 확인
     public String memberInfo(Member2 member){
-        Member2 memberInfoByNickname = memberJpaRepository.findByNickname(member.getNickname());
-        if(memberInfoByNickname==null){
+        Optional<Member2> memberInfoByNickname = Optional.ofNullable(memberJpaRepository.findByNickname(member.getNickname()));
+        if(!memberInfoByNickname.isPresent()){
             throw new IllegalArgumentException("존재하지 않는 회원입니다.");
         }
 
-        return memberInfoByNickname.getNickname();
+        return memberInfoByNickname.get().getNickname();
     }
 
     //4번 API 캐시 충전
-    public int cahrgeCash(Member2 member2, int plusCash){
+    public int chargeCash(Member2 member2, int plusCash){
         memberJpaRepository.chargeCash(member2);
         return member2.getCash();
+    }
+
+    //5번 API 주소 변경
+    public String changeAddress(String nickname, String address){
+        memberJpaRepository.changeAddress(nickname,address);
+        return address;
+    }
+
+    //6번 API 닉네임 변경
+    public String changeNickname(String nickname, String afterNickname){
+        memberJpaRepository.changeNickname(nickname,afterNickname);
+        return afterNickname;
+    }
+
+    //7번 API 회원 탈퇴
+    public String deleteMember(String nickname){
+        memberRepository.deleteByNickname(nickname);
+        return "회원탈퇴 완료";
     }
 
 }
