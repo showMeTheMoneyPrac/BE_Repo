@@ -2,7 +2,7 @@ package com.shop.mall.domain;
 
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 
 import javax.persistence.*;
@@ -11,6 +11,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Member2 extends Timestamped{
     @Id @GeneratedValue
     @Column(name = "member_id")

@@ -24,13 +24,12 @@ public class MemberService {
     //1번 API 회원 가입
     @Transactional
     public Long register(Member2 member) { // 위 줄이 controller에서 Dto형태로 들어올 것이고 validat에서 걸러줘야할 거임 그 다음에 builder 패턴으로 member 엔티티 만들어주고 save하면 됨
-        validateDuplicateMember(member); //중복 회원 검증
-
+        validateDuplicateMemberRegister(member); //중복 회원 검증
         memberRepository.save(member);
         return member.getId();
     }
-
-    private void validateDuplicateMember(Member2 member) {
+    //회원가입 시 제약조건 설정
+    private void validateDuplicateMemberRegister(Member2 member) {
         //EXCEPTION
         Boolean findByEmailMember = memberRepository.existsByEmail(member.getEmail());
         if(findByEmailMember){
@@ -45,15 +44,26 @@ public class MemberService {
 
     //2번 API 로그인
     public String login(Member2 member){
-        Member2 LoginMember = memberJpaRepository.findByEmail(member.getEmail());
-        if (LoginMember == null){
+        Member2 loginMember = memberRepository.findByEmail(member.getEmail()).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 이메일입니다."));
+        if (loginMember == null){
             throw new IllegalArgumentException("존재하지 않는 이메일입니다.");
         }
-        if(!Objects.equals(LoginMember.getPassword(), member.getPassword())){
+        if(!Objects.equals(loginMember.getPassword(), member.getPassword())){
             throw new IllegalStateException("비밀번호가 틀렸습니다.");
         }
 
-        return LoginMember.getNickname();
+        return loginMember.getNickname();
+    }
+
+    private void validateDuplicateLogin(Member2 member, Member2 loginMember){
+        if (loginMember == null){
+            throw new IllegalArgumentException("존재하지 않는 이메일입니다.");
+        }
+        if(!Objects.equals(loginMember.getPassword(), member.getPassword())){
+            throw new IllegalStateException("비밀번호가 틀렸습니다.");
+        }
+
     }
 
     //3번 API 사용자 정보 확인
