@@ -78,7 +78,7 @@ public class ProductResponseDto {
                     .title(product.getTitle())
                     .category(product.getCategory())
                     .reviewCnt(product.getReviewCnt())
-                    .detail(product.getDetail().substring(1))
+                    .detail(product.getDetail())
                     .price(product.getPrice())
                     .optionList(optionList)
                     .imgList(imgList)
