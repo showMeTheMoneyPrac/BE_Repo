@@ -10,5 +10,5 @@ public class MemberRegistRequestDto {
     String nickname;
     String address;
     String password;
-    int cash;
+    String passwordCheck;
 }
