@@ -2,11 +2,13 @@ package com.shop.mall.domain;
 
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class ProductOption {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,4 +22,7 @@ public class ProductOption {
     @JoinColumn(name = "product_id")
     private Product product;
 
+    public ProductOption(String optionContent) {
+        this.optionContent = optionContent;
+    }
 }

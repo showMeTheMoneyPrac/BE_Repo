@@ -47,4 +47,14 @@ public class Product {
     public Product(List<Img> imgList){
         this.imgList = imgList;
     }
+
+    public Product(List<Img> imgList, List<ProductOption> productOptionList,List<Review> reviewList) {
+        this.imgList= imgList;
+        this.productOptionList = productOptionList;
+        this.reviewList = reviewList;
+    }
+
+    public Product() {
+
+    }
 }
