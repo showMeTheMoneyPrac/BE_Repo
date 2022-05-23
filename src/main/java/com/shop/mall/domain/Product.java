@@ -43,4 +43,8 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private List<Img> imgList = new ArrayList<>();
+
+    public Product(List<Img> imgList){
+        this.imgList = imgList;
+    }
 }

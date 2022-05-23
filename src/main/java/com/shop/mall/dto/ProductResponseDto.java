@@ -15,8 +15,8 @@ public class ProductResponseDto {
     @Getter
     @Setter
     @Builder
-    @NoArgsConstructor
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class ProductList {
         private Long productId;
         private String title;
@@ -32,7 +32,7 @@ public class ProductResponseDto {
                     .title(product.getTitle())
                     .category(product.getCategory())
                     .reviewCnt(product.getReviewCnt())
-                    .summary(product.getDetail().substring(1))
+                    .summary(product.getDetail())
                     .price(product.getPrice())
                     .firstImg(product.getImgList().get(0).getImgUrl())
                     .build();

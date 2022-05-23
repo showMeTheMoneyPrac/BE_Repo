@@ -15,7 +15,6 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     // 8번 API
-
     public Page<ProductResponseDto.ProductList> productList(Pageable pageable) {
         return productRepository.findAll(pageable).map(ProductResponseDto.ProductList::productListFrom);
     }
