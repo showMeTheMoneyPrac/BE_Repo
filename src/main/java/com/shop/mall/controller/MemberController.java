@@ -1,6 +1,7 @@
 package com.shop.mall.controller;
 
 import com.shop.mall.dto.MemberLoginRequestDto;
+import com.shop.mall.dto.MemberLoginResponseDto;
 import com.shop.mall.dto.MemberRegistRequestDto;
 import com.shop.mall.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ public class MemberController {
     }
 
     @PostMapping("/members/login") //2번 api
-    public String memberLogin(@RequestBody MemberLoginRequestDto dto){
+    public MemberLoginResponseDto memberLogin(@RequestBody MemberLoginRequestDto dto){
         return memberService.memberLogin(dto);
     }
 }

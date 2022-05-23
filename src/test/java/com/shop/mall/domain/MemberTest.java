@@ -41,6 +41,4 @@ public class MemberTest {
         assertEquals(member.getNickname(),memberRegistRequestDto.getNickname());
         assertEquals(member.getEmail(),memberRegistRequestDto.getEmail());
     }
-
-
 }

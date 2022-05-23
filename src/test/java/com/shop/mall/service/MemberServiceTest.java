@@ -1,6 +1,7 @@
 package com.shop.mall.service;
 
 import com.shop.mall.domain.Member;
+import com.shop.mall.dto.MemberLoginRequestDto;
 import com.shop.mall.dto.MemberRegistRequestDto;
 import com.shop.mall.repository.MemberRepository;
 import org.junit.Test;
@@ -11,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 
 @RunWith(SpringRunner.class)
@@ -113,4 +115,42 @@ public class MemberServiceTest {
         assertEquals(msg,"msg : 패스워드 일치 하지 않음");
     }
 
+    @Test
+    @Transactional
+    public void 로그인_성공() throws Exception{
+        //given
+        Member member = new Member(
+                "하이1@gmail.com",
+                "내이름",
+                "주소1",
+                "비번2",
+                0);
+        memberRepository.save(member);
+        MemberLoginRequestDto dto = new MemberLoginRequestDto("하이1@gmail.com","비번2");
+        //when
+        String name = memberService.memberLogin(dto).getNickname();
+        //then
+        assertEquals(name,"내이름");
+    }
+    @Test
+    @Transactional
+    public void 로그인_실패() throws Exception{
+        //given
+        Member member = new Member(
+                "하이1@gmail.com",
+                "내이름",
+                "주소1",
+                "비번2",
+                0);
+        memberRepository.save(member);
+        MemberLoginRequestDto dto = new MemberLoginRequestDto("하이2@gmail.com","비번2");
+        //when
+        try{
+            memberService.memberLogin(dto);
+        }catch(IllegalArgumentException e){
+            return;
+        }
+        //then
+        fail("실패의 실패");
+    }
 }
