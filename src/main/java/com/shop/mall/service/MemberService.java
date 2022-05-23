@@ -33,6 +33,7 @@ public class MemberService {
         return "msg : 회원가입 완료";
     }
 
+    //로그인
     public MemberLoginResponseDto memberLogin(MemberLoginRequestDto dto) {
         Member member = memberRepository.findByEmailAndPassword(dto.getEmail(),dto.getPassword()).orElseThrow(
                 ()->new IllegalArgumentException("not found member")
@@ -41,6 +42,7 @@ public class MemberService {
         return responseDto;
     }
 
+    //정보 보기
     public MemberInfoResponseDto memberInfo(String nickname) {
         Member member = memberRepository.findByNickname(nickname).orElseThrow(
                 ()->new IllegalArgumentException("not found nickname")

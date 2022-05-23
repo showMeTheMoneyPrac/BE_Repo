@@ -28,18 +28,18 @@ public class MemberServiceTest {
     public void 회원가입_성공() throws Exception{
         //given
         MemberRegistRequestDto dto = MemberRegistRequestDto.builder()
-                .email("하이@gmail.com")
-                .password("비밀번호486")
-                .passwordCheck("비밀번호486")
-                .nickname("내이름2")
-                .address("내주소")
+                .email("john3210of@gmail.com")
+                .password("passwordA")
+                .passwordCheck("passwordA")
+                .nickname("정요한2")
+                .address("우리집이에요")
                 .build();
 
         Member member2 = new Member(
-                "하이1@gmail.com",
-                "내이름3",
-                "주소1",
-                "비번2",
+                "john3210@gmail.com",
+                "정요한3",
+                "우리집3",
+                "passworddd",
                 0);
         memberRepository.save(member2);
 
@@ -54,19 +54,19 @@ public class MemberServiceTest {
     public void 회원가입_이메일중복() throws Exception{
         //given
         Member member = new Member(
-                "하이@gmail.com",
-                "내이름",
-                "주소1",
-                "비번2",
+                "john3210of@gmail.com",
+                "정요한",
+                "우리집3",
+                "passworddd",
                 0);
         memberRepository.save(member);
 
         MemberRegistRequestDto dto = MemberRegistRequestDto.builder()
-                .email("하이@gmail.com")
-                .password("비밀번호486")
-                .passwordCheck("비밀번호486")
-                .nickname("내이름2")
-                .address("내주소")
+                .email("john3210of@gmail.com")
+                .password("passwordA")
+                .passwordCheck("passwordA")
+                .nickname("정요한2")
+                .address("우리집이에요")
                 .build();
         //when
         String msg=memberService.memberRegist(dto);
@@ -79,19 +79,19 @@ public class MemberServiceTest {
     public void 회원가입_이름중복() throws Exception{
         //given
         Member member = new Member(
-                "하이1@gmail.com",
-                "내이름",
-                "주소1",
-                "비번2",
+                "john3210@gmail.com",
+                "정요한",
+                "우리집3",
+                "passworddd",
                 0);
         memberRepository.save(member);
 
         MemberRegistRequestDto dto = MemberRegistRequestDto.builder()
-                .email("하이@gmail.com")
-                .password("비밀번호486")
-                .passwordCheck("비밀번호486")
-                .nickname("내이름")
-                .address("내주소")
+                .email("john3210of@gmail.com")
+                .password("passwordA")
+                .passwordCheck("passwordA")
+                .nickname("정요한")
+                .address("우리집이에요")
                 .build();
         //when
         String msg=memberService.memberRegist(dto);
@@ -104,11 +104,11 @@ public class MemberServiceTest {
     public void 회원가입_비밀번호_불일치() throws Exception{
         //given
         MemberRegistRequestDto dto = MemberRegistRequestDto.builder()
-                .email("하이@gmail.com")
-                .password("비밀번호486")
+                .email("john3210of@gmail.com")
+                .password("passwordA")
                 .passwordCheck("비밀번호4986")
-                .nickname("내이름")
-                .address("내주소")
+                .nickname("정요한")
+                .address("우리집이에요")
                 .build();
         //when
         String msg=memberService.memberRegist(dto);
@@ -121,30 +121,30 @@ public class MemberServiceTest {
     public void 로그인_성공() throws Exception{
         //given
         Member member = new Member(
-                "하이1@gmail.com",
-                "내이름",
-                "주소1",
-                "비번2",
+                "john3210@gmail.com",
+                "정요한",
+                "우리집3",
+                "passworddd",
                 0);
         memberRepository.save(member);
-        MemberLoginRequestDto dto = new MemberLoginRequestDto("하이1@gmail.com","비번2");
+        MemberLoginRequestDto dto = new MemberLoginRequestDto("john3210@gmail.com","passworddd");
         //when
         String name = memberService.memberLogin(dto).getNickname();
         //then
-        assertEquals(name,"내이름");
+        assertEquals(name,"정요한");
     }
     @Test
     @Transactional
     public void 로그인_실패() throws Exception{
         //given
         Member member = new Member(
-                "하이1@gmail.com",
-                "내이름",
-                "주소1",
-                "비번2",
+                "john3210@gmail.com",
+                "정요한",
+                "우리집3",
+                "passworddd",
                 0);
         memberRepository.save(member);
-        MemberLoginRequestDto dto = new MemberLoginRequestDto("하이2@gmail.com","비번2");
+        MemberLoginRequestDto dto = new MemberLoginRequestDto("하이2@gmail.com","passworddd");
         //when
         try{
             memberService.memberLogin(dto);
@@ -160,13 +160,13 @@ public class MemberServiceTest {
     public void 유저정보조회_성공() throws Exception{
         //given
         Member member = new Member(
-                "하이1@gmail.com",
-                "내이름",
-                "주소1",
-                "비번2",
+                "john3210@gmail.com",
+                "정요한",
+                "우리집3",
+                "passworddd",
                 0);
         memberRepository.save(member);
-        String headerNickname = "내이름";
+        String headerNickname = "정요한";
         //when
         MemberInfoResponseDto dto = memberService.memberInfo(headerNickname);
         //then
@@ -180,13 +180,13 @@ public class MemberServiceTest {
     public void 유저정보조회_실패() throws Exception{
         //given
         Member member = new Member(
-                "하이1@gmail.com",
-                "내이름",
-                "주소1",
-                "비번2",
+                "john3210@gmail.com",
+                "정요한",
+                "우리집3",
+                "passworddd",
                 0);
         memberRepository.save(member);
-        String headerNickname = "내이름아니양";
+        String headerNickname = "정요한아니양";
         //when
         try{
             memberService.memberInfo(headerNickname);
@@ -201,16 +201,16 @@ public class MemberServiceTest {
     public void 캐시충전_성공() throws Exception{
         //given
         Member member = new Member(
-                "하이1@gmail.com",
-                "내이름",
-                "주소1",
-                "비번2",
+                "john3210@gmail.com",
+                "정요한",
+                "우리집3",
+                "passworddd",
                 0);
         memberRepository.save(member);
         int chargeCash = 10000;
         //when
         int totalCash = member.getCash()+chargeCash;
-        int afterCharge = memberService.cashCharge("내이름",chargeCash).getTotalCash();
+        int afterCharge = memberService.cashCharge("정요한",chargeCash).getTotalCash();
         //then
         assertEquals(totalCash,afterCharge);
         assertEquals(10000,afterCharge);
@@ -221,16 +221,55 @@ public class MemberServiceTest {
     public void 캐시충전_실패_id없음() throws Exception{
         //given
         Member member = new Member(
-                "하이1@gmail.com",
-                "내이름",
-                "주소1",
-                "비번2",
+                "john3210@gmail.com",
+                "정요한",
+                "우리집3",
+                "passworddd",
                 0);
         memberRepository.save(member);
         int chargeCash = 10000;
         //when
         try{
-            memberService.cashCharge("내이름2",chargeCash);
+            memberService.cashCharge("정요한2",chargeCash);
+        }catch (IllegalArgumentException e){
+            return;
+        }
+        //then
+        fail("실패의 실패");
+    }
+
+    @Test
+    @Transactional
+    public void 주소변경_성공() throws Exception{
+        //given
+        Member member = new Member(
+                "john3210@gmail.com",
+                "정요한",
+                "우리집3",
+                "passworddd",
+                0);
+        memberRepository.save(member);
+        String afterAddress = "이사한 우리집";
+        //when
+        memberService.changeAddress("정요한",afterAddress);
+        //then
+        assertEquals(afterAddress,member.getAddress());
+    }
+    @Test
+    @Transactional
+    public void 주소변경_실패() throws Exception{
+        //given
+        Member member = new Member(
+                "john3210@gmail.com",
+                "정요한",
+                "우리집3",
+                "passworddd",
+                0);
+        memberRepository.save(member);
+        String afterAddress = "이사한 우리집";
+        //when
+        try{
+            memberService.changeAddress("정요한2",afterAddress);
         }catch (IllegalArgumentException e){
             return;
         }
