@@ -316,4 +316,45 @@ public class MemberServiceTest {
         //then
         fail("실패의 실패");
     }
+
+    @Test
+    @Transactional
+    public void 회원탈퇴_성공() throws Exception{
+        //given
+        Member member = new Member(
+                "john3210@gmail.com",
+                "정요한3",
+                "우리집3",
+                "passworddd",
+                0);
+        memberRepository.save(member);
+
+        //when
+        String msg = memberService.memberDelete("정요한3");
+        //then
+        assertEquals(msg,"msg : 회원 탈퇴 완료");
+    }
+
+    @Test
+    @Transactional
+    public void 회원탈퇴_실패() throws Exception{
+        //given
+        Member member = new Member(
+                "john3210@gmail.com",
+                "정요한3",
+                "우리집3",
+                "passworddd",
+                0);
+        memberRepository.save(member);
+
+        //when
+        try{
+            memberService.memberDelete("정요한33");
+        }catch (IllegalArgumentException e){
+            return;
+        }
+        //삭제는 실패가 안되는 이유 공부..
+        //then
+        fail("실패의 실패");
+    }
 }

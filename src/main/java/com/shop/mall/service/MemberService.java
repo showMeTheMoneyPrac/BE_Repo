@@ -81,4 +81,12 @@ public class MemberService {
         MemberNameResponseDto responseDto = new MemberNameResponseDto(afterName);
         return responseDto;
     }
+
+    @Transactional
+    public String memberDelete(String nickname) {
+        memberRepository.deleteByNickname(nickname).orElseThrow(
+                ()->new IllegalArgumentException("not found nickname")
+        );
+        return "msg : 회원 탈퇴 완료";
+    }
 }
