@@ -22,6 +22,32 @@ public class MemberServiceTest {
 
     @Test
     @Transactional
+    public void 회원가입_성공() throws Exception{
+        //given
+        MemberRegistRequestDto dto = MemberRegistRequestDto.builder()
+                .email("하이@gmail.com")
+                .password("비밀번호486")
+                .passwordCheck("비밀번호486")
+                .nickname("내이름2")
+                .address("내주소")
+                .build();
+
+        Member member2 = new Member(
+                "하이1@gmail.com",
+                "내이름3",
+                "주소1",
+                "비번2",
+                0);
+        memberRepository.save(member2);
+
+        //when
+        String msg = memberService.memberRegist(dto);
+        //then
+        assertEquals(msg,"msg : 회원가입 완료");
+    }
+
+    @Test
+    @Transactional
     public void 회원가입_이메일중복() throws Exception{
         //given
         Member member = new Member(

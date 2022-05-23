@@ -19,7 +19,7 @@ public class MemberTest {
 
     @Test
     @Transactional
-    public void member단위테스트() throws Exception{
+    public void 멤버엔티티() throws Exception{
         //given
         MemberRegistRequestDto memberRegistRequestDto = MemberRegistRequestDto.builder()
                 .email("하이@gmail.com")
@@ -37,7 +37,6 @@ public class MemberTest {
         //then
         assertEquals(member.getAddress(),memberRegistRequestDto.getAddress());
         assertEquals(member.getCash(),0);
-        assertNotEquals(member.getCash(),2);
         assertEquals(member.getPassword(),memberRegistRequestDto.getPassword());
         assertEquals(member.getNickname(),memberRegistRequestDto.getNickname());
         assertEquals(member.getEmail(),memberRegistRequestDto.getEmail());

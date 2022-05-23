@@ -1,11 +1,15 @@
 package com.shop.mall.service;
 
 import com.shop.mall.domain.Member;
+import com.shop.mall.dto.MemberLoginRequestDto;
 import com.shop.mall.dto.MemberRegistRequestDto;
 import com.shop.mall.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -27,5 +31,14 @@ public class MemberService {
                 0);
         memberRepository.save(member);
         return "msg : 회원가입 완료";
+    }
+
+    public String memberLogin(MemberLoginRequestDto dto) {
+        Member member = memberRepository.findByEmailAndPassword(dto.getEmail(),dto.getPassword()).orElseThrow(
+                ()->new IllegalArgumentException("not found")
+        );
+        JSONObject obj = new JSONObject();
+        obj.put("nickname",member.getNickname());  //dto로 바꿔야대넹
+        return obj.toString();
     }
 }

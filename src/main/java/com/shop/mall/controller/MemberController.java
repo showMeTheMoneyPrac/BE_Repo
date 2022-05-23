@@ -1,5 +1,6 @@
 package com.shop.mall.controller;
 
+import com.shop.mall.dto.MemberLoginRequestDto;
 import com.shop.mall.dto.MemberRegistRequestDto;
 import com.shop.mall.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
     private final MemberService memberService;
 
-    @PostMapping("/members/regist")
-    public String memberRegist(@RequestBody MemberRegistRequestDto memberRegistRequestDto){
-        return memberService.memberRegist(memberRegistRequestDto);
+    @PostMapping("/members/regist") //1번 api
+    public String memberRegist(@RequestBody MemberRegistRequestDto dto){
+        return memberService.memberRegist(dto);
     }
 
+    @PostMapping("/members/login") //2번 api
+    public String memberLogin(@RequestBody MemberLoginRequestDto dto){
+        return memberService.memberLogin(dto);
+    }
 }
