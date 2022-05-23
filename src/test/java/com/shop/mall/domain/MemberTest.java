@@ -2,6 +2,7 @@ package com.shop.mall.domain;
 
 import com.shop.mall.dto.MemberRegistRequestDto;
 import com.shop.mall.repository.MemberRepository;
+import com.shop.mall.service.MemberService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import static org.junit.Assert.*;
 public class MemberTest {
     @Autowired
     MemberRepository memberRepository;
+    MemberService memberService;
 
     @Test
     @Transactional
@@ -45,5 +47,33 @@ public class MemberTest {
         assertEquals(member.getNickname(),memberRegistRequestDto.getNickname());
         assertEquals(member.getEmail(),memberRegistRequestDto.getEmail());
     }
+
+    @Test
+    @Transactional
+        public void 회원가입_중복() throws Exception{
+            //given
+            Member member = new Member(
+                    "하이@gmail.com",
+                    "내이름",
+                    "주소1",
+                    "비번2",
+                    0);
+            memberRepository.save(member);
+            MemberRegistRequestDto dto = MemberRegistRequestDto.builder()
+                    .email("하이@gmail.com")
+                    .password("비밀번호486")
+                    .nickname("내이름")
+                    .address("내주소")
+                    .cash(0)
+                    .build();
+
+            //when
+
+
+            memberService.memberRegist(dto);
+
+
+            //then
+        }
 
 }
