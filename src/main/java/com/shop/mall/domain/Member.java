@@ -1,8 +1,6 @@
 package com.shop.mall.domain;
 
 
-import com.shop.mall.dto.MemberCashRequestDto;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -55,6 +53,11 @@ public class Member extends Timestamped{
     public int charge(int chargeCash){
         this.cash = chargeCash + this.cash;
         return this.cash;
+    }
+
+    public String addressUpdate(String afterAddress){
+        this.address = afterAddress;
+        return afterAddress;
     }
 
 }

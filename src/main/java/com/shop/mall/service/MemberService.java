@@ -12,6 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
     private final MemberRepository memberRepository;
 
+    public void authorization(String nickname){
+        // 반복되는 어쏘리제이션을 따로 빼서 관리해보자
+    }
+
     @Transactional
     public String memberRegist(MemberRegistRequestDto dto){
         if (!dto.getPassword().equals(dto.getPasswordCheck())){
@@ -53,6 +57,16 @@ public class MemberService {
         );
         int totalCash = member.charge(chargeCash);
         MemberCashResponseDto responseDto = new MemberCashResponseDto(totalCash);
+        return responseDto;
+    }
+
+    @Transactional
+    public MemberAddressResponseDto changeAddress(String nickname, String afterAddress) {
+        Member member = memberRepository.findByNickname(nickname).orElseThrow(
+                ()->new IllegalArgumentException("not found nickname")
+        );
+        member.addressUpdate(afterAddress);
+        MemberAddressResponseDto responseDto = new MemberAddressResponseDto(afterAddress);
         return responseDto;
     }
 }

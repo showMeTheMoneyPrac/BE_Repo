@@ -30,4 +30,10 @@ public class MemberController {
                                             @RequestBody MemberCashRequestDto dto){
         return memberService.cashCharge(nickname,dto.getChargeCash());
     }
+
+    @PatchMapping("/members/address") //5번 api
+    public MemberAddressResponseDto addressChange(@RequestHeader(value = "nickname") String nickname,
+                                                  @RequestBody MemberAddressRequestDto dto){
+        return memberService.changeAddress(nickname,dto.getAfterAddress());
+    }
 }
