@@ -251,7 +251,7 @@ public class MemberServiceTest {
         memberRepository.save(member);
         String afterAddress = "이사한 우리집";
         //when
-        memberService.changeAddress("정요한",afterAddress);
+        memberService.addressChange("정요한",afterAddress);
         //then
         assertEquals(afterAddress,member.getAddress());
     }
@@ -269,7 +269,7 @@ public class MemberServiceTest {
         String afterAddress = "이사한 우리집";
         //when
         try{
-            memberService.changeAddress("정요한2",afterAddress);
+            memberService.addressChange("정요한2",afterAddress);
         }catch (IllegalArgumentException e){
             return;
         }

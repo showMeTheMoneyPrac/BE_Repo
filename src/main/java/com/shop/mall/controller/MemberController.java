@@ -34,6 +34,12 @@ public class MemberController {
     @PatchMapping("/members/address") //5번 api
     public MemberAddressResponseDto addressChange(@RequestHeader(value = "nickname") String nickname,
                                                   @RequestBody MemberAddressRequestDto dto){
-        return memberService.changeAddress(nickname,dto.getAfterAddress());
+        return memberService.addressChange(nickname,dto.getAfterAddress());
+    }
+
+    @PatchMapping("/members/nickname") //6번 api
+    public MemberNameResponseDto nameChange(@RequestHeader(value = "nickname") String nickname,
+                                                  @RequestBody MemberNameRequestDto dto){
+        return memberService.nameChange(nickname,dto.getAfterNickname());
     }
 }

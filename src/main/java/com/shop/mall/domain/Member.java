@@ -60,4 +60,9 @@ public class Member extends Timestamped{
         return afterAddress;
     }
 
+    public String nameUpdate(String afterName){
+        this.nickname = afterName;
+        return nickname;
+    }
+
 }

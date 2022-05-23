@@ -63,12 +63,22 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberAddressResponseDto changeAddress(String nickname, String afterAddress) {
+    public MemberAddressResponseDto addressChange(String nickname, String afterAddress) {
         Member member = memberRepository.findByNickname(nickname).orElseThrow(
                 ()->new IllegalArgumentException("not found nickname")
         );
         member.addressUpdate(afterAddress);
         MemberAddressResponseDto responseDto = new MemberAddressResponseDto(afterAddress);
+        return responseDto;
+    }
+
+    @Transactional
+    public MemberNameResponseDto nameChange(String nickname, String afterName) {
+        Member member = memberRepository.findByNickname(nickname).orElseThrow(
+                ()->new IllegalArgumentException("not found nickname")
+        );
+        member.nameUpdate(afterName);
+        MemberNameResponseDto responseDto = new MemberNameResponseDto(afterName);
         return responseDto;
     }
 }
