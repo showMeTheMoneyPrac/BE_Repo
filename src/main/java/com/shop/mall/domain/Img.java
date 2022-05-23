@@ -1,6 +1,8 @@
 package com.shop.mall.domain;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,6 +10,8 @@ import javax.persistence.*;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class Img {
     @Id
@@ -22,8 +26,8 @@ public class Img {
     @JoinColumn(name = "product_id")
     private Product product;
 
+
     public Img(String imgUrl) {
         this.imgUrl = imgUrl;
     }
-
 }
