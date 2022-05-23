@@ -1,9 +1,6 @@
 package com.shop.mall.controller;
 
-import com.shop.mall.dto.MemberInfoResponseDto;
-import com.shop.mall.dto.MemberLoginRequestDto;
-import com.shop.mall.dto.MemberLoginResponseDto;
-import com.shop.mall.dto.MemberRegistRequestDto;
+import com.shop.mall.dto.*;
 import com.shop.mall.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -26,5 +23,11 @@ public class MemberController {
     @GetMapping("/members/info") //3번 api
     public MemberInfoResponseDto memberInfo(@RequestHeader(value = "nickname") String nickname){
         return memberService.memberInfo(nickname);
+    }
+
+    @PostMapping("/members/cash") //4번 api
+    public MemberCashResponseDto cashCharge(@RequestHeader(value = "nickname") String nickname,
+                                            @RequestBody MemberCashRequestDto dto){
+        return memberService.cashCharge(nickname,dto.getChargeCash());
     }
 }

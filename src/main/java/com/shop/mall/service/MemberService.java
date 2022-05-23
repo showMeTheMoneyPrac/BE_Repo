@@ -1,10 +1,7 @@
 package com.shop.mall.service;
 
 import com.shop.mall.domain.Member;
-import com.shop.mall.dto.MemberInfoResponseDto;
-import com.shop.mall.dto.MemberLoginRequestDto;
-import com.shop.mall.dto.MemberLoginResponseDto;
-import com.shop.mall.dto.MemberRegistRequestDto;
+import com.shop.mall.dto.*;
 import com.shop.mall.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -46,6 +43,16 @@ public class MemberService {
         );
         MemberInfoResponseDto responseDto = new MemberInfoResponseDto(member.getNickname(),
                 member.getAddress(),member.getCash());
+        return responseDto;
+    }
+
+    @Transactional
+    public MemberCashResponseDto cashCharge(String nickname, int chargeCash) {
+        Member member = memberRepository.findByNickname(nickname).orElseThrow(
+                ()->new IllegalArgumentException("not found nickname")
+        );
+        int totalCash = member.charge(chargeCash);
+        MemberCashResponseDto responseDto = new MemberCashResponseDto(totalCash);
         return responseDto;
     }
 }
