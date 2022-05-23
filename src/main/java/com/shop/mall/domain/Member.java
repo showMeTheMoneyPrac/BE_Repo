@@ -17,10 +17,10 @@ public class Member extends Timestamped{
     @Column(name = "member_id")
     private Long id;
 
-    @Column
+    @Column(unique = true)
     private String email;
 
-    @Column
+    @Column(unique = true)
     private String nickname;
 
     @Column
