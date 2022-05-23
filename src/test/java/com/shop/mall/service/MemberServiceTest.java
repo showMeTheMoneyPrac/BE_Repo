@@ -174,4 +174,26 @@ public class MemberServiceTest {
         assertEquals(dto.getCash(),member.getCash());
         assertEquals(dto.getNickname(),member.getNickname());
     }
+
+    @Test
+    @Transactional
+    public void 유저정보조회_실패() throws Exception{
+        //given
+        Member member = new Member(
+                "하이1@gmail.com",
+                "내이름",
+                "주소1",
+                "비번2",
+                0);
+        memberRepository.save(member);
+        String headerNickname = "내이름아니양";
+        //when
+        try{
+            memberService.memberInfo(headerNickname);
+        }catch (IllegalArgumentException e){
+            return;
+        }
+        //then
+        fail("실패의 실패");
+    }
 }
