@@ -196,4 +196,45 @@ public class MemberServiceTest {
         //then
         fail("실패의 실패");
     }
+    @Test
+    @Transactional
+    public void 캐시충전_성공() throws Exception{
+        //given
+        Member member = new Member(
+                "하이1@gmail.com",
+                "내이름",
+                "주소1",
+                "비번2",
+                0);
+        memberRepository.save(member);
+        int chargeCash = 10000;
+        //when
+        int totalCash = member.getCash()+chargeCash;
+        int afterCharge = memberService.cashCharge("내이름",chargeCash).getTotalCash();
+        //then
+        assertEquals(totalCash,afterCharge);
+        assertEquals(10000,afterCharge);
+    }
+
+    @Test
+    @Transactional
+    public void 캐시충전_실패_id없음() throws Exception{
+        //given
+        Member member = new Member(
+                "하이1@gmail.com",
+                "내이름",
+                "주소1",
+                "비번2",
+                0);
+        memberRepository.save(member);
+        int chargeCash = 10000;
+        //when
+        try{
+            memberService.cashCharge("내이름2",chargeCash);
+        }catch (IllegalArgumentException e){
+            return;
+        }
+        //then
+        fail("실패의 실패");
+    }
 }
