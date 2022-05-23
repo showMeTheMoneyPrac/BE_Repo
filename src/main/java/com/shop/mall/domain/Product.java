@@ -14,6 +14,21 @@ public class Product {
     @Column(name = "product_id")
     private Long id;
 
+    @Column
+    private String title;
+
+    @Column
+    private String category;
+
+    @Column
+    private String detail;
+
+    @Column
+    private int price;
+
+    @Column
+    private int reviewCnt;
+
     @OneToMany(mappedBy = "product")
     private List<Cart> cartList = new ArrayList<>();
 
