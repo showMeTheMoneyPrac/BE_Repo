@@ -1,6 +1,7 @@
 package com.shop.mall.service;
 
 import com.shop.mall.domain.Member;
+import com.shop.mall.dto.MemberInfoResponseDto;
 import com.shop.mall.dto.MemberLoginRequestDto;
 import com.shop.mall.dto.MemberLoginResponseDto;
 import com.shop.mall.dto.MemberRegistRequestDto;
@@ -33,9 +34,18 @@ public class MemberService {
 
     public MemberLoginResponseDto memberLogin(MemberLoginRequestDto dto) {
         Member member = memberRepository.findByEmailAndPassword(dto.getEmail(),dto.getPassword()).orElseThrow(
-                ()->new IllegalArgumentException("not found")
+                ()->new IllegalArgumentException("not found member")
         );
         MemberLoginResponseDto responseDto = new MemberLoginResponseDto(member.getNickname());
+        return responseDto;
+    }
+
+    public MemberInfoResponseDto memberInfo(String nickname) {
+        Member member = memberRepository.findByNickname(nickname).orElseThrow(
+                ()->new IllegalArgumentException("not found nickname")
+        );
+        MemberInfoResponseDto responseDto = new MemberInfoResponseDto(member.getNickname(),
+                member.getAddress(),member.getCash());
         return responseDto;
     }
 }

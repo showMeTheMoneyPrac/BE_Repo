@@ -1,6 +1,7 @@
 package com.shop.mall.service;
 
 import com.shop.mall.domain.Member;
+import com.shop.mall.dto.MemberInfoResponseDto;
 import com.shop.mall.dto.MemberLoginRequestDto;
 import com.shop.mall.dto.MemberRegistRequestDto;
 import com.shop.mall.repository.MemberRepository;
@@ -152,5 +153,25 @@ public class MemberServiceTest {
         }
         //then
         fail("실패의 실패");
+    }
+
+    @Test
+    @Transactional
+    public void 유저정보조회_성공() throws Exception{
+        //given
+        Member member = new Member(
+                "하이1@gmail.com",
+                "내이름",
+                "주소1",
+                "비번2",
+                0);
+        memberRepository.save(member);
+        String headerNickname = "내이름";
+        //when
+        MemberInfoResponseDto dto = memberService.memberInfo(headerNickname);
+        //then
+        assertEquals(dto.getAddress(),member.getAddress());
+        assertEquals(dto.getCash(),member.getCash());
+        assertEquals(dto.getNickname(),member.getNickname());
     }
 }
