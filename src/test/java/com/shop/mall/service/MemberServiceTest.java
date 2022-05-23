@@ -276,4 +276,44 @@ public class MemberServiceTest {
         //then
         fail("실패의 실패");
     }
+
+    @Test
+    @Transactional
+    public void 닉네임변경_성공() throws Exception{
+        //given
+        Member member = new Member(
+                "john3210@gmail.com",
+                "정요한",
+                "우리집3",
+                "passworddd",
+                0);
+        memberRepository.save(member);
+        String afterName = "변경한 이름";
+        //when
+        memberService.nameChange("정요한",afterName);
+        //then
+        assertEquals(afterName,member.getNickname());
+    }
+
+    @Test
+    @Transactional
+    public void 닉네임변경_실패() throws Exception{
+        //given
+        Member member = new Member(
+                "john3210@gmail.com",
+                "정요한",
+                "우리집3",
+                "passworddd",
+                0);
+        memberRepository.save(member);
+        String afterName = "변경한 이름";
+        //when
+        try{
+            memberService.nameChange("정요한33",afterName);
+        }catch (IllegalArgumentException e){
+            return;
+        }
+        //then
+        fail("실패의 실패");
+    }
 }
