@@ -1,5 +1,6 @@
 package com.shop.mall.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.shop.mall.domain.Img;
 import com.shop.mall.domain.Product;
 import com.shop.mall.domain.ProductOption;
@@ -18,7 +19,8 @@ public class ProductResponseDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class ProductList {
-        private Long productId;
+        @JsonProperty(value="productId")
+        private Long id;
         private String title;
         private String category;
         private int reviewCnt;
@@ -28,7 +30,7 @@ public class ProductResponseDto {
 
         public static ProductList productListFrom(Product product) {
             return ProductList.builder()
-                    .productId(product.getId())
+                    .id(product.getId())
                     .title(product.getTitle())
                     .category(product.getCategory())
                     .reviewCnt(product.getReviewCnt())
@@ -86,4 +88,5 @@ public class ProductResponseDto {
                     .build();
         }
     }
+
 }
