@@ -1,32 +1,33 @@
 package com.shop.mall.domain;
 
+
 import lombok.Getter;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
-public class Review2 extends Timestamped{
+public class OrdersDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "review_id")
+    @Column(name = "orders_detail_id")
     private Long id;
 
+    @Column(name = "option_content")
+    private String optionContent;
 
     @Column
-    private String title;
+    private int ea;
 
     @Column
-    private String content;
-
+    private int bill;
 
     @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Member2 member;
-
+    @JoinColumn(name = "orders_id")
+    private Orders orders;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
-    private Product2 product;
+    private Product product;
 
 }

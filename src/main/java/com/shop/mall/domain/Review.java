@@ -6,26 +6,24 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-public class Cart2 {
+public class Review extends Timestamped{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cart_id")
+    @Column(name = "review_id")
     private Long id;
 
-    @Column(name="option_content")
-    private String optionContent;
+    @Column
+    private String title;
 
     @Column
-    private int ea;
-
-    @Column
-    private int bill;
+    private String content;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
-    private Member2 member;
+    private Member member;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
-    private Product2 product;
+    private Product product;
+
 }

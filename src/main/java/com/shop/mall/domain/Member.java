@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Member2 extends Timestamped{
+public class Member extends Timestamped{
     @Id @GeneratedValue
     @Column(name = "member_id")
     private Long id;
@@ -33,16 +33,16 @@ public class Member2 extends Timestamped{
     private int cash;
 
     @OneToMany(mappedBy = "member")
-    private List<Orders2> ordersList = new ArrayList<>();
+    private List<Orders> ordersList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<Cart2> cartList = new ArrayList<>();
+    private List<Cart> cartList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<Review2> reviewList = new ArrayList<>();
+    private List<Review> reviewList = new ArrayList<>();
 
     //회원 가입 Test를 위한 코드
-    public Member2(String email, String nickname, String address,String password, int cash){
+    public Member(String email, String nickname, String address, String password, int cash){
         this.email = email;
         this.nickname = nickname;
         this.address = address;

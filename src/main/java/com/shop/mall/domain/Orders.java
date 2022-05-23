@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Getter
-public class Orders2 extends Timestamped{
+public class Orders extends Timestamped{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "orders_id")
@@ -24,12 +24,12 @@ public class Orders2 extends Timestamped{
 
 
     @OneToMany(mappedBy = "orders")
-    private List<Orders2Detail> ordersDetailList = new ArrayList<>();
+    private List<OrdersDetail> ordersDetailList = new ArrayList<>();
 
 
     @ManyToOne
     @JoinColumn(name = "member_id")
-    private Member2 member;
+    private Member member;
 
 
 

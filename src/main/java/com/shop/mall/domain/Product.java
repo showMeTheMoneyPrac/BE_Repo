@@ -8,24 +8,24 @@ import java.util.List;
 
 @Entity
 @Getter
-public class Product2 {
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
     private Long id;
 
     @OneToMany(mappedBy = "product")
-    private List<Cart2> cartList = new ArrayList<>();
+    private List<Cart> cartList = new ArrayList<>();
 
     @OneToMany(mappedBy = "product")
-    private List<Orders2Detail> ordersDetailList = new ArrayList<>();
+    private List<OrdersDetail> ordersDetailList = new ArrayList<>();
 
     @OneToMany(mappedBy = "product")
-    private List<Review2> reviewList = new ArrayList<>();
+    private List<Review> reviewList = new ArrayList<>();
 
     @OneToMany(mappedBy = "product")
-    private List<Product2Option> productOptionList = new ArrayList<>();
+    private List<ProductOption> productOptionList = new ArrayList<>();
 
     @OneToMany(mappedBy = "product")
-    private List<Img2> imgList = new ArrayList<>();
+    private List<Img> imgList = new ArrayList<>();
 }

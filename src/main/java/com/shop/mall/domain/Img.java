@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-public class Img2 {
+public class Img {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "img_id")
@@ -18,5 +18,5 @@ public class Img2 {
 
     @ManyToOne
     @JoinColumn(name = "product_id")
-    private Product2 product;
+    private Product product;
 }
