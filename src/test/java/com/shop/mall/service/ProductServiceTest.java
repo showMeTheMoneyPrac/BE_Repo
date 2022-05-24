@@ -3,7 +3,7 @@ package com.shop.mall.service;
 import com.shop.mall.domain.*;
 import com.shop.mall.dto.ProductResponseDto;
 import com.shop.mall.repository.ImgRepository;
-import com.shop.mall.repository.ProductRepository;
+import com.shop.mall.repository.Product.ProductRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;

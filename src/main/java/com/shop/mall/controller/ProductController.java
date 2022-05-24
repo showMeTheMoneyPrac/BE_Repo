@@ -3,6 +3,7 @@ package com.shop.mall.controller;
 import com.shop.mall.dto.ProductResponseDto;
 import com.shop.mall.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -32,9 +33,9 @@ public class ProductController {
     }
 
     //10번 API 상품 카테고리 및 검색
-//    @GetMapping("/products")
-//    public List<ProductResponseDto.ProductList> findConditionsProduct(@PageableDefault(size = 8, sort = "createdAt") Pageable pageable, @RequestParam(value = "sort") String sort, @RequestParam(value = "category") String category, @RequestParam(value = "searchKeyword") String searchKeyword){
-//        return productService.conditionProductList(pageable,)
-//    }
+    @GetMapping("/products/search")
+    public List<ProductResponseDto.ProductList> findConditionsProduct(@PageableDefault(size = 8) Pageable pageable, @RequestParam(value = "sort") String sort, @RequestParam(value = "category") String category, @RequestParam(value = "searchKeyword") String searchKeyword){
+        return productService.conditionProductList(pageable,sort,category,searchKeyword).getContent();
+    }
 
 }
