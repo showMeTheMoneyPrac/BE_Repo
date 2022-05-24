@@ -12,12 +12,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
     private final MemberRepository memberRepository;
 
-    public void authorization(String nickname){
+    public Member authorization(String nickname){
         // 반복되는 어쏘리제이션을 따로 빼서 관리해보자
+        return memberRepository.findByNickname(nickname).orElseThrow(
+                ()->new IllegalArgumentException("not found nickname")
+        );
     }
 
     @Transactional
-    public String memberRegist(MemberRegistRequestDto dto){
+    public String memberRegist(MemberRequestDto.Regist dto){
         if (!dto.getPassword().equals(dto.getPasswordCheck())){
             return "msg : 패스워드 일치 하지 않음";
         }
@@ -34,52 +37,35 @@ public class MemberService {
     }
 
     //로그인
-    public MemberLoginResponseDto memberLogin(MemberLoginRequestDto dto) {
+    public MemberResponseDto.Login memberLogin(MemberRequestDto.Login dto) {
         Member member = memberRepository.findByEmailAndPassword(dto.getEmail(),dto.getPassword()).orElseThrow(
                 ()->new IllegalArgumentException("not found member")
         );
-        MemberLoginResponseDto responseDto = new MemberLoginResponseDto(member.getNickname());
-        return responseDto;
+        return new MemberResponseDto.Login(member.getNickname());
     }
 
     //정보 보기
-    public MemberInfoResponseDto memberInfo(String nickname) {
-        Member member = memberRepository.findByNickname(nickname).orElseThrow(
-                ()->new IllegalArgumentException("not found nickname")
-        );
-        MemberInfoResponseDto responseDto = new MemberInfoResponseDto(member.getNickname(),
-                member.getAddress(),member.getCash());
-        return responseDto;
+    public MemberResponseDto.Info memberInfo(String nickname) {
+        return new MemberResponseDto.Info(authorization(nickname).getNickname(),
+                authorization(nickname).getAddress(),authorization(nickname).getCash());
     }
 
     @Transactional
-    public MemberCashResponseDto cashCharge(String nickname, int chargeCash) {
-        Member member = memberRepository.findByNickname(nickname).orElseThrow(
-                ()->new IllegalArgumentException("not found nickname")
-        );
-        int totalCash = member.charge(chargeCash);
-        MemberCashResponseDto responseDto = new MemberCashResponseDto(totalCash);
-        return responseDto;
+    public MemberResponseDto.Cash cashCharge(String nickname, int chargeCash) {
+        int totalCash = authorization(nickname).charge(chargeCash);
+        return new MemberResponseDto.Cash(totalCash);
     }
 
     @Transactional
-    public MemberAddressResponseDto addressChange(String nickname, String afterAddress) {
-        Member member = memberRepository.findByNickname(nickname).orElseThrow(
-                ()->new IllegalArgumentException("not found nickname")
-        );
-        member.addressUpdate(afterAddress);
-        MemberAddressResponseDto responseDto = new MemberAddressResponseDto(afterAddress);
-        return responseDto;
+    public MemberResponseDto.Address addressChange(String nickname, String afterAddress) {
+        authorization(nickname).addressUpdate(afterAddress);
+        return new MemberResponseDto.Address(afterAddress);
     }
 
     @Transactional
-    public MemberNameResponseDto nameChange(String nickname, String afterName) {
-        Member member = memberRepository.findByNickname(nickname).orElseThrow(
-                ()->new IllegalArgumentException("not found nickname")
-        );
-        member.nameUpdate(afterName);
-        MemberNameResponseDto responseDto = new MemberNameResponseDto(afterName);
-        return responseDto;
+    public MemberResponseDto.Name nameChange(String nickname, String afterName) {
+        authorization(nickname).nameUpdate(afterName);
+        return new MemberResponseDto.Name(afterName);
     }
 
     @Transactional

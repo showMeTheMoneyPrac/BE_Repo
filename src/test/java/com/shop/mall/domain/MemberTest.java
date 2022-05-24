@@ -1,6 +1,6 @@
 package com.shop.mall.domain;
 
-import com.shop.mall.dto.MemberRegistRequestDto;
+import com.shop.mall.dto.MemberRequestDto;
 import com.shop.mall.repository.MemberRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,7 +21,7 @@ public class MemberTest {
     @Transactional
     public void 멤버엔티티() throws Exception{
         //given
-        MemberRegistRequestDto memberRegistRequestDto = MemberRegistRequestDto.builder()
+        MemberRequestDto.Regist memberRegistRequestDto = MemberRequestDto.Regist.builder()
                 .email("하이@gmail.com")
                 .password("비밀번호486")
                 .nickname("내이름")
