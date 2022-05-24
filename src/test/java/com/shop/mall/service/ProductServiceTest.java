@@ -163,6 +163,82 @@ class ProductServiceTest {
         assertTrue(productPages.hasNext());
     }
 
+    @Test
+    @DisplayName("10번 API searchProduct_제약조건_카테고리")
+    public void searchProduct_제약조건_카테고리() throws Exception {
+        //given
+        for (int i=0;i<15;i++){
+            List<Img> imgList = new ArrayList<>();
+            Img img = new Img("img_url"+i);
+            imgList.add(img);
+            productRepository.save(new Product(imgList));
+        }
+
+        //when
+        PageRequest pageable= PageRequest.of(0,8);
+        Page<ProductResponseDto.ProductList> productPages = productRepository.searchByRecent(pageable,"하의",null);
+
+        //then
+        List<ProductResponseDto.ProductList> content = productPages.getContent();
+
+        assertEquals(8, content.size());
+        assertEquals(0, productPages.getNumber());
+        //assertEquals(3,productPages.getTotalPages());
+        assertTrue(productPages.isFirst());
+        assertTrue(productPages.hasNext());
+    }
+
+    @Test
+    @DisplayName("10번 API searchProduct_제약조건_검색어_카테고리")
+    public void searchProduct_제약조건_검색어_카테고리() throws Exception {
+        //given
+        for (int i=0;i<15;i++){
+            List<Img> imgList = new ArrayList<>();
+            Img img = new Img("img_url"+i);
+            imgList.add(img);
+            productRepository.save(new Product(imgList));
+        }
+
+        //when
+        PageRequest pageable= PageRequest.of(0,8);
+        Page<ProductResponseDto.ProductList> productPages = productRepository.searchByRecent(pageable,"하의","무지");
+
+        //then
+        List<ProductResponseDto.ProductList> content = productPages.getContent();
+
+        assertEquals(8, content.size());
+        assertEquals(0, productPages.getNumber());
+        //assertEquals(3,productPages.getTotalPages());
+        assertTrue(productPages.isFirst());
+        assertTrue(productPages.hasNext());
+    }
+
+    @Test
+    @DisplayName("10번 API searchProduct_제약조건_리뷰갯수순_검색어_카테고리")
+    public void searchProduct_제약조건_리뷰갯수순_검색어_카테고리() throws Exception {
+        //given
+        for (int i=0;i<15;i++){
+            List<Img> imgList = new ArrayList<>();
+            Img img = new Img("img_url"+i);
+            imgList.add(img);
+            productRepository.save(new Product(imgList));
+        }
+
+        //when
+        PageRequest pageable= PageRequest.of(0,8);
+        Page<ProductResponseDto.ProductList> productPages = productRepository.searchByReviewCnt(pageable,"하의","무지");
+
+        //then
+        List<ProductResponseDto.ProductList> content = productPages.getContent();
+
+        assertEquals(8, content.size());
+        assertEquals(0, productPages.getNumber());
+        //assertEquals(3,productPages.getTotalPages());
+        assertTrue(productPages.isFirst());
+        assertTrue(productPages.hasNext());
+    }
+
+
 
 
 

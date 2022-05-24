@@ -56,7 +56,6 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .fetch();
 
 
-
         Long count = jpaQueryFactory
                 .select(product.count())
                 .from(product)
