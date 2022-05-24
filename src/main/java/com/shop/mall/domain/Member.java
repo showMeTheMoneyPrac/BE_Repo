@@ -17,10 +17,10 @@ public class Member extends Timestamped{
     @Column(name = "member_id")
     private Long id;
 
-    @Column
+    @Column(unique = true)
     private String email;
 
-    @Column
+    @Column(unique = true)
     private String nickname;
 
     @Column
@@ -48,6 +48,21 @@ public class Member extends Timestamped{
         this.address = address;
         this.password = password;
         this.cash = cash;
+    }
+
+    public int charge(int chargeCash){
+        this.cash = chargeCash + this.cash;
+        return this.cash;
+    }
+
+    public String addressUpdate(String afterAddress){
+        this.address = afterAddress;
+        return afterAddress;
+    }
+
+    public String nameUpdate(String afterName){
+        this.nickname = afterName;
+        return nickname;
     }
 
 }

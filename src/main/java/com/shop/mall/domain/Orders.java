@@ -2,6 +2,7 @@ package com.shop.mall.domain;
 
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Orders extends Timestamped{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

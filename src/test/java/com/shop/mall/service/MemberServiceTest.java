@@ -1,217 +1,360 @@
-//package com.shop.mall.service;
-//
-//import com.shop.mall.domain.Member;
-//import com.shop.mall.repository.MemberJpaRepository;
-//import org.junit.jupiter.api.DisplayName;
-//import org.junit.jupiter.api.Test;
-//import org.junit.runner.RunWith;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.test.context.junit4.SpringRunner;
-//import org.springframework.transaction.annotation.Transactional;
-//
-//import javax.persistence.EntityManager;
-//
-//import static org.junit.jupiter.api.Assertions.*;
-//
-//@RunWith(SpringRunner.class)
-//@SpringBootTest
-//@Transactional
-//class MemberServiceTest {
-//
-//    @Autowired MemberService memberService;
-//    @Autowired MemberJpaRepository memberJpaRepository;
-//    @Autowired EntityManager em;
-//
+package com.shop.mall.service;
+
+import com.shop.mall.domain.Member;
+import com.shop.mall.dto.MemberInfoResponseDto;
+import com.shop.mall.dto.MemberLoginRequestDto;
+import com.shop.mall.dto.MemberRegistRequestDto;
+import com.shop.mall.repository.MemberRepository;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@Transactional
+public class MemberServiceTest {
+    @Autowired MemberRepository memberRepository;
+    @Autowired MemberService memberService;
+
+    @Test
+    @Transactional
+    public void 회원가입_성공() throws Exception{
+        //given
+        MemberRegistRequestDto dto = MemberRegistRequestDto.builder()
+                .email("john3210of@gmail.com")
+                .password("passwordA")
+                .passwordCheck("passwordA")
+                .nickname("정요한2")
+                .address("우리집이에요")
+                .build();
+
+        Member member2 = new Member(
+                "john3210@gmail.com",
+                "정요한3",
+                "우리집3",
+                "passworddd",
+                0);
+        memberRepository.save(member2);
+
+        //when
+        String msg = memberService.memberRegist(dto);
+        //then
+        assertEquals(msg,"msg : 회원가입 완료");
+    }
+
+    @Test
+    @Transactional
+    public void 회원가입_이메일중복() throws Exception{
+        //given
+        Member member = new Member(
+                "john3210of@gmail.com",
+                "정요한",
+                "우리집3",
+                "passworddd",
+                0);
+        memberRepository.save(member);
+
+        MemberRegistRequestDto dto = MemberRegistRequestDto.builder()
+                .email("john3210of@gmail.com")
+                .password("passwordA")
+                .passwordCheck("passwordA")
+                .nickname("정요한2")
+                .address("우리집이에요")
+                .build();
+        //when
+        String msg=memberService.memberRegist(dto);
+        //then
+        assertEquals(msg,"msg : 이메일 혹은 닉네임 중복");
+    }
+
+    @Test
+    @Transactional
+    public void 회원가입_이름중복() throws Exception{
+        //given
+        Member member = new Member(
+                "john3210@gmail.com",
+                "정요한",
+                "우리집3",
+                "passworddd",
+                0);
+        memberRepository.save(member);
+
+        MemberRegistRequestDto dto = MemberRegistRequestDto.builder()
+                .email("john3210of@gmail.com")
+                .password("passwordA")
+                .passwordCheck("passwordA")
+                .nickname("정요한")
+                .address("우리집이에요")
+                .build();
+        //when
+        String msg=memberService.memberRegist(dto);
+        //then
+        assertEquals(msg,"msg : 이메일 혹은 닉네임 중복");
+    }
+
+    @Test
+    @Transactional
+    public void 회원가입_비밀번호_불일치() throws Exception{
+        //given
+        MemberRegistRequestDto dto = MemberRegistRequestDto.builder()
+                .email("john3210of@gmail.com")
+                .password("passwordA")
+                .passwordCheck("비밀번호4986")
+                .nickname("정요한")
+                .address("우리집이에요")
+                .build();
+        //when
+        String msg=memberService.memberRegist(dto);
+        //then
+        assertEquals(msg,"msg : 패스워드 일치 하지 않음");
+    }
+
+    @Test
+    @Transactional
+    public void 로그인_성공() throws Exception{
+        //given
+        Member member = new Member(
+                "john3210@gmail.com",
+                "정요한",
+                "우리집3",
+                "passworddd",
+                0);
+        memberRepository.save(member);
+        MemberLoginRequestDto dto = new MemberLoginRequestDto("john3210@gmail.com","passworddd");
+        //when
+        String name = memberService.memberLogin(dto).getNickname();
+        //then
+        assertEquals(name,"정요한");
+    }
+    @Test
+    @Transactional
+    public void 로그인_실패() throws Exception{
+        //given
+        Member member = new Member(
+                "john3210@gmail.com",
+                "정요한",
+                "우리집3",
+                "passworddd",
+                0);
+        memberRepository.save(member);
+        MemberLoginRequestDto dto = new MemberLoginRequestDto("하이2@gmail.com","passworddd");
+        //when
+        try{
+            memberService.memberLogin(dto);
+        }catch(IllegalArgumentException e){
+            return;
+        }
+        //then
+        fail("실패의 실패");
+    }
+
+    @Test
+    @Transactional
+    public void 유저정보조회_성공() throws Exception{
+        //given
+        Member member = new Member(
+                "john3210@gmail.com",
+                "정요한",
+                "우리집3",
+                "passworddd",
+                0);
+        memberRepository.save(member);
+        String headerNickname = "정요한";
+        //when
+        MemberInfoResponseDto dto = memberService.memberInfo(headerNickname);
+        //then
+        assertEquals(dto.getAddress(),member.getAddress());
+        assertEquals(dto.getCash(),member.getCash());
+        assertEquals(dto.getNickname(),member.getNickname());
+    }
+
+    @Test
+    @Transactional
+    public void 유저정보조회_실패() throws Exception{
+        //given
+        Member member = new Member(
+                "john3210@gmail.com",
+                "정요한",
+                "우리집3",
+                "passworddd",
+                0);
+        memberRepository.save(member);
+        String headerNickname = "정요한아니양";
+        //when
+        try{
+            memberService.memberInfo(headerNickname);
+        }catch (IllegalArgumentException e){
+            return;
+        }
+        //then
+        fail("실패의 실패");
+    }
+    @Test
+    @Transactional
+    public void 캐시충전_성공() throws Exception{
+        //given
+        Member member = new Member(
+                "john3210@gmail.com",
+                "정요한",
+                "우리집3",
+                "passworddd",
+                0);
+        memberRepository.save(member);
+        int chargeCash = 10000;
+        //when
+        int totalCash = member.getCash()+chargeCash;
+        int afterCharge = memberService.cashCharge("정요한",chargeCash).getTotalCash();
+        //then
+        assertEquals(totalCash,afterCharge);
+        assertEquals(10000,afterCharge);
+    }
+
+    @Test
+    @Transactional
+    public void 캐시충전_실패_id없음() throws Exception{
+        //given
+        Member member = new Member(
+                "john3210@gmail.com",
+                "정요한",
+                "우리집3",
+                "passworddd",
+                0);
+        memberRepository.save(member);
+        int chargeCash = 10000;
+        //when
+        try{
+            memberService.cashCharge("정요한2",chargeCash);
+        }catch (IllegalArgumentException e){
+            return;
+        }
+        //then
+        fail("실패의 실패");
+    }
+
+    @Test
+    @Transactional
+    public void 주소변경_성공() throws Exception{
+        //given
+        Member member = new Member(
+                "john3210@gmail.com",
+                "정요한",
+                "우리집3",
+                "passworddd",
+                0);
+        memberRepository.save(member);
+        String afterAddress = "이사한 우리집";
+        //when
+        memberService.addressChange("정요한",afterAddress);
+        //then
+        assertEquals(afterAddress,member.getAddress());
+    }
+    @Test
+    @Transactional
+    public void 주소변경_실패() throws Exception{
+        //given
+        Member member = new Member(
+                "john3210@gmail.com",
+                "정요한",
+                "우리집3",
+                "passworddd",
+                0);
+        memberRepository.save(member);
+        String afterAddress = "이사한 우리집";
+        //when
+        try{
+            memberService.addressChange("정요한2",afterAddress);
+        }catch (IllegalArgumentException e){
+            return;
+        }
+        //then
+        fail("실패의 실패");
+    }
+
+    @Test
+    @Transactional
+    public void 닉네임변경_성공() throws Exception{
+        //given
+        Member member = new Member(
+                "john3210@gmail.com",
+                "정요한",
+                "우리집3",
+                "passworddd",
+                0);
+        memberRepository.save(member);
+        String afterName = "변경한 이름";
+        //when
+        memberService.nameChange("정요한",afterName);
+        //then
+        assertEquals(afterName,member.getNickname());
+    }
+
+    @Test
+    @Transactional
+    public void 닉네임변경_실패() throws Exception{
+        //given
+        Member member = new Member(
+                "john3210@gmail.com",
+                "정요한",
+                "우리집3",
+                "passworddd",
+                0);
+        memberRepository.save(member);
+        String afterName = "변경한 이름";
+        //when
+        try{
+            memberService.nameChange("정요한33",afterName);
+        }catch (IllegalArgumentException e){
+            return;
+        }
+        //then
+        fail("실패의 실패");
+    }
+
+    @Test
+    @Transactional
+    public void 회원탈퇴_성공() throws Exception{
+        //given
+        Member member = new Member(
+                "john3210@gmail.com",
+                "정요한3",
+                "우리집3",
+                "passworddd",
+                0);
+        memberRepository.save(member);
+
+        //when
+        String msg = memberService.memberDelete("정요한3");
+        //then
+        assertEquals(msg,"msg : 회원 탈퇴 완료");
+    }
+
 //    @Test
-//    @DisplayName("회원가입")
-//    public void 회원가입() throws Exception {
+//    @Transactional
+//    public void 회원탈퇴_실패() throws Exception{
 //        //given
-//        Member member = new Member("seanlee0701@naver.com","seanlee0701","서울특별시 장충단로 4길","1234",10000);
+//        Member member = new Member(
+//                "john3210@gmail.com",
+//                "정요한3",
+//                "우리집3",
+//                "passworddd",
+//                0);
+//        memberRepository.save(member);
 //
 //        //when
-//        Long savedId = memberService.register(member);
-//
-//        //then
-//        em.flush(); //영속성 컨택스트에 있는 내용을 쿼리로 날린다.
-//        assertEquals(member, memberJpaRepository.findOne(savedId));
-//    }
-//
-//    @Test
-//    @DisplayName("중복_이메일_회원_예외")
-//    public void 중복_이메일_회원_예외() throws Exception {
-//        //given
-//        Member member1 = new Member("seanlee0701@naver.com","seanlee0701","서울특별시 장충단로 4길","1234",10000);
-//
-//        Member member = new Member("seanlee0701@naver.com","seanlee","서울특별시 장충단로 5길","4321",20000);
-//
-//        //when
-//        memberService.register(member1);
-//
-//        try {
-//            memberService.register(member); //예외가 발생해야함
-//        }catch (IllegalStateException e){
-//            return;
-//        }
-//
-//        //then
-//        fail("예외가 발생해야한다 이 글이 보인다면 TEST 실패이다.");
-//
-//    }
-//
-//    @Test
-//    @DisplayName("중복_닉네임_회원_예외")
-//    public void 중복_닉네임_회원_예외() throws Exception {
-//        //given
-//        Member member1 = new Member("seanlee0701@daum.com","seanlee0701","서울특별시 장충단로 4길","1234",10000);
-//
-//
-//        Member member = new Member("seanlee0701@naver.com","seanlee0701","서울특별시 장충단로 6길","4321",20000);
-//
-//        //when
-//        memberService.register(member1);
-//
-//        try {
-//            memberService.register(member); //예외가 발생해야함
-//        }catch (IllegalStateException e){
-//            return;
-//        }
-//
-//        //then
-//        fail("예외가 발생해야한다 이 글이 보인다면 TEST 실패이다.");
-//    }
-//
-//
-//    @Test
-//    @DisplayName("로그인_성공")
-//    void 로그인_성공() {
-//        //given
-//        Member member1 = new Member("seanlee0701@daum.com","seanlee0701","서울특별시 장충단로 4길","1234",10000);
-//        memberService.register(member1);
-//
-//        //when
-//        String loginNickname = memberService.login(member1);
-//
-//        //then
-//        assertEquals(loginNickname,member1.getNickname());
-//
-//    }
-//
-//    @Test
-//    void 로그인_이메일_실패() throws Exception {
-//        //given
-//        Member member1 = new Member("seanlee0701@daum.com","seanlee0701","서울특별시 장충단로 4길","1234",10000);
-//        memberService.register(member1);
-//
-//        Member member = new Member("seanlee0701@naver.com","seanlee0701","서울특별시 장충단로 4길","1234",10000);
-//
-//        //when
-//        try {
-//            memberService.login(member); //예외가 발생해야함
+//        try{
+//            memberService.memberDelete("정요한33");
 //        }catch (IllegalArgumentException e){
 //            return;
 //        }
-//
+//        //삭제는 실패가 안되는 이유 공부..
 //        //then
-//        fail("예외가 발생해야한다 이 글이 보인다면 TEST 실패이다.");
+//        fail("실패의 실패");
 //    }
-//
-//    @Test
-//    void 로그인_비밀번호_실패() throws Exception {
-//        //given
-//        Member member1 = new Member("seanlee0701@daum.com","seanlee0701","서울특별시 장충단로 4길","1234",10000);
-//        memberService.register(member1);
-//
-//        Member member = new Member("seanlee0701@daum.com","seanlee0701","서울특별시 장충단로 4길","4321",10000);
-//
-//        //when
-//        try {
-//            memberService.login(member); //예외가 발생해야함
-//        }catch (IllegalStateException e){
-//            return;
-//        }
-//
-//        //then
-//        fail("예외가 발생해야한다 이 글이 보인다면 TEST 실패이다.");
-//    }
-//
-//    @Test
-//    void 회원정보_성공() {
-//        //given
-//        Member member1 = new Member("seanlee0701@daum.com","seanlee0701","서울특별시 장충단로 4길","1234",10000);
-//        memberService.register(member1);
-//
-//
-//
-//    }
-//
-//    @Test
-//    void 회원정보_실패() throws Exception {
-//        //given
-//
-//        //when
-//
-//
-//        //then
-//
-//    }
-//
-//    @Test
-//    void 캐시_충전_성공() {
-//    }
-//
-//    @Test
-//    void 캐시_충전_실패() throws Exception {
-//        //given
-//
-//        //when
-//
-//
-//        //then
-//
-//    }
-//
-//
-//    @Test
-//    void 주소_변경_성공() throws Exception {
-//        //given
-//
-//        //when
-//
-//
-//        //then
-//
-//    }
-//
-//    @Test
-//    void 주소_변경_실패() throws Exception {
-//        //given
-//
-//        //when
-//
-//
-//        //then
-//
-//    }
-//    @Test
-//    void 닉네임_변경_성공() throws Exception {
-//        //given
-//
-//        //when
-//
-//
-//        //then
-//
-//    }
-//
-//    @Test
-//    void 닉네임_변경_실패() throws Exception {
-//        //given
-//
-//        //when
-//
-//
-//        //then
-//
-//    }
-//}
+}
