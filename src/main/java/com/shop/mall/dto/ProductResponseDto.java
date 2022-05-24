@@ -21,12 +21,18 @@ public class ProductResponseDto {
     public static class ProductList {
         @JsonProperty(value="productId")
         private Long id;
+
         private String title;
         private String category;
         private int reviewCnt;
-        private String summary;
+
+        @JsonProperty(value = "summary")
+        private String detail;
+
         private int price;
-        private String firstImg;
+
+        @JsonProperty(value = "firstImg")
+        private String imgUrl;
 
         public static ProductList productListFrom(Product product) {
             return ProductList.builder()
@@ -34,9 +40,9 @@ public class ProductResponseDto {
                     .title(product.getTitle())
                     .category(product.getCategory())
                     .reviewCnt(product.getReviewCnt())
-                    .summary(product.getDetail())
+                    .detail(product.getDetail())
                     .price(product.getPrice())
-                    .firstImg(product.getImgList().get(0).getImgUrl())
+                    .imgUrl(product.getImgList().get(0).getImgUrl())
                     .build();
         }
     }

@@ -33,7 +33,7 @@ public class ProductController {
     }
 
     //10번 API 상품 카테고리 및 검색
-    @GetMapping("/products")
+    @GetMapping("/products/search")
     public List<ProductResponseDto.ProductList> findConditionsProduct(@PageableDefault(size = 8) Pageable pageable, @RequestParam(value = "sort") String sort, @RequestParam(value = "category") String category, @RequestParam(value = "searchKeyword") String searchKeyword){
         return productService.conditionProductList(pageable,sort,category,searchKeyword).getContent();
     }
