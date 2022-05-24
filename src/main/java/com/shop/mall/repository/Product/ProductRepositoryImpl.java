@@ -30,16 +30,47 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
     @Override
     public Page<ProductResponseDto.ProductList> searchByCost(Pageable pageable, String category, String searchKeyword) {
-        return null;
+        return getSearchByCost(pageable, category, searchKeyword);
     }
 
     @Override
     public Page<ProductResponseDto.ProductList> searchByReviewCnt(Pageable pageable, String category, String searchKeyword) {
-        return null;
+        return getSearchByReview(pageable,category,searchKeyword);
     }
 
-    //searchFormRecent
+    //searchByRecent
     private Page<ProductResponseDto.ProductList> getSearchByRecent(Pageable pageable, String category, String searchKeyword) {
+        List<ProductResponseDto.ProductList> productLists = jpaQueryFactory
+                .select(Projections.bean(ProductResponseDto.ProductList.class, product.id, product.title, product.category, product.reviewCnt, product.detail, product.price, img.imgUrl))
+                .from(product)
+                .innerJoin(img)
+                .on(product.id.eq(img.product.id))
+                .groupBy(img.product.id)
+                .where(
+                        booleanSearchKeyword(searchKeyword),
+                        booleanCategory(category)
+                )
+                .orderBy(product.createdAt.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+
+        Long count = jpaQueryFactory
+                .select(product.count())
+                .from(product)
+                .where(
+                        booleanSearchKeyword(searchKeyword),
+                        booleanCategory(category)
+                )
+                .fetchOne();
+
+        System.out.println("count" + count);
+        return new PageImpl<>(productLists,pageable,count);
+    }
+
+    //searchByCost
+    private Page<ProductResponseDto.ProductList> getSearchByCost(Pageable pageable, String category, String searchKeyword) {
         List<ProductResponseDto.ProductList> productLists = jpaQueryFactory
                 .select(Projections.bean(ProductResponseDto.ProductList.class, product.id, product.title, product.category, product.reviewCnt, product.detail, product.price, img.imgUrl))
                 .from(product)
@@ -52,7 +83,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .orderBy(product.createdAt.desc())
+                .orderBy(product.price.desc())
                 .fetch();
 
         Long count = jpaQueryFactory
@@ -63,6 +94,35 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                         booleanCategory(category)
                 )
                 .fetchOne();
+        return new PageImpl<>(productLists,pageable,count);
+    }
+
+    //searchByReviewCnt
+    private Page<ProductResponseDto.ProductList> getSearchByReview(Pageable pageable, String category, String searchKeyword) {
+        List<ProductResponseDto.ProductList> productLists = jpaQueryFactory
+                .select(Projections.bean(ProductResponseDto.ProductList.class, product.id, product.title, product.category, product.reviewCnt, product.detail, product.price, img.imgUrl))
+                .from(product)
+                .innerJoin(img)
+                .on(product.id.eq(img.product.id))
+                .groupBy(img.product.id)
+                .where(
+                        booleanSearchKeyword(searchKeyword),
+                        booleanCategory(category)
+                )
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(product.reviewCnt.desc())
+                .fetch();
+
+        Long count = jpaQueryFactory
+                .select(product.count())
+                .from(product)
+                .where(
+                        booleanSearchKeyword(searchKeyword),
+                        booleanCategory(category)
+                )
+                .fetchOne();
+
 
         return new PageImpl<>(productLists,pageable,count);
     }
