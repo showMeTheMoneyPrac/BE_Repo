@@ -44,7 +44,7 @@
 //        PageRequest pageable= PageRequest.of(0,8, Sort.Direction.DESC, "id");
 //        Page<ProductResponseDto.ProductList> productPages = productRepository.findAll(pageable).map(ProductResponseDto.ProductList::productListFrom);
 //
-//        //then
+        //then
 //        List<ProductResponseDto.ProductList> content = productPages.getContent();
 //
 //        assertEquals(8, content.size());

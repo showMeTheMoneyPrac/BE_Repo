@@ -20,7 +20,7 @@ public class MemberService {
     }
 
     @Transactional
-    public String memberRegist(MemberRegistRequestDto dto){
+    public String memberRegist(MemberRequestDto.Regist dto){
         if (!dto.getPassword().equals(dto.getPasswordCheck())){
             return "msg : 패스워드 일치 하지 않음";
         }
@@ -37,35 +37,35 @@ public class MemberService {
     }
 
     //로그인
-    public MemberLoginResponseDto memberLogin(MemberLoginRequestDto dto) {
+    public MemberResponseDto.Login memberLogin(MemberRequestDto.Login dto) {
         Member member = memberRepository.findByEmailAndPassword(dto.getEmail(),dto.getPassword()).orElseThrow(
                 ()->new IllegalArgumentException("not found member")
         );
-        return new MemberLoginResponseDto(member.getNickname());
+        return new MemberResponseDto.Login(member.getNickname());
     }
 
     //정보 보기
-    public MemberInfoResponseDto memberInfo(String nickname) {
-        return new MemberInfoResponseDto(authorization(nickname).getNickname(),
+    public MemberResponseDto.Info memberInfo(String nickname) {
+        return new MemberResponseDto.Info(authorization(nickname).getNickname(),
                 authorization(nickname).getAddress(),authorization(nickname).getCash());
     }
 
     @Transactional
-    public MemberCashResponseDto cashCharge(String nickname, int chargeCash) {
+    public MemberResponseDto.Cash cashCharge(String nickname, int chargeCash) {
         int totalCash = authorization(nickname).charge(chargeCash);
-        return new MemberCashResponseDto(totalCash);
+        return new MemberResponseDto.Cash(totalCash);
     }
 
     @Transactional
-    public MemberAddressResponseDto addressChange(String nickname, String afterAddress) {
+    public MemberResponseDto.Address addressChange(String nickname, String afterAddress) {
         authorization(nickname).addressUpdate(afterAddress);
-        return new MemberAddressResponseDto(afterAddress);
+        return new MemberResponseDto.Address(afterAddress);
     }
 
     @Transactional
-    public MemberNameResponseDto nameChange(String nickname, String afterName) {
+    public MemberResponseDto.Name nameChange(String nickname, String afterName) {
         authorization(nickname).nameUpdate(afterName);
-        return new MemberNameResponseDto(afterName);
+        return new MemberResponseDto.Name(afterName);
     }
 
     @Transactional
