@@ -1,6 +1,7 @@
 package com.shop.mall.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -15,7 +16,7 @@ public class Cart {
     @Column(name = "cart_id")
     private Long id;
 
-    @Column(name="option_content")
+    @Column(name = "option_content")
     private String optionContent;
 
     @Column
@@ -33,4 +34,13 @@ public class Cart {
     @JsonIgnore
     @JoinColumn(name = "product_id")
     private Product product;
+
+    @Builder
+    public Cart(String option, int ea, int bill, Member member, Product product) {
+        this.optionContent = option;
+        this.ea = ea;
+        this.bill = bill;
+        this.member = member;
+        this.product = product;
+    }
 }
