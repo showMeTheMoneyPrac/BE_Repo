@@ -25,7 +25,7 @@ public class MemberController {
         return memberService.memberInfo(nickname);
     }
 
-    @PostMapping("/members/cash") //4번 api(캐시 충전)
+    @PatchMapping("/members/cash") //4번 api(캐시 충전)
     public MemberResponseDto.Cash cashCharge(@RequestHeader(value = "nickname") String nickname,
                                             @RequestBody MemberRequestDto.Cash dto) {
         return memberService.cashCharge(nickname, dto.getChargeCash());
