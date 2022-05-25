@@ -28,7 +28,7 @@ public class ReviewService {
         Product product = ordersDetailValidator.authorization(orderDetailId).getProduct();
 
         //3번 orderDetailId의 productId와 memberId로 이미 리뷰가 존재하는지 확인
-        Boolean isExistReview = reviewRepository.existsByMemberIdAndProductId(member.getId(), product.getId());
+        boolean isExistReview = reviewRepository.existsByMemberIdAndProductId(member.getId(), product.getId());
 
         if (isExistReview) {
             throw new IllegalArgumentException("이미 작성된 리뷰가 존재합니다");
@@ -74,7 +74,7 @@ public class ReviewService {
     public ReviewResponseDto.Delete deleteReview(String nickname, Long reviewId) {
         Long memberId = memberValidator.authorization(nickname).getId();
 
-        Boolean isExistReview = reviewRepository.existsByIdAndMemberId(reviewId, memberId);
+        boolean isExistReview = reviewRepository.existsByIdAndMemberId(reviewId, memberId);
 
         if (!isExistReview) {
             throw new IllegalArgumentException("작성한 리뷰가 없습니다");
