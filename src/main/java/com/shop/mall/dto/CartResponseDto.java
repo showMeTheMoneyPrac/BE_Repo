@@ -14,9 +14,9 @@ public class CartResponseDto {
         private Long productId;
         private String title;
         private String category;
-        private String reviewCnt;
         private String firstImg;
         private String optionContent;
+        private int reviewCnt;
         private int price;
         private int ea;
         private int bill;

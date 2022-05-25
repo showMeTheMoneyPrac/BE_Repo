@@ -3,6 +3,7 @@ package com.shop.mall.service;
 import com.shop.mall.domain.Member;
 import com.shop.mall.dto.*;
 import com.shop.mall.repository.MemberRepository;
+import com.shop.mall.validator.MemberValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,13 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class MemberService {
     private final MemberRepository memberRepository;
-
-    public Member authorization(String nickname){
-        // 반복되는 어쏘리제이션을 따로 빼서 관리해보자
-        return memberRepository.findByNickname(nickname).orElseThrow(
-                ()->new IllegalArgumentException("not found nickname")
-        );
-    }
+    private final MemberValidator memberValidator;
 
     @Transactional
     public String memberRegist(MemberRequestDto.Regist dto){
@@ -46,25 +41,25 @@ public class MemberService {
 
     //정보 보기
     public MemberResponseDto.Info memberInfo(String nickname) {
-        return new MemberResponseDto.Info(authorization(nickname).getNickname(),
-                authorization(nickname).getAddress(),authorization(nickname).getCash());
+        return new MemberResponseDto.Info(memberValidator.authorization(nickname).getNickname(),
+                memberValidator.authorization(nickname).getAddress(),memberValidator.authorization(nickname).getCash());
     }
 
     @Transactional
     public MemberResponseDto.Cash cashCharge(String nickname, int chargeCash) {
-        int totalCash = authorization(nickname).charge(chargeCash);
+        int totalCash = memberValidator.authorization(nickname).charge(chargeCash);
         return new MemberResponseDto.Cash(totalCash);
     }
 
     @Transactional
     public MemberResponseDto.Address addressChange(String nickname, String afterAddress) {
-        authorization(nickname).addressUpdate(afterAddress);
+        memberValidator.authorization(nickname).addressUpdate(afterAddress);
         return new MemberResponseDto.Address(afterAddress);
     }
 
     @Transactional
     public MemberResponseDto.Name nameChange(String nickname, String afterName) {
-        authorization(nickname).nameUpdate(afterName);
+        memberValidator.authorization(nickname).nameUpdate(afterName);
         return new MemberResponseDto.Name(afterName);
     }
 
