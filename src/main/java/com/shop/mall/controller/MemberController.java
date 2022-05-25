@@ -21,30 +21,30 @@ public class MemberController {
     }
 
     @GetMapping("/members/info") //3번 api(유저 상세 정보)
-    public MemberResponseDto.Info memberInfo(@RequestHeader(value = "nickname") String nickname) {
+    public MemberResponseDto.Info memberInfo(@RequestHeader(value = "Authorization") String nickname) {
         return memberService.memberInfo(nickname);
     }
 
     @PatchMapping("/members/cash") //4번 api(캐시 충전)
-    public MemberResponseDto.Cash cashCharge(@RequestHeader(value = "nickname") String nickname,
+    public MemberResponseDto.Cash cashCharge(@RequestHeader(value = "Authorization") String nickname,
                                             @RequestBody MemberRequestDto.Cash dto) {
         return memberService.cashCharge(nickname, dto.getChargeCash());
     }
 
     @PatchMapping("/members/address") //5번 api(주소 변경)
-    public MemberResponseDto.Address addressChange(@RequestHeader(value = "nickname") String nickname,
+    public MemberResponseDto.Address addressChange(@RequestHeader(value = "Authorization") String nickname,
                                                   @RequestBody MemberRequestDto.Address dto) {
         return memberService.addressChange(nickname, dto.getAfterAddress());
     }
 
     @PatchMapping("/members/nickname") //6번 api(닉네임 변경)
-    public MemberResponseDto.Name nameChange(@RequestHeader(value = "nickname") String nickname,
-                                            @RequestBody MemberResponseDto.Name dto) {
+    public MemberResponseDto.Name nameChange(@RequestHeader(value = "Authorization") String nickname,
+                                            @RequestBody MemberRequestDto.Name dto) {
         return memberService.nameChange(nickname, dto.getAfterNickname());
     }
 
     @DeleteMapping("/members") //7번 api(회원 탈퇴)
-    public String memberDelete(@RequestHeader(value = "nickname") String nickname){
+    public String memberDelete(@RequestHeader(value = "Authorization") String nickname){
         return memberService.memberDelete(nickname);
     }
 }
