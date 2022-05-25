@@ -1,9 +1,11 @@
 package com.shop.mall.service;
 
+import com.shop.mall.domain.Cart;
 import com.shop.mall.domain.Img;
 import com.shop.mall.domain.Member;
 import com.shop.mall.domain.Product;
 import com.shop.mall.dto.CartRequestDto;
+import com.shop.mall.dto.CartResponseDto;
 import com.shop.mall.repository.CartRepository;
 import com.shop.mall.repository.ImgRepository;
 import com.shop.mall.repository.MemberRepository;
@@ -154,10 +156,70 @@ public class CartServiceTest {
     @Test
     public void 장바구니_목록_조회성공() throws Exception{
         //given
+        Member member1 = new Member(
+                "john3210@gmail.com",
+                "정요한1",
+                "우리집1",
+                "passworddd",
+                100000);
+        memberRepository.save(member1);
+
+        Product product1 = Product.builder()
+                .category("카테고리")
+                .detail("설명1")
+                .reviewCnt(0)
+                .price(20000)
+                .title("타이틀")
+                .build();
+        productRepository.save(product1);
+
+        List<Img> imgList1 = new ArrayList<>();
+        Img img1 = new Img(
+                "test1",
+                product1
+        );
+        imgRepository.save(img1);
+        imgList1.add(img1);
+
+        Cart cart = Cart.builder()
+                .ea(2)
+                .bill(40000)
+                .option("라지")
+                .member(member1)
+                .product(product1)
+                .build();
+        cartRepository.save(cart);
+
+        Cart cart2 = Cart.builder()
+                .ea(3)
+                .bill(60000)
+                .option("아주라지")
+                .member(member1)
+                .product(product1)
+                .build();
+        cartRepository.save(cart2);
+
+        List<Cart> cartLists2 = new ArrayList<>();
+        cartLists2.add(cart);
+        cartLists2.add(cart2);
+
+        CartRequestDto.Add dto = new CartRequestDto.Add("라지",20000,2);
+        CartRequestDto.Add dto1 = new CartRequestDto.Add("아주라지",20000,3);
 
         //when
+        cartService.cartAdd(member1.getNickname(),product1.getId(), dto);
+        cartService.cartAdd(member1.getNickname(),product1.getId(), dto1);
+
+        List<CartResponseDto.List> cartLists = cartService.cartLists(member1.getNickname());
 
         //then
+        for(int i=0;i<cartLists2.size();i++){
+            assertEquals(cartLists.get(i).getProductId(),cartLists2.get(i).getProduct().getId());
+            assertEquals(cartLists.get(i).getEa(),cartLists2.get(i).getEa());
+            assertEquals(cartLists.get(i).getBill(),cartLists2.get(i).getBill());
+            assertEquals(cartLists.get(i).getOptionContent(),cartLists2.get(i).getOptionContent());
+        }
+
     }
 
     @Test
@@ -230,6 +292,25 @@ public class CartServiceTest {
         Img img3 = new Img("test3",product3);
         imgList3.add(img3);
         imgRepository.save(img3);
+
+        Cart cart = Cart.builder()
+                .ea(2)
+                .bill(40000)
+                .option("라지")
+                .member(member1)
+                .product(product1)
+                .build();
+        cartRepository.save(cart);
+
+
+        Cart cart2 = Cart.builder()
+                .ea(3)
+                .bill(50000)
+                .option("아주라지")
+                .member(member1)
+                .product(product1)
+                .build();
+        cartRepository.save(cart2);
 
     }
 }
