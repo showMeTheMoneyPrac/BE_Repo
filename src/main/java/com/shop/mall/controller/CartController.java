@@ -14,9 +14,10 @@ import java.util.List;
 public class CartController {
     private final CartService cartService;
 
-    @GetMapping("/carts") // 11번 api(장바구니 목록) List<CartResponseDto.List>
+    @GetMapping("/carts") // 11번 api(장바구니 목록)
     public List<CartResponseDto.List> cartLists(@RequestHeader(value = "nickname") String nickname) {
         return cartService.cartLists(nickname);
     }
+
 
 }
