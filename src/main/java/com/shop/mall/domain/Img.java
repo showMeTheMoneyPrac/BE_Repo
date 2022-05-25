@@ -30,4 +30,9 @@ public class Img {
     public Img(String imgUrl) {
         this.imgUrl = imgUrl;
     }
+
+    public Img(String imgUrl, Product product) {
+        this.imgUrl = imgUrl;
+        this.product = product;
+    }
 }
