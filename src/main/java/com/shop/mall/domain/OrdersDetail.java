@@ -1,6 +1,7 @@
 package com.shop.mall.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,10 +26,12 @@ public class OrdersDetail {
     private int bill;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "orders_id")
     private Orders orders;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "product_id")
     private Product product;
 
