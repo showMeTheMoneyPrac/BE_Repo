@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -57,5 +58,11 @@ public class CartService {
 
         cartRepository.save(cart);
         return "msg : 담기 완료";
+    }
+
+    public void cartDelete(String nickname, String array) {
+        memberValidator.authorization(nickname);
+        String[] target = array.split(",");
+        for (String s : target) cartRepository.deleteById(Long.valueOf(s));
     }
 }

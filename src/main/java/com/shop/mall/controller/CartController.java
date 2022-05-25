@@ -24,4 +24,11 @@ public class CartController {
         return cartService.cartAdd(nickname,productId,dto);
     }
 
+    @DeleteMapping("/carts/{Array}") //13번 api(장바구니 삭제)
+    public List<CartResponseDto.List> cardDelete(@RequestHeader(value = "Authorization") String nickname,
+                                                 @PathVariable String Array){
+        cartService.cartDelete(nickname,Array);
+        return cartService.cartLists(nickname);
+    }
+
 }
