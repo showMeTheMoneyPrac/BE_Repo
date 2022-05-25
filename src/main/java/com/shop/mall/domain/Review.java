@@ -1,5 +1,6 @@
 package com.shop.mall.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,10 +26,12 @@ public class Review extends Timestamped{
     private String content;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "member_id")
     private Member member;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "product_id")
     private Product product;
 
