@@ -11,6 +11,8 @@ import java.util.List;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class Product extends Timestamped{
     @Id
@@ -58,7 +60,8 @@ public class Product extends Timestamped{
         this.reviewList = reviewList;
     }
 
-    public void reviewCntUpdate(){
-        this.reviewCnt = reviewCnt + 1;
+    public int reviewCntUpdate(){
+        this.reviewCnt+=1;
+        return this.reviewCnt;
     }
 }
