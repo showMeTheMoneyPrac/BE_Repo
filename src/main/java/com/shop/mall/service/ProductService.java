@@ -27,6 +27,8 @@ public class ProductService {
         return productsDetail;
     }
 
+
+    //10번 API
     public Page<ProductResponseDto.ProductList> conditionProductList(Pageable pageable, String sort, String category, String searchKeyword){
         Page<ProductResponseDto.ProductList> productLists = null;
         switch (sort){
