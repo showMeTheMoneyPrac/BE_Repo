@@ -1,19 +1,15 @@
 package com.shop.mall.domain;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class OrdersDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,10 +26,12 @@ public class OrdersDetail {
     private int bill;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "orders_id")
     private Orders orders;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "product_id")
     private Product product;
 
