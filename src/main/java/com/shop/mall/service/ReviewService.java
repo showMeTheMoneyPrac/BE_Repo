@@ -49,4 +49,21 @@ public class ReviewService {
                 .content(dto.getContent())
                 .build();
     }
+
+    public ReviewResponseDto.Write updateReview(String nickname,Long reviewId,ReviewRequestDto.Write dto){
+        //1번 닉네임으로 유저 존재 확인
+        Member member = memberValidator.authorization(nickname);
+        //reviewId로 존재 유무 확인
+        Review review = reviewRepository.findById(reviewId).orElseThrow(()->new IllegalArgumentException("not found By Id"));
+
+        review.reviewUpdate(dto.getReviewTitle(),dto.getContent());
+
+        return ReviewResponseDto.Write.builder()
+                .reviewId(reviewId)
+                .reviewTitle(dto.getReviewTitle())
+                .content(dto.getContent())
+                .build();
+    }
+
+
 }
