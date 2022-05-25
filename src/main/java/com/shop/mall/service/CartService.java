@@ -62,7 +62,7 @@ public class CartService {
 
     public void cartDelete(String nickname, String array) {
         memberValidator.authorization(nickname);
-        String[] target = array.split(",");
+        String[] target = array.split(","); //문자열로 받아서 리스트로 전환
         for (String s : target) cartRepository.deleteById(Long.valueOf(s));
     }
 }
