@@ -57,4 +57,8 @@ public class Product extends Timestamped{
         this.productOptionList = productOptionList;
         this.reviewList = reviewList;
     }
+
+    public void reviewCntUpdate(){
+        this.reviewCnt = reviewCnt + 1;
+    }
 }

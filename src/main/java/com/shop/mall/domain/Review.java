@@ -35,4 +35,9 @@ public class Review extends Timestamped{
     public Review(Member member) {
         this.member = member;
     }
+
+    public void reviewUpdate(String title,String content){
+        this.title = title;
+        this.content = content;
+    }
 }
