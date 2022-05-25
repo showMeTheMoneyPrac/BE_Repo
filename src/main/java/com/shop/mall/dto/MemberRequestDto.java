@@ -10,11 +10,11 @@ public class MemberRequestDto {
     @Getter
     @Builder
     public static class Regist {
-        String email;
-        String nickname;
-        String address;
-        String password;
-        String passwordCheck;
+        private String email;
+        private String nickname;
+        private String address;
+        private String password;
+        private String passwordCheck;
     }
 
     @Getter
@@ -27,21 +27,21 @@ public class MemberRequestDto {
     @Getter
     @AllArgsConstructor
     public static class Cash{
-        int chargeCash;
-        int leftCash;
+        private int chargeCash;
+        private int leftCash;
     }
 
     @Getter
     @AllArgsConstructor
     public static class Login{
-        String email;
-        String password;
+        private String email;
+        private String password;
     }
 
     @Getter
     @AllArgsConstructor
     public static class Name {
-        String beforeNickname;
-        String afterNickname;
+        private String beforeNickname;
+        private String afterNickname;
     }
 }
