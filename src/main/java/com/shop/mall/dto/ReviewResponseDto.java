@@ -27,4 +27,12 @@ public class ReviewResponseDto {
                     .build();
         }
     }
+
+    @Getter
+    @Builder
+    public static class Write{
+        private Long reviewId;
+        private String reviewTitle;
+        private String content;
+    }
 }
