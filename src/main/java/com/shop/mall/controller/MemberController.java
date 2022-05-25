@@ -39,7 +39,7 @@ public class MemberController {
 
     @PatchMapping("/members/nickname") //6번 api(닉네임 변경)
     public MemberResponseDto.Name nameChange(@RequestHeader(value = "nickname") String nickname,
-                                            @RequestBody MemberResponseDto.Name dto) {
+                                            @RequestBody MemberRequestDto.Name dto) {
         return memberService.nameChange(nickname, dto.getAfterNickname());
     }
 

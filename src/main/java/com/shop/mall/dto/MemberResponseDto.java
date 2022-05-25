@@ -8,6 +8,7 @@ public class MemberResponseDto {
 
 
     @AllArgsConstructor
+    @Getter
     public static class Address {
         private String afterAddress;
     }
@@ -21,20 +22,20 @@ public class MemberResponseDto {
     @AllArgsConstructor
     @Getter
     public static class Info {
-        String nickname;
-        String address;
-        int cash;
+        private String nickname;
+        private String address;
+        private int cash;
     }
 
     @AllArgsConstructor
     @Getter
     public static class Login {
-        String nickname;
+        private String nickname;
     }
 
     @Getter
     @AllArgsConstructor
     public static class Name {
-        String afterNickname;
+        private String afterNickname;
     }
 }

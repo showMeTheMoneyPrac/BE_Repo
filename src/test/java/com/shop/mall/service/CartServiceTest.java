@@ -21,7 +21,20 @@ public class CartServiceTest {
     CartService cartService;
 
     @Test
-    public void 장바구니_목록_조회성공() {
+    public void 장바구니_목록_조회성공() throws Exception{
+        //given
 
+        //when
+
+        //then
+    }
+
+    @Test
+    public void 장바구니_목록_조회실패() throws Exception{
+        //given
+
+        //when
+
+        //then
     }
 }

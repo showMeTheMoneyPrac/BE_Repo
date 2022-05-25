@@ -57,12 +57,12 @@ public class Member extends Timestamped{
 
     public String addressUpdate(String afterAddress){
         this.address = afterAddress;
-        return afterAddress;
+        return this.address;
     }
 
     public String nameUpdate(String afterName){
         this.nickname = afterName;
-        return nickname;
+        return this.nickname;
     }
 
 }
