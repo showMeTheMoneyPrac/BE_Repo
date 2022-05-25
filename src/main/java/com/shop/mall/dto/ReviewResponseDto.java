@@ -35,4 +35,10 @@ public class ReviewResponseDto {
         private String reviewTitle;
         private String content;
     }
+
+    @Getter
+    @Builder
+    public static class Delete{
+        private String msg;
+    }
 }

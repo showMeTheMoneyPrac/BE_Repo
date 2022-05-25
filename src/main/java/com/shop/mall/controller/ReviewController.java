@@ -1,5 +1,6 @@
 package com.shop.mall.controller;
 
+import com.shop.mall.domain.Review;
 import com.shop.mall.dto.ReviewRequestDto;
 import com.shop.mall.dto.ReviewResponseDto;
 import com.shop.mall.service.ReviewService;
@@ -21,6 +22,12 @@ public class ReviewController {
     @PutMapping("/reviews/{reviewId}")
     public ReviewResponseDto.Write updateReview(@RequestHeader(value = "Authorization") String nickname,@PathVariable Long reviewId,@RequestBody ReviewRequestDto.Write dto){
         return reviewService.updateReview(nickname,reviewId,dto);
+    }
+
+    //21번 API 리뷰 삭제
+    @DeleteMapping("/reviews/{reviewId}")
+    public ReviewResponseDto.Delete deleteReview(@RequestHeader(value = "Authorization") String nickname,@PathVariable Long reviewId){
+        return reviewService.deleteReview(nickname,reviewId);
     }
 }
 

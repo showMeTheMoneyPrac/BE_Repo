@@ -65,5 +65,20 @@ public class ReviewService {
                 .build();
     }
 
+    public ReviewResponseDto.Delete deleteReview(String nickname,Long reviewId){
+        Long memberId = memberValidator.authorization(nickname).getId();
+
+        Boolean isExistReview = reviewRepository.existsByIdAndMemberId(reviewId,memberId);
+
+        if(!isExistReview){
+            throw new IllegalArgumentException("작성한 리뷰가 없습니다");
+        }
+        reviewRepository.deleteById(reviewId);
+
+        return ReviewResponseDto.Delete.builder()
+                .msg("리뷰 삭제에 성공하였습니다.")
+                .build();
+    }
+
 
 }
