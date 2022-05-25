@@ -33,13 +33,13 @@ public class Member extends Timestamped{
     private int cash;
 
     @OneToMany(mappedBy = "member")
-    private List<Orders> ordersList = new ArrayList<>();
+    private final List<Orders> ordersList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<Cart> cartList = new ArrayList<>();
+    private final List<Cart> cartList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<Review> reviewList = new ArrayList<>();
+    private final List<Review> reviewList = new ArrayList<>();
 
     //회원 가입 Test를 위한 코드
     public Member(String email, String nickname, String address, String password, int cash){
@@ -57,12 +57,12 @@ public class Member extends Timestamped{
 
     public String addressUpdate(String afterAddress){
         this.address = afterAddress;
-        return afterAddress;
+        return this.address;
     }
 
     public String nameUpdate(String afterName){
         this.nickname = afterName;
-        return nickname;
+        return this.nickname;
     }
 
 }

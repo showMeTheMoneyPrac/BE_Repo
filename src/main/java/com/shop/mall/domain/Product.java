@@ -1,9 +1,6 @@
 package com.shop.mall.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,8 +8,10 @@ import java.util.List;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
-public class Product {
+public class Product extends Timestamped{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
@@ -31,6 +30,7 @@ public class Product {
     private int price;
 
     @Column
+    @Setter
     private int reviewCnt;
 
     @OneToMany(mappedBy = "product")
@@ -57,4 +57,5 @@ public class Product {
         this.productOptionList = productOptionList;
         this.reviewList = reviewList;
     }
+
 }

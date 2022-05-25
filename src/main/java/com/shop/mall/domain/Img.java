@@ -1,10 +1,7 @@
 package com.shop.mall.domain;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -29,5 +26,10 @@ public class Img {
 
     public Img(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public Img(String imgUrl, Product product) {
+        this.imgUrl = imgUrl;
+        this.product = product;
     }
 }
