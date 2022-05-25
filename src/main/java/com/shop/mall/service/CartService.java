@@ -30,25 +30,18 @@ public class CartService {
     private final ImgRepository imgRepository;
 
     public List<CartResponseDto.List> cartLists(String nickname) {
-
         List<Cart> cartLists = cartRepository.findAllByMember_Id(memberValidator.authorization(nickname).getId());
-
-//        for(int i=0;i<cartLists.size();i++){
-//            List<Img> imgLists = imgRepository.findAllByProduct_Id(cartLists.get(i).getProduct().getId());
-//        }
         List<CartResponseDto.List> cartResponseDtoList = new ArrayList<>();
         int i = 0;
         for(Cart cart : cartLists){
-//            List<Img> imgLists = imgRepository.findAllByProduct_Id(cartLists.get(i).getProduct().getId()); list버전
-            Img img = imgRepository.findByProduct_Id(cartLists.get(i).getProduct().getId());
+            List<Img> imgLists = imgRepository.findAllByProduct_Id(cartLists.get(i).getProduct().getId());
             CartResponseDto.List cartResponseDto = CartResponseDto.List.builder()
                     .cartId(cart.getId())
                     .category(cart.getProduct().getCategory())
                     .bill(cart.getBill())
                     .ea(cart.getEa())
                     .price(cart.getProduct().getPrice())
-//                    .firstImg(imgLists.get(0).getImgUrl())    list버전
-                    .firstImg(img.getImgUrl())
+                    .firstImg(imgLists.get(0).getImgUrl())
                     .reviewCnt(cart.getProduct().getReviewCnt())
                     .title(cart.getProduct().getTitle())
                     .optionContent(cart.getOptionContent())
@@ -59,19 +52,6 @@ public class CartService {
         }
 
         return cartResponseDtoList;
-
-//        return cartLists.stream().map(cart -> CartResponseDto.List.builder()
-//                .cartId(cart.getId())
-//                .category(cart.getProduct().getCategory())  //이부분 계속 캐싱이 되어있나?
-//                .bill(cart.getBill())
-//                .ea(cart.getEa())
-//                .price(cart.getProduct().getPrice())
-//                .firstImg(cart.getProduct().getImgList().get(0).getImgUrl())
-//                .reviewCnt(cart.getProduct().getReviewCnt())
-//                .title(cart.getProduct().getTitle())
-//                .optionContent(cart.getOptionContent())
-//                .productId(cart.getProduct().getId())
-//                .build()).collect(Collectors.toList());
     }
 
     public String cartAdd(String nickname, Long productId, CartRequestDto.Add dto) {

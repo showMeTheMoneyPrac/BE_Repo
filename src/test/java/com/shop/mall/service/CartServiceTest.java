@@ -212,7 +212,6 @@ public class CartServiceTest {
 
         List<CartResponseDto.List> cartLists = cartService.cartLists(member1.getNickname());
 
-
         //then
         for(int i=0;i<cartLists2.size();i++){
             assertEquals(cartLists.get(i).getProductId(),cartLists2.get(i).getProduct().getId());
