@@ -2,8 +2,8 @@ package com.shop.mall.service;
 
 import com.shop.mall.domain.*;
 import com.shop.mall.dto.OrdersDetailResponseDto;
+import com.shop.mall.dto.OrdersRequestDto;
 import com.shop.mall.dto.OrdersResponseDto;
-import com.shop.mall.dto.ReviewResponseDto;
 import com.shop.mall.repository.OrdersRepository;
 import com.shop.mall.repository.ReviewRepository;
 import com.shop.mall.validator.MemberValidator;
@@ -63,4 +63,16 @@ public class OrdersService {
 
         return ordersLists;
     }
+
+    //16번 API
+//    public String orderProduct(String nickname, OrdersRequestDto.orderProduct orderProduct){
+//        Member member = memberValidator.authorization(nickname);
+//        for(int i=0; i<orderProduct.getCardIdList().size();i++){
+//            orderProduct.getCardIdList().get(i)
+//        }
+//
+//    }
+
+
+
 }
