@@ -10,6 +10,7 @@ import com.shop.mall.validator.MemberValidator;
 import com.shop.mall.validator.OrdersDetailValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -18,16 +19,18 @@ public class ReviewService {
     private final MemberValidator memberValidator;
     private final OrdersDetailValidator ordersDetailValidator;
 
-
-    public ReviewResponseDto.Write writeReview(String nickname,Long orderDetailId,ReviewRequestDto.Write dto){
+    @Transactional
+    public ReviewResponseDto.Write writeReview(String nickname, Long orderDetailId, ReviewRequestDto.Write dto) {
         //1번 닉네임으로 유저 존재 확인
         Member member = memberValidator.authorization(nickname);
+
         //2번 orderDetailId로 유무 확인
         Product product = ordersDetailValidator.authorization(orderDetailId).getProduct();
-        //3번 orderDetailId의 productId와 memberId로 이미 리뷰가 존재하는지 확인
-        Boolean isExistReview = reviewRepository.existsByMemberIdAndProductId(member.getId(),product.getId());
 
-        if(isExistReview){
+        //3번 orderDetailId의 productId와 memberId로 이미 리뷰가 존재하는지 확인
+        Boolean isExistReview = reviewRepository.existsByMemberIdAndProductId(member.getId(), product.getId());
+
+        if (isExistReview) {
             throw new IllegalArgumentException("이미 작성된 리뷰가 존재합니다");
         }
 
@@ -41,7 +44,7 @@ public class ReviewService {
         Long reviewId = reviewRepository.save(review).getId();
 
         //리뷰를 작성하면 product테이블의 reviewCnt가 늘어난다.
-        product.reviewCntUpdate();
+        product.setReviewCnt(product.getReviewCnt()+1);
 
         return ReviewResponseDto.Write.builder()
                 .reviewId(reviewId)
@@ -50,13 +53,15 @@ public class ReviewService {
                 .build();
     }
 
-    public ReviewResponseDto.Write updateReview(String nickname,Long reviewId,ReviewRequestDto.Write dto){
+    @Transactional
+    public ReviewResponseDto.Write updateReview(String nickname, Long reviewId, ReviewRequestDto.Write dto) {
         //1번 닉네임으로 유저 존재 확인
-        Member member = memberValidator.authorization(nickname);
-        //reviewId로 존재 유무 확인
-        Review review = reviewRepository.findById(reviewId).orElseThrow(()->new IllegalArgumentException("not found By Id"));
+        memberValidator.authorization(nickname);
 
-        review.reviewUpdate(dto.getReviewTitle(),dto.getContent());
+        //reviewId로 존재 유무 확인
+        Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new IllegalArgumentException("not found By Id"));
+
+        review.reviewUpdate(dto.getReviewTitle(), dto.getContent());
 
         return ReviewResponseDto.Write.builder()
                 .reviewId(reviewId)
@@ -65,12 +70,13 @@ public class ReviewService {
                 .build();
     }
 
-    public ReviewResponseDto.Delete deleteReview(String nickname,Long reviewId){
+    @Transactional
+    public ReviewResponseDto.Delete deleteReview(String nickname, Long reviewId) {
         Long memberId = memberValidator.authorization(nickname).getId();
 
-        Boolean isExistReview = reviewRepository.existsByIdAndMemberId(reviewId,memberId);
+        Boolean isExistReview = reviewRepository.existsByIdAndMemberId(reviewId, memberId);
 
-        if(!isExistReview){
+        if (!isExistReview) {
             throw new IllegalArgumentException("작성한 리뷰가 없습니다");
         }
         reviewRepository.deleteById(reviewId);
