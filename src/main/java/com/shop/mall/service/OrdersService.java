@@ -7,11 +7,14 @@ import com.shop.mall.dto.OrdersResponseDto;
 import com.shop.mall.repository.CartRepository;
 import com.shop.mall.repository.OrdersDetailRepository;
 import com.shop.mall.repository.OrdersRepository;
+import com.shop.mall.repository.Product.ProductRepository;
 import com.shop.mall.repository.ReviewRepository;
 import com.shop.mall.validator.MemberValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +25,7 @@ import java.util.List;
 public class OrdersService {
     private final OrdersRepository ordersRepository;
     private final ReviewRepository reviewRepository;
+    private final ProductRepository productRepository;
     private final CartRepository cartRepository;
     private final OrdersDetailRepository ordersDetailRepository;
     private final MemberValidator memberValidator;
@@ -72,8 +76,11 @@ public class OrdersService {
 
     //16번 API
     @Transactional
-    public String orderProduct(String nickname, OrdersRequestDto.orderProduct dto) {
+    public String orderProductList(String nickname, OrdersRequestDto.orderProductList dto){
         Member member = memberValidator.authorization(nickname);
+        if(member.getCash() - dto.getTotalPrice() <0){
+            return "msg: 잔액이 부족합니다";
+        }
         Orders orders = Orders.builder()
                 .member(member)
                 .address(dto.getAddress())
@@ -100,6 +107,31 @@ public class OrdersService {
     }
 
     //17번 API
+    @Transactional
+    public String orderProduct(String nickname, @PathVariable Long productId, @RequestBody OrdersRequestDto.orderProduct dto){
+        int totalPrice = dto.getPrice() * dto.getEa();
+        Member member = memberValidator.authorization(nickname);
+        if(member.getCash() - totalPrice <0){
+            return "msg: 잔액이 부족합니다";
+        }
+        Product product = productRepository.findById(productId).orElseThrow(()-> new IllegalArgumentException("존재하지 않는 상품입니다."));
+        Orders orders = Orders.builder()
+                .member(member)
+                .address(dto.getAddress())
+                .totalPrice(totalPrice)
+                .build();
+        OrdersDetail ordersDetail = OrdersDetail.builder()
+                .product(product)
+                .ea(dto.getEa())
+                .bill(dto.getPrice())
+                .optionContent(dto.getOptionContent())
+                .orders(orders)
+                .build();
+        ordersDetailRepository.save(ordersDetail);
 
+        ordersRepository.save(orders);
+
+        return "msg : 즉시 구매 성공";
+    }
 
 }

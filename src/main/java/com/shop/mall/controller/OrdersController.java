@@ -21,8 +21,15 @@ public class OrdersController {
 
     //16번 API
     @PostMapping("/orders")
-    public String orderProduct(@RequestHeader(value = "Authorization") String nickname, @RequestBody OrdersRequestDto.orderProduct dto){
-        return ordersService.orderProduct(nickname,dto);
+    public String orderProductList(@RequestHeader(value = "Authorization") String nickname, @RequestBody OrdersRequestDto.orderProductList dto) {
+        return ordersService.orderProductList(nickname,dto);
     }
+
+    //17번 API
+    @PostMapping("/orders/{productId}")
+    public String orderProduct(@RequestHeader(value = "Authorization") String nickname, @PathVariable Long productId,@RequestBody OrdersRequestDto.orderProduct dto) {
+        return ordersService.orderProduct(nickname,productId,dto);
+    }
+
 
 }
