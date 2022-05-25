@@ -9,7 +9,7 @@ public class OrdersRequestDto {
     @Getter
     @Builder
     public static class orderProduct{
-        private List<Long> cardIdList;
+        private List<Long> cartIdList;
         private int totalPrice;
         private String address;
     }

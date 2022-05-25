@@ -20,9 +20,9 @@ public class OrdersController {
     }
 
     //16번 API
-//    @PostMapping("/orders")
-//    public String orderProduct(@RequestHeader(value = "Authorization") String nickname, @RequestBody OrdersRequestDto.orderProduct orderProduct){
-//        return ordersService.orderProduct(nickname,orderProduct);
-//    }
+    @PostMapping("/orders")
+    public String orderProduct(@RequestHeader(value = "Authorization") String nickname, @RequestBody OrdersRequestDto.orderProduct dto){
+        return ordersService.orderProduct(nickname,dto);
+    }
 
 }
