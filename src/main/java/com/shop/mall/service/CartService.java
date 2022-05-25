@@ -2,11 +2,13 @@ package com.shop.mall.service;
 
 
 import com.shop.mall.domain.Cart;
+import com.shop.mall.domain.Img;
 import com.shop.mall.domain.Member;
 import com.shop.mall.domain.Product;
 import com.shop.mall.dto.CartRequestDto;
 import com.shop.mall.dto.CartResponseDto;
 import com.shop.mall.repository.CartRepository;
+import com.shop.mall.repository.ImgRepository;
 import com.shop.mall.repository.MemberRepository;
 import com.shop.mall.repository.Product.ProductRepository;
 import com.shop.mall.validator.MemberValidator;
@@ -25,22 +27,51 @@ public class CartService {
     private final CartRepository cartRepository;
     private final MemberValidator memberValidator;
     private final ProductRepository productRepository;
+    private final ImgRepository imgRepository;
 
     public List<CartResponseDto.List> cartLists(String nickname) {
+
         List<Cart> cartLists = cartRepository.findAllByMember_Id(memberValidator.authorization(nickname).getId());
 
-        return cartLists.stream().map(cart -> CartResponseDto.List.builder()
-                .cartId(cart.getId())
-                .category(cart.getProduct().getCategory())  //이부분 계속 캐싱이 되어있나?
-                .bill(cart.getBill())
-                .ea(cart.getEa())
-                .price(cart.getProduct().getPrice())
-                .firstImg(cart.getProduct().getImgList().get(0).getImgUrl())
-                .reviewCnt(cart.getProduct().getReviewCnt())
-                .title(cart.getProduct().getTitle())
-                .optionContent(cart.getOptionContent())
-                .productId(cart.getProduct().getId())
-                .build()).collect(Collectors.toList());
+//        for(int i=0;i<cartLists.size();i++){
+//            List<Img> imgLists = imgRepository.findAllByProduct_Id(cartLists.get(i).getProduct().getId());
+//        }
+        List<CartResponseDto.List> cartResponseDtoList = new ArrayList<>();
+        int i = 0;
+        for(Cart cart : cartLists){
+//            List<Img> imgLists = imgRepository.findAllByProduct_Id(cartLists.get(i).getProduct().getId()); list버전
+            Img img = imgRepository.findByProduct_Id(cartLists.get(i).getProduct().getId());
+            CartResponseDto.List cartResponseDto = CartResponseDto.List.builder()
+                    .cartId(cart.getId())
+                    .category(cart.getProduct().getCategory())
+                    .bill(cart.getBill())
+                    .ea(cart.getEa())
+                    .price(cart.getProduct().getPrice())
+//                    .firstImg(imgLists.get(0).getImgUrl())    list버전
+                    .firstImg(img.getImgUrl())
+                    .reviewCnt(cart.getProduct().getReviewCnt())
+                    .title(cart.getProduct().getTitle())
+                    .optionContent(cart.getOptionContent())
+                    .productId(cart.getProduct().getId())
+                    .build();
+            i+=1;
+            cartResponseDtoList.add(cartResponseDto);
+        }
+
+        return cartResponseDtoList;
+
+//        return cartLists.stream().map(cart -> CartResponseDto.List.builder()
+//                .cartId(cart.getId())
+//                .category(cart.getProduct().getCategory())  //이부분 계속 캐싱이 되어있나?
+//                .bill(cart.getBill())
+//                .ea(cart.getEa())
+//                .price(cart.getProduct().getPrice())
+//                .firstImg(cart.getProduct().getImgList().get(0).getImgUrl())
+//                .reviewCnt(cart.getProduct().getReviewCnt())
+//                .title(cart.getProduct().getTitle())
+//                .optionContent(cart.getOptionContent())
+//                .productId(cart.getProduct().getId())
+//                .build()).collect(Collectors.toList());
     }
 
     public String cartAdd(String nickname, Long productId, CartRequestDto.Add dto) {
