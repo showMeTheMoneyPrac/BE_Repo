@@ -44,9 +44,11 @@ public class ReviewService {
         Long reviewId = reviewRepository.save(review).getId();
 
         //리뷰를 작성하면 product테이블의 reviewCnt가 늘어난다.
-        productRepository.save(Product.builder()
-                .reviewCnt(product.getReviewCnt()+1)
-                .build());
+        System.out.println("49줄 이전"+product.getReviewCnt());
+
+        product.setReviewCnt(product.getReviewCnt()+1);
+
+        System.out.println("49줄 이후"+product.getReviewCnt());
 
         return ReviewResponseDto.Write.builder()
                 .reviewId(reviewId)

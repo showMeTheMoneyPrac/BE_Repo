@@ -1,9 +1,6 @@
 package com.shop.mall.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -33,6 +30,7 @@ public class Product extends Timestamped{
     private int price;
 
     @Column
+    @Setter
     private int reviewCnt;
 
     @OneToMany(mappedBy = "product")
@@ -60,8 +58,8 @@ public class Product extends Timestamped{
         this.reviewList = reviewList;
     }
 
-    public int reviewCntUpdate(){
-        this.reviewCnt+=1;
-        return this.reviewCnt;
-    }
+//    public int reviewCntUpdate(){
+//        this.reviewCnt+=1;
+//        return this.reviewCnt;
+//    }
 }
