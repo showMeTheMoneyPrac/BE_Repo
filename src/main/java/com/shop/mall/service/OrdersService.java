@@ -161,7 +161,6 @@ public class OrdersService {
                 ordersRepository.delete(order);
             }
         }
-        System.out.println(refund +"refund");
         member.charge(refund);
 
         return "msg : 환불 완료";
