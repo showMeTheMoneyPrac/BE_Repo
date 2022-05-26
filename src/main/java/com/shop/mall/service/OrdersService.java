@@ -31,7 +31,7 @@ public class OrdersService {
     private final MemberValidator memberValidator;
 
     //15번 API
-    public List<OrdersResponseDto.ordersList> findAllOrders(String nickname) {
+    public OrdersResponseDto.ordersTotalList findAllOrders(String nickname) {
         Long memberId = memberValidator.authorization(nickname).getId();
 
         List<Orders> orders = ordersRepository.findAllByMemberId(memberId);
@@ -41,6 +41,11 @@ public class OrdersService {
         for (Orders order : orders) {
             List<OrdersDetailResponseDto.ordersDetailList> ordersDetailLists = new ArrayList<>();
             List<OrdersDetail> ordersDetail = order.getOrdersDetailList();
+
+//            if(ordersDetail.isEmpty()){
+//                ordersRepository.delete(order);
+//            }
+
             for (OrdersDetail detail : ordersDetail) {
                 Product product = detail.getProduct();
                 Review review = reviewRepository.findByMemberIdAndProductId(memberId, product.getId());
@@ -71,14 +76,16 @@ public class OrdersService {
             ordersLists.add(ordersList);
         }
 
-        return ordersLists;
+        return OrdersResponseDto.ordersTotalList.builder()
+                .ordersList(ordersLists)
+                .build();
     }
 
     //16번 API
     @Transactional
-    public String orderProductList(String nickname, OrdersRequestDto.orderProductList dto){
+    public String orderProductList(String nickname, OrdersRequestDto.orderProductList dto) {
         Member member = memberValidator.authorization(nickname);
-        if(member.getCash() - dto.getTotalPrice() <0){
+        if (member.getCash() - dto.getTotalPrice() < 0) {
             return "msg: 잔액이 부족합니다";
         }
         Orders orders = Orders.builder()
@@ -108,13 +115,13 @@ public class OrdersService {
 
     //17번 API
     @Transactional
-    public String orderProduct(String nickname, @PathVariable Long productId, @RequestBody OrdersRequestDto.orderProduct dto){
+    public String orderProduct(String nickname, @PathVariable Long productId, @RequestBody OrdersRequestDto.orderProduct dto) {
         int totalPrice = dto.getPrice() * dto.getEa();
         Member member = memberValidator.authorization(nickname);
-        if(member.getCash() - totalPrice <0){
+        if (member.getCash() - totalPrice < 0) {
             return "msg: 잔액이 부족합니다";
         }
-        Product product = productRepository.findById(productId).orElseThrow(()-> new IllegalArgumentException("존재하지 않는 상품입니다."));
+        Product product = productRepository.findById(productId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."));
         Orders orders = Orders.builder()
                 .member(member)
                 .address(dto.getAddress())
@@ -132,6 +139,31 @@ public class OrdersService {
         ordersRepository.save(orders);
 
         return "msg : 즉시 구매 성공";
+    }
+
+    //18번 API
+    @Transactional
+    public String deleteOrders(String nickname, @PathVariable String orderDetailsId) {
+        Member member = memberValidator.authorization(nickname);
+        int refund = 0;
+        String[] target = orderDetailsId.split(","); //문자열로 받아서 리스트로 전환
+        for (String orderDetailId : target) {
+            OrdersDetail ordersDetail = ordersDetailRepository.findById(Long.valueOf(orderDetailId)).orElseThrow(() -> new IllegalArgumentException("환불하려는 구매 상품이 존재하지 않습니다."));
+
+            refund = refund + (ordersDetail.getBill()* ordersDetail.getEa());
+
+            Long ordersId = ordersDetail.getOrders().getId();
+            ordersDetailRepository.deleteById(Long.valueOf(orderDetailId));
+
+            Orders order = ordersRepository.findById(ordersId).orElseThrow(() -> new IllegalArgumentException("환불하려는 구매 목록이 존재하지 않습니다."));
+
+            if(order.getOrdersDetailList().isEmpty()){
+                ordersRepository.delete(order);
+            }
+        }
+        member.charge(refund);
+
+        return "msg : 환불 완료";
     }
 
 }

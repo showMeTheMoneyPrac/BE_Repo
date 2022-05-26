@@ -13,22 +13,28 @@ import java.util.List;
 public class OrdersController {
     private final OrdersService ordersService;
 
-    //15번 API
+    //14번 API
     @GetMapping("/orders")
-    public List<OrdersResponseDto.ordersList> findAllOrders(@RequestHeader(value = "Authorization") String nickname){
+    public OrdersResponseDto.ordersTotalList findAllOrders(@RequestHeader(value = "Authorization") String nickname){
         return ordersService.findAllOrders(nickname);
     }
 
-    //16번 API
+    //15번 API
     @PostMapping("/orders")
     public String orderProductList(@RequestHeader(value = "Authorization") String nickname, @RequestBody OrdersRequestDto.orderProductList dto) {
         return ordersService.orderProductList(nickname,dto);
     }
 
-    //17번 API
+    //16번 API
     @PostMapping("/orders/{productId}")
     public String orderProduct(@RequestHeader(value = "Authorization") String nickname, @PathVariable Long productId,@RequestBody OrdersRequestDto.orderProduct dto) {
         return ordersService.orderProduct(nickname,productId,dto);
+    }
+
+    //17번 API
+    @DeleteMapping("/orders/{orderDetailsId}")
+    public String deleteOrders(@RequestHeader(value = "Authorization") String nickname, @PathVariable String orderDetailsId){
+        return ordersService.deleteOrders(nickname,orderDetailsId);
     }
 
 
