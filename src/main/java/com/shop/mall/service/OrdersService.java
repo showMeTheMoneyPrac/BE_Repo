@@ -31,7 +31,7 @@ public class OrdersService {
     private final MemberValidator memberValidator;
 
     //15번 API
-    public List<OrdersResponseDto.ordersList> findAllOrders(String nickname) {
+    public OrdersResponseDto.ordersTotalList findAllOrders(String nickname) {
         Long memberId = memberValidator.authorization(nickname).getId();
 
         List<Orders> orders = ordersRepository.findAllByMemberId(memberId);
@@ -71,7 +71,9 @@ public class OrdersService {
             ordersLists.add(ordersList);
         }
 
-        return ordersLists;
+        return OrdersResponseDto.ordersTotalList.builder()
+                .ordersList(ordersLists)
+                .build();
     }
 
     //16번 API

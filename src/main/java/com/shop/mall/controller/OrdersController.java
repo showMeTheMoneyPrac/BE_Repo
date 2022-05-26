@@ -15,7 +15,7 @@ public class OrdersController {
 
     //15번 API
     @GetMapping("/orders")
-    public List<OrdersResponseDto.ordersList> findAllOrders(@RequestHeader(value = "Authorization") String nickname){
+    public OrdersResponseDto.ordersTotalList findAllOrders(@RequestHeader(value = "Authorization") String nickname){
         return ordersService.findAllOrders(nickname);
     }
 
@@ -30,6 +30,7 @@ public class OrdersController {
     public String orderProduct(@RequestHeader(value = "Authorization") String nickname, @PathVariable Long productId,@RequestBody OrdersRequestDto.orderProduct dto) {
         return ordersService.orderProduct(nickname,productId,dto);
     }
+
 
 
 }

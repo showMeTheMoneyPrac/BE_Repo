@@ -12,6 +12,14 @@ public class OrdersResponseDto {
 
     @Getter
     @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ordersTotalList{
+        private List<OrdersResponseDto.ordersList> ordersList;
+    }
+
+    @Getter
+    @Builder
     @NoArgsConstructor
     @AllArgsConstructor
     public static class ordersList{
