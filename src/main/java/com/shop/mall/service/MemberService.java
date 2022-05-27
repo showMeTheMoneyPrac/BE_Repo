@@ -2,11 +2,14 @@ package com.shop.mall.service;
 
 import com.shop.mall.domain.Member;
 import com.shop.mall.dto.*;
+import com.shop.mall.exception.ErrorCodeException;
 import com.shop.mall.repository.MemberRepository;
 import com.shop.mall.validator.MemberValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import static com.shop.mall.exception.ErrorCode.*;
 
 @RequiredArgsConstructor
 @Service
@@ -15,13 +18,15 @@ public class MemberService {
     private final MemberValidator memberValidator;
 
     @Transactional
-    public String memberRegist(MemberRequestDto.Regist dto){
-        if (!dto.getPassword().equals(dto.getPasswordCheck())){
-            return "msg : 패스워드 일치 하지 않음";
-        }
-        if(memberRepository.existsByEmailOrNickname(dto.getEmail(),dto.getNickname())){
-            return "msg : 이메일 혹은 닉네임 중복";
-        }
+    public String memberRegist(MemberRequestDto.Regist dto) {
+//        if (!dto.getPassword().equals(dto.getPasswordCheck())) {
+//            throw new ErrorCodeException(PW_NOT_MATCH_PWCHECK);
+//        }
+//        if (memberRepository.existsByEmailOrNickname(dto.getEmail(), dto.getNickname())) {
+//            throw new ErrorCodeException(USERNAME_DUPLICATE);
+//        }
+        memberValidator.registerDto(dto);
+
         Member member = new Member(dto.getEmail(),
                 dto.getNickname(),
                 dto.getAddress(),
@@ -33,16 +38,17 @@ public class MemberService {
 
     //로그인
     public MemberResponseDto.Login memberLogin(MemberRequestDto.Login dto) {
-        Member member = memberRepository.findByEmailAndPassword(dto.getEmail(),dto.getPassword()).orElseThrow(
-                ()->new IllegalArgumentException("not found member")
-        );
+        Member member = memberRepository.findByEmailAndPassword(dto.getEmail(), dto.getPassword()).orElseThrow(
+                () -> new ErrorCodeException(LOGIN_NOT_MATCH));
         return new MemberResponseDto.Login(member.getNickname());
     }
 
     //정보 보기
     public MemberResponseDto.Info memberInfo(String nickname) {
-        return new MemberResponseDto.Info(memberValidator.authorization(nickname).getNickname(),
-                memberValidator.authorization(nickname).getAddress(),memberValidator.authorization(nickname).getCash());
+        Member member = memberValidator.authorization(nickname);
+        return new MemberResponseDto.Info(member.getNickname(),member.getAddress(),member.getCash());
+//        return new MemberResponseDto.Info(memberValidator.authorization(nickname).getNickname(),
+//                memberValidator.authorization(nickname).getAddress(), memberValidator.authorization(nickname).getCash());
     }
 
     @Transactional
@@ -66,7 +72,7 @@ public class MemberService {
     @Transactional
     public String memberDelete(String nickname) {
         memberRepository.deleteByNickname(nickname).orElseThrow(
-                ()->new IllegalArgumentException("not found nickname")
+                () -> new ErrorCodeException(MEMBER_NOT_EXIST)
         );
         return "msg : 회원 탈퇴 완료";
     }

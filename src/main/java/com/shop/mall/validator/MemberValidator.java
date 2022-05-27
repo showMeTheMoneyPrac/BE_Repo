@@ -1,9 +1,14 @@
 package com.shop.mall.validator;
 
 import com.shop.mall.domain.Member;
+import com.shop.mall.dto.MemberRequestDto;
+import com.shop.mall.exception.ErrorCodeException;
 import com.shop.mall.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import static com.shop.mall.exception.ErrorCode.PW_NOT_MATCH_PWCHECK;
+import static com.shop.mall.exception.ErrorCode.USERNAME_DUPLICATE;
 
 @Component // 선언하지 않으면 사용할 수 없다!!!!!
 @RequiredArgsConstructor
@@ -15,5 +20,14 @@ public class MemberValidator {
         return memberRepository.findByNickname(nickname).orElseThrow(
                 ()->new IllegalArgumentException("not found nickname")
         );
+    }
+
+    public void registerDto(MemberRequestDto.Regist dto){
+        if (!dto.getPassword().equals(dto.getPasswordCheck())) {
+            throw new ErrorCodeException(PW_NOT_MATCH_PWCHECK);
+        }
+        if (memberRepository.existsByEmailOrNickname(dto.getEmail(), dto.getNickname())) {
+            throw new ErrorCodeException(USERNAME_DUPLICATE);
+        }
     }
 }
