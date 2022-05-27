@@ -28,8 +28,16 @@ public enum ErrorCode {
 
     // 리뷰 존재 유무
     REVIEW_ALREADY_EXIST(HttpStatus.BAD_REQUEST,"400_Review_1","이미 리뷰가 작성 되어있습니다."),
-    REVIEW_NOT_EXIST(HttpStatus.BAD_REQUEST,"400_Review_2","작성된 리뷰가 존재하지 않습니다.")
+    REVIEW_NOT_EXIST(HttpStatus.BAD_REQUEST,"400_Review_2","작성된 리뷰가 존재하지 않습니다."),
 
+    // 장바구니 존재 유무
+    CART_NOT_EXIST(HttpStatus.BAD_REQUEST,"400_Cart_1","장바구니에 존재하지 않습니다."),
+
+    // 구매 목록 존재 여부
+    ORDERS_NOT_EXIST(HttpStatus.BAD_REQUEST,"400_Orders_1","구매목록이 존재하지 않습니다."),
+
+    // 구매 상품 존재 여부
+    ORDERSDETAIL_NOT_EXIST(HttpStatus.BAD_REQUEST,"400_OrdersDetail_1","구매상품이 존재하지 않습니다.")
     ;
 
     private final HttpStatus httpStatus;
