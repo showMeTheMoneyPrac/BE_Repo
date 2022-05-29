@@ -1,6 +1,7 @@
 package com.shop.mall.domain;
 
 import lombok.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -30,7 +31,6 @@ public class Product extends Timestamped{
     private int price;
 
     @Column
-    @Setter
     private int reviewCnt;
 
     @OneToMany(mappedBy = "product")
@@ -56,6 +56,11 @@ public class Product extends Timestamped{
         this.imgList = imgList;
         this.productOptionList = productOptionList;
         this.reviewList = reviewList;
+    }
+
+
+    public void reviewCnt(){
+        this.reviewCnt = this.reviewCnt + 1;
     }
 
 }

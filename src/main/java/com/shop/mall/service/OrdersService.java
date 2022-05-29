@@ -9,7 +9,7 @@ import com.shop.mall.repository.OrdersDetailRepository;
 import com.shop.mall.repository.OrdersRepository;
 import com.shop.mall.repository.Product.ProductRepository;
 import com.shop.mall.repository.ReviewRepository;
-import com.shop.mall.validator.MemberValidator;
+import com.shop.mall.validator.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,10 +25,13 @@ import java.util.List;
 public class OrdersService {
     private final OrdersRepository ordersRepository;
     private final ReviewRepository reviewRepository;
-    private final ProductRepository productRepository;
     private final CartRepository cartRepository;
     private final OrdersDetailRepository ordersDetailRepository;
+    private final OrdersValidator ordersValidator;
+    private final OrdersDetailValidator ordersDetailValidator;
+    private final ProductValidator productValidator;
     private final MemberValidator memberValidator;
+    private final CartValidator cartValidator;
 
     //15번 API
     public OrdersResponseDto.ordersTotalList findAllOrders(String nickname) {
@@ -41,10 +44,6 @@ public class OrdersService {
         for (Orders order : orders) {
             List<OrdersDetailResponseDto.ordersDetailList> ordersDetailLists = new ArrayList<>();
             List<OrdersDetail> ordersDetail = order.getOrdersDetailList();
-
-//            if(ordersDetail.isEmpty()){
-//                ordersRepository.delete(order);
-//            }
 
             for (OrdersDetail detail : ordersDetail) {
                 Product product = detail.getProduct();
@@ -95,7 +94,7 @@ public class OrdersService {
                 .build();
 
         for (int i = 0; i < dto.getCartIdList().size(); i++) {
-            Cart cart = cartRepository.findById(dto.getCartIdList().get(i)).orElseThrow(() -> new IllegalArgumentException("카트 상품이 존재하지 않습니다"));
+            Cart cart = cartValidator.findById(dto.getCartIdList().get(i));
             OrdersDetail ordersDetail = OrdersDetail.builder()
                     .product(cart.getProduct())
                     .ea(cart.getEa())
@@ -118,15 +117,19 @@ public class OrdersService {
     public String orderProduct(String nickname, @PathVariable Long productId, @RequestBody OrdersRequestDto.orderProduct dto) {
         int totalPrice = dto.getPrice() * dto.getEa();
         Member member = memberValidator.authorization(nickname);
+
         if (member.getCash() - totalPrice < 0) {
             return "msg: 잔액이 부족합니다";
         }
-        Product product = productRepository.findById(productId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."));
+
+        Product product = productValidator.authorization(productId);
+
         Orders orders = Orders.builder()
                 .member(member)
                 .address(dto.getAddress())
                 .totalPrice(totalPrice)
                 .build();
+
         OrdersDetail ordersDetail = OrdersDetail.builder()
                 .product(product)
                 .ea(dto.getEa())
@@ -134,6 +137,7 @@ public class OrdersService {
                 .optionContent(dto.getOptionContent())
                 .orders(orders)
                 .build();
+
         ordersDetailRepository.save(ordersDetail);
 
         ordersRepository.save(orders);
@@ -148,14 +152,14 @@ public class OrdersService {
         int refund = 0;
         String[] target = orderDetailsId.split(","); //문자열로 받아서 리스트로 전환
         for (String orderDetailId : target) {
-            OrdersDetail ordersDetail = ordersDetailRepository.findById(Long.valueOf(orderDetailId)).orElseThrow(() -> new IllegalArgumentException("환불하려는 구매 상품이 존재하지 않습니다."));
+            OrdersDetail ordersDetail = ordersDetailValidator.authorization(Long.valueOf(orderDetailId));
 
             refund = refund + (ordersDetail.getBill()* ordersDetail.getEa());
 
             Long ordersId = ordersDetail.getOrders().getId();
             ordersDetailRepository.deleteById(Long.valueOf(orderDetailId));
 
-            Orders order = ordersRepository.findById(ordersId).orElseThrow(() -> new IllegalArgumentException("환불하려는 구매 목록이 존재하지 않습니다."));
+            Orders order = ordersValidator.findById(ordersId);
 
             if(order.getOrdersDetailList().isEmpty()){
                 ordersRepository.delete(order);

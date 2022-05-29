@@ -9,4 +9,6 @@ import java.util.Optional;
 public interface ImgRepository extends JpaRepository<Img, Long> {
     List<Img> findAllByProduct_Id(Long productId);
     Img findByProduct_Id(Long productId);
+
+    Img findFirstByProductId(Long productId);
 }
