@@ -11,4 +11,8 @@ public interface OrdersDetailRepository extends JpaRepository<OrdersDetail,Long>
     @Transactional
     @Query("delete from OrdersDetail o where o.id=:ordersDetailId")
     void deleteById(Long ordersDetailId);
+
+    @Modifying
+    @Transactional
+    void deleteByOrders_Id(Long ordersId);
 }
