@@ -7,6 +7,7 @@ import com.shop.mall.domain.Member;
 import com.shop.mall.domain.Product;
 import com.shop.mall.dto.CartRequestDto;
 import com.shop.mall.dto.CartResponseDto;
+import com.shop.mall.dto.MemberResponseDto;
 import com.shop.mall.repository.CartRepository;
 import com.shop.mall.repository.ImgRepository;
 import com.shop.mall.repository.MemberRepository;
@@ -83,5 +84,14 @@ public class CartService {
         for (String s : target) {
             cartRepository.deleteById(Long.valueOf(s));
         }
+    }
+
+    public Cart modifyingEa(String nickname, CartRequestDto.Ea dto, Long cartId) {
+        memberValidator.authorization(nickname);
+        Cart cart = cartValidator.findById(cartId);
+        int onePrice = cart.getBill()/cart.getEa();
+        cart.eaUpdate(dto.getEa());
+        cart.billUpdate(onePrice*dto.getEa());
+        return cart;
     }
 }
