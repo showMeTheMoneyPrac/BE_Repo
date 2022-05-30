@@ -18,10 +18,9 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @GetMapping("/products/pages/{page}")
-    public List<ProductResponseDto.ProductList> findAllProduct(@PathVariable Long page) {
-        //Long id = (page)*20;
-        return productService.productList(page);
+    @GetMapping("/products/pages/{pageId}")
+    public List<ProductResponseDto.ProductList> findAllProduct(@PathVariable Long pageId) {
+        return productService.productList(pageId);
     }
     //9번 API 상품 상세 데이터
     @GetMapping("/products/{productId}")
