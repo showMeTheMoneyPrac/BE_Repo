@@ -11,7 +11,9 @@ public class CartResponseDto {
     @AllArgsConstructor
     public static class List {
         private Long cartId;
+
         private Long productId;
+
         private String title;
         private String category;
         private String firstImg;

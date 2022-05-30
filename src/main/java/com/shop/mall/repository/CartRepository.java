@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public interface CartRepository extends JpaRepository<Cart,Long> {
+public interface CartRepository extends JpaRepository<Cart,Long> ,CartRepositoryCustom{
     List<Cart> findAllByMember_Id(Long memberId);
 
     @Modifying

@@ -35,30 +35,32 @@ public class CartService {
     private final CartValidator cartValidator;
 
     public List<CartResponseDto.List> cartLists(String nickname) {
-        List<Cart> cartLists = cartValidator.authorization(memberValidator.authorization(nickname).getId());
-        List<CartResponseDto.List> cartResponseDtoList = new ArrayList<>();
+//        List<Cart> cartLists = cartValidator.authorization(memberValidator.authorization(nickname).getId());
+//        List<CartResponseDto.List> cartResponseDtoList = new ArrayList<>();
+//
+//        for (Cart cart : cartLists) {
+//            //List<Img> imgLists = imgRepository.findAllByProduct_Id(cartLists.get(i).getProduct().getId());
+//            //String imgUrl = imgRepository.findFirstByProductId(cart.getProduct().getId()).getImgUrl();
+//
+//            //System.out.println("img"+imgUrl);
+//            CartResponseDto.List cartResponseDto = CartResponseDto.List.builder()
+//                    .cartId(cart.getId())
+//                    .category(cart.getProduct().getCategory())
+//                    .bill(cart.getBill())
+//                    .ea(cart.getEa())
+//                    .price(cart.getProduct().getPrice())
+//                    .firstImg(cart.getProduct().getFirstImg())
+//                    .reviewCnt(cart.getProduct().getReviewCnt())
+//                    .title(cart.getProduct().getTitle())
+//                    .optionContent(cart.getOptionContent())
+//                    .productId(cart.getProduct().getId())
+//                    .build();
+//            cartResponseDtoList.add(cartResponseDto);
+//        }
 
-        for (Cart cart : cartLists) {
-            //List<Img> imgLists = imgRepository.findAllByProduct_Id(cartLists.get(i).getProduct().getId());
-            String imgUrl = imgRepository.findFirstByProductId(cart.getProduct().getId()).getImgUrl();
+        List<CartResponseDto.List> list = cartRepository.findAllCartByNickname(nickname);
 
-            //System.out.println("img"+imgUrl);
-            CartResponseDto.List cartResponseDto = CartResponseDto.List.builder()
-                    .cartId(cart.getId())
-                    .category(cart.getProduct().getCategory())
-                    .bill(cart.getBill())
-                    .ea(cart.getEa())
-                    .price(cart.getProduct().getPrice())
-                    .firstImg(imgUrl)
-                    .reviewCnt(cart.getProduct().getReviewCnt())
-                    .title(cart.getProduct().getTitle())
-                    .optionContent(cart.getOptionContent())
-                    .productId(cart.getProduct().getId())
-                    .build();
-            cartResponseDtoList.add(cartResponseDto);
-        }
-
-        return cartResponseDtoList;
+        return list;
     }
 
     @Transactional
