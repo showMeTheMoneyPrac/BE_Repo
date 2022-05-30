@@ -32,7 +32,7 @@ public class ProductResponseDto {
         private int price;
 
         @JsonProperty(value = "firstImg")
-        private String imgUrl;
+        private String firstImg;
 
         public static ProductList productListFrom(Product product) {
             return ProductList.builder()
@@ -42,7 +42,7 @@ public class ProductResponseDto {
                     .reviewCnt(product.getReviewCnt())
                     .detail(product.getDetail())
                     .price(product.getPrice())
-                    .imgUrl(product.getFirstImg())
+                    .firstImg(product.getImgList().get(0).getImgUrl())
                     .build();
         }
     }

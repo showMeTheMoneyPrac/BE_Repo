@@ -1,5 +1,6 @@
 package com.shop.mall.service;
 
+import com.querydsl.jpa.impl.JPAQuery;
 import com.shop.mall.domain.Product;
 import com.shop.mall.dto.ProductResponseDto;
 import com.shop.mall.repository.Product.ProductRepository;
@@ -28,8 +29,8 @@ public class ProductService {
         for (Product listProduct : listProducts) {
             productsList.add(productListFrom(listProduct));
         }
-
-        return productsList;
+        List<ProductResponseDto.ProductList> lists = productRepository.findAllByOffsetId(lastId);
+        return lists;
     }
 
 
