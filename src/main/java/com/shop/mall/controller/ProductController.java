@@ -18,12 +18,11 @@ public class ProductController {
 
     private final ProductService productService;
 
-    //8번 API 메인 페이지 상품 데이터(pageable)
     @GetMapping("/products")
-    public List<ProductResponseDto.ProductList> findAllProduct(@PageableDefault(size = 20) Pageable pageable) {
-        return productService.productList(pageable).getContent();
+    public List<ProductResponseDto.ProductList> findAllProduct(@RequestParam(value = "page") Long page) {
+        Long id = (page)*20;
+        return productService.productList(id);
     }
-
     //9번 API 상품 상세 데이터
     @GetMapping("/products/{productId}")
     public ProductResponseDto.ProductsDetail productDetail(@PathVariable Long productId){

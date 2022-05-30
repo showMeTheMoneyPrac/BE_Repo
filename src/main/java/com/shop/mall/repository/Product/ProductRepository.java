@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Long>,ProductRepositoryCustom {
-    @Query(nativeQuery = true, value = "select * from product pd where pd.product_id > :lastId ORDER BY pd.product_id desc")
+    @Query(nativeQuery = true, value = "select * from product pd where pd.product_id > :lastId ORDER BY pd.product_id asc limit 20")
     List<Product> findAllByLastId(Long lastId);
 }
