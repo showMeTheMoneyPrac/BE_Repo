@@ -11,6 +11,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.shop.mall.dto.ProductResponseDto.ProductList.productListFrom;
 import static com.shop.mall.exception.ErrorCode.PRODUCT_NOT_EXIST;
 
 
@@ -21,8 +25,14 @@ public class ProductService {
     private final ProductValidator productValidator;
 
     // 8번 API
-    public Page<ProductResponseDto.ProductList> productList(Pageable pageable) {
-        return productRepository.findAll(pageable).map(ProductResponseDto.ProductList::productListFrom);
+    public List<ProductResponseDto.ProductList> productList(Long lastId) {
+        List<Product> listProducts = productRepository.findAllByLastId(lastId);
+        List<ProductResponseDto.ProductList> productsList = new ArrayList<>();
+        for (Product listProduct : listProducts) {
+            productsList.add(productListFrom(listProduct));
+        }
+
+        return productsList;
     }
 
 
@@ -52,6 +62,9 @@ public class ProductService {
 
         return productLists;
     }
+
+
+
 
 
 }

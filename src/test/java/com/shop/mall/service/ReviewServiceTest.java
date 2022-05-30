@@ -3,6 +3,7 @@ package com.shop.mall.service;
 import com.shop.mall.domain.*;
 import com.shop.mall.dto.ReviewRequestDto;
 import com.shop.mall.dto.ReviewResponseDto;
+import com.shop.mall.exception.ErrorCodeException;
 import com.shop.mall.repository.MemberRepository;
 import com.shop.mall.repository.OrdersDetailRepository;
 import com.shop.mall.repository.Product.ProductRepository;
@@ -271,7 +272,7 @@ class ReviewServiceTest {
         //when
         try {
             ReviewResponseDto.Delete delete = reviewService.deleteReview(member.getNickname(), reviewId + 1);
-        }catch (IllegalArgumentException e){
+        }catch (ErrorCodeException e){
             return;
         }
 
