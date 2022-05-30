@@ -86,8 +86,12 @@ public class CartService {
         }
     }
 
-    public CartResponseDto.Ea modifyingEa(String nickname, CartRequestDto.Ea dto) {
+    public Cart modifyingEa(String nickname, CartRequestDto.Ea dto, Long cartId) {
         memberValidator.authorization(nickname);
-        
+        Cart cart = cartValidator.findById(cartId);
+        int onePrice = cart.getBill()/cart.getEa();
+        cart.eaUpdate(dto.getEa());
+        cart.billUpdate(onePrice*dto.getEa());
+        return cart;
     }
 }

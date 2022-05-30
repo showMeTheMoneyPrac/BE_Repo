@@ -25,7 +25,7 @@ public class CartResponseDto {
     @Getter
     @AllArgsConstructor
     public static class Ea {
-        private int cartId;
+        private Long cartId;
         private int totalprice;
     }
 }
