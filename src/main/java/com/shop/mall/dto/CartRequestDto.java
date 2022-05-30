@@ -12,4 +12,10 @@ public class CartRequestDto {
         private int price;
         private int ea;
     }
+
+    @Getter
+    @AllArgsConstructor
+    public static class Ea {
+        private int ea;
+    }
 }

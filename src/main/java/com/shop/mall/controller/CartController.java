@@ -2,6 +2,8 @@ package com.shop.mall.controller;
 
 import com.shop.mall.dto.CartRequestDto;
 import com.shop.mall.dto.CartResponseDto;
+import com.shop.mall.dto.MemberRequestDto;
+import com.shop.mall.dto.MemberResponseDto;
 import com.shop.mall.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +31,12 @@ public class CartController {
                                                  @PathVariable String Array){
         cartService.cartDelete(nickname,Array);
         return cartService.cartLists(nickname);
+    }
+
+    @PatchMapping("/carts/cash") //21번 장바구니 수량 변경
+    public CartResponseDto.Ea modifyingEa(@RequestHeader(value = "Authorization") String nickname,
+                                             @RequestBody CartRequestDto.Ea dto) {
+        return cartService.modifyingEa(nickname, dto);
     }
 
 }

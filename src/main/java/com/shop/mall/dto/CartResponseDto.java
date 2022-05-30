@@ -21,4 +21,11 @@ public class CartResponseDto {
         private int ea;
         private int bill;
     }
+
+    @Getter
+    @AllArgsConstructor
+    public static class Ea {
+        private int cartId;
+        private int totalprice;
+    }
 }
