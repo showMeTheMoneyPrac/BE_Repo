@@ -65,6 +65,9 @@ public class MemberService {
 
     @Transactional
     public MemberResponseDto.Name nameChange(String nickname, String afterName) {
+        if (memberRepository.existsByNickname(afterName)){
+            throw new ErrorCodeException(USERNAME_DUPLICATE2);
+        }
         memberValidator.authorization(nickname).nameUpdate(afterName);
         return new MemberResponseDto.Name(afterName);
     }
