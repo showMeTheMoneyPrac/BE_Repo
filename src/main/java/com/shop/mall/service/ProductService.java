@@ -24,11 +24,11 @@ public class ProductService {
 
     // 8번 API
     public List<ProductResponseDto.ProductList> productList(Long lastId) {
-        List<Product> listProducts = productRepository.findAllByLastId(lastId);
-        List<ProductResponseDto.ProductList> productsList = new ArrayList<>();
-        for (Product listProduct : listProducts) {
-            productsList.add(productListFrom(listProduct));
-        }
+//        List<Product> listProducts = productRepository.findAllByLastId(lastId);
+//        List<ProductResponseDto.ProductList> productsList = new ArrayList<>();
+//        for (Product listProduct : listProducts) {
+//            productsList.add(productListFrom(listProduct));
+//        }
         List<ProductResponseDto.ProductList> lists = productRepository.findAllByOffsetId(lastId);
         return lists;
     }
