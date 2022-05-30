@@ -42,7 +42,7 @@ public class ProductResponseDto {
                     .reviewCnt(product.getReviewCnt())
                     .detail(product.getDetail())
                     .price(product.getPrice())
-                    .firstImg(product.getImgList().get(0).getImgUrl())
+                    .firstImg(product.getFirstImg())
                     .build();
         }
     }
