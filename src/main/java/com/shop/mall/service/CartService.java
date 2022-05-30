@@ -39,7 +39,7 @@ public class CartService {
 
         for (Cart cart : cartLists) {
             //List<Img> imgLists = imgRepository.findAllByProduct_Id(cartLists.get(i).getProduct().getId());
-            String imgUrl = imgRepository.findFirstByProductId(cart.getProduct().getImgList().get(0).getId()).getImgUrl();
+            String imgUrl = imgRepository.findFirstByProductId(cart.getProduct().getId()).getImgUrl();
 
             //System.out.println("img"+imgUrl);
             CartResponseDto.List cartResponseDto = CartResponseDto.List.builder()
