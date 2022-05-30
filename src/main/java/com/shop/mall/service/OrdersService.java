@@ -33,7 +33,7 @@ public class OrdersService {
     private final MemberValidator memberValidator;
     private final CartValidator cartValidator;
 
-    //15번 API
+    //14번 API 장바구니 리스트
     public OrdersResponseDto.ordersTotalList findAllOrders(String nickname) {
         Long memberId = memberValidator.authorization(nickname).getId();
 
@@ -80,7 +80,7 @@ public class OrdersService {
                 .build();
     }
 
-    //16번 API
+    //15번 API 장바구니리스트 구매
     @Transactional
     public String orderProductList(String nickname, OrdersRequestDto.orderProductList dto) {
         Member member = memberValidator.authorization(nickname);
@@ -106,13 +106,13 @@ public class OrdersService {
             ordersDetailRepository.save(ordersDetail);
             cartRepository.deleteById(dto.getCartIdList().get(i));
         }
-
+        member.charge(-1*dto.getTotalPrice());
         ordersRepository.save(orders);
 
         return "msg : 구매 리스트 성공";
     }
 
-    //17번 API
+    //16번 API 즉시구매
     @Transactional
     public String orderProduct(String nickname, @PathVariable Long productId, @RequestBody OrdersRequestDto.orderProduct dto) {
         int totalPrice = dto.getPrice() * dto.getEa();
@@ -133,19 +133,18 @@ public class OrdersService {
         OrdersDetail ordersDetail = OrdersDetail.builder()
                 .product(product)
                 .ea(dto.getEa())
-                .bill(dto.getPrice())
+                .bill(totalPrice)
                 .optionContent(dto.getOptionContent())
                 .orders(orders)
                 .build();
 
         ordersDetailRepository.save(ordersDetail);
-
         ordersRepository.save(orders);
-
+        member.charge(-1*totalPrice);
         return "msg : 즉시 구매 성공";
     }
 
-    //18번 API
+    //17번 API 환불
     @Transactional
     public String deleteOrders(String nickname, @PathVariable String orderDetailsId) {
         Member member = memberValidator.authorization(nickname);
@@ -153,20 +152,15 @@ public class OrdersService {
         String[] target = orderDetailsId.split(","); //문자열로 받아서 리스트로 전환
         for (String orderDetailId : target) {
             OrdersDetail ordersDetail = ordersDetailValidator.authorization(Long.valueOf(orderDetailId));
-
-            refund = refund + (ordersDetail.getBill()* ordersDetail.getEa());
-
+            refund = refund + (ordersDetail.getBill());
             Long ordersId = ordersDetail.getOrders().getId();
             ordersDetailRepository.deleteById(Long.valueOf(orderDetailId));
-
             Orders order = ordersValidator.findById(ordersId);
-
             if(order.getOrdersDetailList().isEmpty()){
                 ordersRepository.delete(order);
             }
         }
         member.charge(refund);
-
         return "msg : 환불 완료";
     }
 
