@@ -7,8 +7,7 @@ import com.shop.mall.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import static com.shop.mall.exception.ErrorCode.PW_NOT_MATCH_PWCHECK;
-import static com.shop.mall.exception.ErrorCode.USERNAME_DUPLICATE;
+import static com.shop.mall.exception.ErrorCode.*;
 
 @Component // 선언하지 않으면 사용할 수 없다!!!!!
 @RequiredArgsConstructor
@@ -18,7 +17,7 @@ public class MemberValidator {
     public Member authorization(String nickname){
         // 반복되는 어쏘리제이션을 따로 빼서 관리해보자
         return memberRepository.findByNickname(nickname).orElseThrow(
-                ()->new IllegalArgumentException("not found nickname")
+                () -> new ErrorCodeException(MEMBER_NOT_EXIST)
         );
     }
 
