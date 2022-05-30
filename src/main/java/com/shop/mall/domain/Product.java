@@ -33,6 +33,9 @@ public class Product extends Timestamped{
     @Column
     private int reviewCnt;
 
+    @Column
+    private String firstImg;
+
     @OneToMany(mappedBy = "product")
     private List<Cart> cartList = new ArrayList<>();
 

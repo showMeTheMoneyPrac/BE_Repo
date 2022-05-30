@@ -2,8 +2,6 @@ package com.shop.mall.service;
 
 import com.shop.mall.domain.Product;
 import com.shop.mall.dto.ProductResponseDto;
-import com.shop.mall.exception.ErrorCode;
-import com.shop.mall.exception.ErrorCodeException;
 import com.shop.mall.repository.Product.ProductRepository;
 import com.shop.mall.validator.ProductValidator;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.shop.mall.dto.ProductResponseDto.ProductList.productListFrom;
-import static com.shop.mall.exception.ErrorCode.PRODUCT_NOT_EXIST;
 
 
 @RequiredArgsConstructor
