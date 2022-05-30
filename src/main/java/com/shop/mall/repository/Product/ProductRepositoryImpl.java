@@ -53,7 +53,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                         booleanCategory(category),
                         ltProductId(lastId)
                 )
-                .orderBy(product.createdAt.desc())
+                .orderBy(product.id.desc())
                 .limit(20)
                 .fetch();
 
