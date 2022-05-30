@@ -1,13 +1,20 @@
 package com.shop.mall.service;
 
 import com.shop.mall.domain.Member;
+import com.shop.mall.domain.Orders;
 import com.shop.mall.dto.*;
 import com.shop.mall.exception.ErrorCodeException;
+import com.shop.mall.repository.CartRepository;
 import com.shop.mall.repository.MemberRepository;
+import com.shop.mall.repository.OrdersDetailRepository;
+import com.shop.mall.repository.OrdersRepository;
 import com.shop.mall.validator.MemberValidator;
+import com.shop.mall.validator.OrdersDetailValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static com.shop.mall.exception.ErrorCode.*;
 
@@ -16,22 +23,20 @@ import static com.shop.mall.exception.ErrorCode.*;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final MemberValidator memberValidator;
+    private final CartRepository cartRepository;
+    private final OrdersRepository ordersRepository;
+    private final OrdersDetailRepository ordersDetailRepository;
+    private final OrdersDetailValidator ordersDetailValidator;
 
     @Transactional
     public String memberRegist(MemberRequestDto.Regist dto) {
-//        if (!dto.getPassword().equals(dto.getPasswordCheck())) {
-//            throw new ErrorCodeException(PW_NOT_MATCH_PWCHECK);
-//        }
-//        if (memberRepository.existsByEmailOrNickname(dto.getEmail(), dto.getNickname())) {
-//            throw new ErrorCodeException(USERNAME_DUPLICATE);
-//        }
         memberValidator.registerDto(dto);
 
         Member member = new Member(dto.getEmail(),
                 dto.getNickname(),
                 dto.getAddress(),
                 dto.getPassword(),
-                0);
+                5000);
         memberRepository.save(member);
         return "msg : 회원가입 완료";
     }
@@ -47,8 +52,6 @@ public class MemberService {
     public MemberResponseDto.Info memberInfo(String nickname) {
         Member member = memberValidator.authorization(nickname);
         return new MemberResponseDto.Info(member.getNickname(),member.getAddress(),member.getCash());
-//        return new MemberResponseDto.Info(memberValidator.authorization(nickname).getNickname(),
-//                memberValidator.authorization(nickname).getAddress(), memberValidator.authorization(nickname).getCash());
     }
 
     @Transactional
@@ -65,12 +68,26 @@ public class MemberService {
 
     @Transactional
     public MemberResponseDto.Name nameChange(String nickname, String afterName) {
+        if (memberRepository.existsByNickname(afterName)){
+            throw new ErrorCodeException(USERNAME_DUPLICATE2);
+        }
         memberValidator.authorization(nickname).nameUpdate(afterName);
         return new MemberResponseDto.Name(afterName);
     }
 
     @Transactional
     public String memberDelete(String nickname) {
+        Member member = memberValidator.authorization(nickname);
+        //carts 삭제
+        cartRepository.deleteAllByMember_Id(member.getId());
+        //orderDetails 삭제
+        List<Orders> ordersList = ordersRepository.findAllByMemberId(member.getId());
+        for(Orders orders:ordersList){
+            ordersDetailRepository.deleteByOrders_Id(orders.getId());
+        }
+        //orders 삭제
+        ordersRepository.deleteAllByMember_Id(member.getId());
+        
         memberRepository.deleteByNickname(nickname).orElseThrow(
                 () -> new ErrorCodeException(MEMBER_NOT_EXIST)
         );
