@@ -16,6 +16,7 @@ import com.shop.mall.validator.MemberValidator;
 import com.shop.mall.validator.ProductValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,6 +61,7 @@ public class CartService {
         return cartResponseDtoList;
     }
 
+    @Transactional
     public String cartAdd(String nickname, Long productId, CartRequestDto.Add dto) {
         Product product = productValidator.authorization(productId);
 
