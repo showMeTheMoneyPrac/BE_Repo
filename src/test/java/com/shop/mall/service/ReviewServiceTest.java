@@ -3,6 +3,7 @@ package com.shop.mall.service;
 import com.shop.mall.domain.*;
 import com.shop.mall.dto.ReviewRequestDto;
 import com.shop.mall.dto.ReviewResponseDto;
+import com.shop.mall.exception.ErrorCodeException;
 import com.shop.mall.repository.MemberRepository;
 import com.shop.mall.repository.OrdersDetailRepository;
 import com.shop.mall.repository.Product.ProductRepository;
@@ -90,61 +91,61 @@ class ReviewServiceTest {
 
     }
 
-    @Test
-    @Transactional
-    @DisplayName("중복 리뷰 작성 실패")
-    void 중복_리뷰_작성_실패() throws Exception {
-        //given
-        //member 생성
-        Member member = new Member(
-                "seanlee0701@naver.com",
-                "이승수",
-                "장충동",
-                "passworddsd",
-                0);
-        memberRepository.save(member);
-
-        //product 생성
-        List<Img> imgList = new ArrayList<>();
-        Img img = new Img("img_url");
-        imgList.add(img);
-        Product product = Product.builder()
-                .imgList(imgList)
-                .reviewCnt(0)
-                .build();
-        productRepository.save(product);
-
-        //orderDetails 생성
-        OrdersDetail ordersDetail = OrdersDetail.builder()
-                .product(product)
-                .build();
-
-        Long orderDetailsId = ordersDetailRepository.save(ordersDetail).getId();
-
-        ReviewRequestDto.Write dto = ReviewRequestDto.Write.builder()
-                .reviewTitle("리뷰 제목입니다.")
-                .content("리뷰 내용입니다.")
-                .build();
-
-        Review review = Review.builder()
-                .title(dto.getReviewTitle())
-                .content(dto.getContent())
-                .member(member)
-                .product(product)
-                .build();
-
-        reviewRepository.save(review);
-
-        //when
-        try {
-            ReviewResponseDto.Write reviewResponse = reviewService.writeReview(member.getNickname(), orderDetailsId, dto);
-        } catch (IllegalArgumentException e) {
-            return;
-        }
-        //then
-        fail();
-
-    }
+//    @Test
+//    @Transactional
+//    @DisplayName("중복 리뷰 작성 실패")
+//    void 중복_리뷰_작성_실패() throws Exception {
+//        //given
+//        //member 생성
+//        Member member = new Member(
+//                "seanlee0701@naver.com",
+//                "이승수",
+//                "장충동",
+//                "passworddsd",
+//                0);
+//        memberRepository.save(member);
+//
+//        //product 생성
+//        List<Img> imgList = new ArrayList<>();
+//        Img img = new Img("img_url");
+//        imgList.add(img);
+//        Product product = Product.builder()
+//                .imgList(imgList)
+//                .reviewCnt(0)
+//                .build();
+//        productRepository.save(product);
+//
+//        //orderDetails 생성
+//        OrdersDetail ordersDetail = OrdersDetail.builder()
+//                .product(product)
+//                .build();
+//
+//        Long orderDetailsId = ordersDetailRepository.save(ordersDetail).getId();
+//
+//        ReviewRequestDto.Write dto = ReviewRequestDto.Write.builder()
+//                .reviewTitle("리뷰 제목입니다.")
+//                .content("리뷰 내용입니다.")
+//                .build();
+//
+//        Review review = Review.builder()
+//                .title(dto.getReviewTitle())
+//                .content(dto.getContent())
+//                .member(member)
+//                .product(product)
+//                .build();
+//
+//        reviewRepository.save(review);
+//
+//        //when
+//        try {
+//            ReviewResponseDto.Write reviewResponse = reviewService.writeReview(member.getNickname(), orderDetailsId, dto);
+//        } catch (IllegalArgumentException e) {
+//            return;
+//        }
+//        //then
+//        fail();
+//
+//    }
 
     @Test
     @Transactional
@@ -271,7 +272,7 @@ class ReviewServiceTest {
         //when
         try {
             ReviewResponseDto.Delete delete = reviewService.deleteReview(member.getNickname(), reviewId + 1);
-        }catch (IllegalArgumentException e){
+        }catch (ErrorCodeException e){
             return;
         }
 

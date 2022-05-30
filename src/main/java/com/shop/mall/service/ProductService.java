@@ -3,28 +3,40 @@ package com.shop.mall.service;
 import com.shop.mall.domain.Product;
 import com.shop.mall.dto.ProductResponseDto;
 import com.shop.mall.repository.Product.ProductRepository;
+import com.shop.mall.validator.ProductValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.shop.mall.dto.ProductResponseDto.ProductList.productListFrom;
 
 
 @RequiredArgsConstructor
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
+    private final ProductValidator productValidator;
 
     // 8번 API
-    public Page<ProductResponseDto.ProductList> productList(Pageable pageable) {
-        return productRepository.findAll(pageable).map(ProductResponseDto.ProductList::productListFrom);
+    public List<ProductResponseDto.ProductList> productList(Long lastId) {
+        List<Product> listProducts = productRepository.findAllByLastId(lastId);
+        List<ProductResponseDto.ProductList> productsList = new ArrayList<>();
+        for (Product listProduct : listProducts) {
+            productsList.add(productListFrom(listProduct));
+        }
+
+        return productsList;
     }
 
 
     //9번 API
     public ProductResponseDto.ProductsDetail productsDetail(Long productId) {
-        Product product = productRepository.findById(productId).orElseThrow(()-> new IllegalArgumentException("해당 상품이 존재하지 않습니다"));
-        ProductResponseDto.ProductsDetail productsDetail = ProductResponseDto.ProductsDetail.productsDetailFrom(product);
-        return productsDetail;
+        Product product = productValidator.authorization(productId);
+        return ProductResponseDto.ProductsDetail.productsDetailFrom(product);
     }
 
 
@@ -47,6 +59,9 @@ public class ProductService {
 
         return productLists;
     }
+
+
+
 
 
 }

@@ -9,7 +9,7 @@ import com.shop.mall.repository.OrdersDetailRepository;
 import com.shop.mall.repository.OrdersRepository;
 import com.shop.mall.repository.Product.ProductRepository;
 import com.shop.mall.repository.ReviewRepository;
-import com.shop.mall.validator.MemberValidator;
+import com.shop.mall.validator.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,12 +25,15 @@ import java.util.List;
 public class OrdersService {
     private final OrdersRepository ordersRepository;
     private final ReviewRepository reviewRepository;
-    private final ProductRepository productRepository;
     private final CartRepository cartRepository;
     private final OrdersDetailRepository ordersDetailRepository;
+    private final OrdersValidator ordersValidator;
+    private final OrdersDetailValidator ordersDetailValidator;
+    private final ProductValidator productValidator;
     private final MemberValidator memberValidator;
+    private final CartValidator cartValidator;
 
-    //15번 API
+    //14번 API 장바구니 리스트
     public OrdersResponseDto.ordersTotalList findAllOrders(String nickname) {
         Long memberId = memberValidator.authorization(nickname).getId();
 
@@ -41,10 +44,6 @@ public class OrdersService {
         for (Orders order : orders) {
             List<OrdersDetailResponseDto.ordersDetailList> ordersDetailLists = new ArrayList<>();
             List<OrdersDetail> ordersDetail = order.getOrdersDetailList();
-
-//            if(ordersDetail.isEmpty()){
-//                ordersRepository.delete(order);
-//            }
 
             for (OrdersDetail detail : ordersDetail) {
                 Product product = detail.getProduct();
@@ -81,7 +80,7 @@ public class OrdersService {
                 .build();
     }
 
-    //16번 API
+    //15번 API 장바구니리스트 구매
     @Transactional
     public String orderProductList(String nickname, OrdersRequestDto.orderProductList dto) {
         Member member = memberValidator.authorization(nickname);
@@ -95,7 +94,7 @@ public class OrdersService {
                 .build();
 
         for (int i = 0; i < dto.getCartIdList().size(); i++) {
-            Cart cart = cartRepository.findById(dto.getCartIdList().get(i)).orElseThrow(() -> new IllegalArgumentException("카트 상품이 존재하지 않습니다"));
+            Cart cart = cartValidator.findById(dto.getCartIdList().get(i));
             OrdersDetail ordersDetail = OrdersDetail.builder()
                     .product(cart.getProduct())
                     .ea(cart.getEa())
@@ -107,62 +106,61 @@ public class OrdersService {
             ordersDetailRepository.save(ordersDetail);
             cartRepository.deleteById(dto.getCartIdList().get(i));
         }
-
+        member.charge(-1*dto.getTotalPrice());
         ordersRepository.save(orders);
 
         return "msg : 구매 리스트 성공";
     }
 
-    //17번 API
+    //16번 API 즉시구매
     @Transactional
     public String orderProduct(String nickname, @PathVariable Long productId, @RequestBody OrdersRequestDto.orderProduct dto) {
         int totalPrice = dto.getPrice() * dto.getEa();
         Member member = memberValidator.authorization(nickname);
+
         if (member.getCash() - totalPrice < 0) {
             return "msg: 잔액이 부족합니다";
         }
-        Product product = productRepository.findById(productId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."));
+
+        Product product = productValidator.authorization(productId);
+
         Orders orders = Orders.builder()
                 .member(member)
                 .address(dto.getAddress())
                 .totalPrice(totalPrice)
                 .build();
+
         OrdersDetail ordersDetail = OrdersDetail.builder()
                 .product(product)
                 .ea(dto.getEa())
-                .bill(dto.getPrice())
+                .bill(totalPrice)
                 .optionContent(dto.getOptionContent())
                 .orders(orders)
                 .build();
+
         ordersDetailRepository.save(ordersDetail);
-
         ordersRepository.save(orders);
-
+        member.charge(-1*totalPrice);
         return "msg : 즉시 구매 성공";
     }
 
-    //18번 API
+    //17번 API 환불
     @Transactional
     public String deleteOrders(String nickname, @PathVariable String orderDetailsId) {
         Member member = memberValidator.authorization(nickname);
         int refund = 0;
         String[] target = orderDetailsId.split(","); //문자열로 받아서 리스트로 전환
         for (String orderDetailId : target) {
-            OrdersDetail ordersDetail = ordersDetailRepository.findById(Long.valueOf(orderDetailId)).orElseThrow(() -> new IllegalArgumentException("환불하려는 구매 상품이 존재하지 않습니다."));
-
-            refund = refund + (ordersDetail.getBill()* ordersDetail.getEa());
-
+            OrdersDetail ordersDetail = ordersDetailValidator.authorization(Long.valueOf(orderDetailId));
+            refund = refund + (ordersDetail.getBill());
             Long ordersId = ordersDetail.getOrders().getId();
             ordersDetailRepository.deleteById(Long.valueOf(orderDetailId));
-
-            Orders order = ordersRepository.findById(ordersId).orElseThrow(() -> new IllegalArgumentException("환불하려는 구매 목록이 존재하지 않습니다."));
-
+            Orders order = ordersValidator.findById(ordersId);
             if(order.getOrdersDetailList().isEmpty()){
                 ordersRepository.delete(order);
             }
         }
         member.charge(refund);
-
         return "msg : 환불 완료";
     }
 
