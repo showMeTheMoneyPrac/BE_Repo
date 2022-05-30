@@ -44,19 +44,19 @@ public class ProductService {
 
 
     //10번 API
-    public Page<ProductResponseDto.ProductList> conditionProductList(Pageable pageable, String sort, String category, String searchKeyword){
-        Page<ProductResponseDto.ProductList> productLists = null;
+    public List<ProductResponseDto.ProductList> conditionProductList(Long lastId, String sort, String category, String searchKeyword){
+        List<ProductResponseDto.ProductList> productLists = null;
         switch (sort){
             case "cost":
-                productLists = productRepository.searchByCost(pageable,category,searchKeyword);
+                //productLists = productRepository.searchByCost(lastId,category,searchKeyword);
                 break;
 
             case "review":
-                productLists = productRepository.searchByReviewCnt(pageable,category,searchKeyword);
+                //productLists = productRepository.searchByReviewCnt(lastId,category,searchKeyword);
                 break;
 
             default:
-                productLists = productRepository.searchByRecent(pageable,category,searchKeyword);
+                productLists = productRepository.searchByRecent(lastId,category,searchKeyword);
                 break;
         }
 
