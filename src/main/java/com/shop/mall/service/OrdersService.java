@@ -33,7 +33,7 @@ public class OrdersService {
     private final MemberValidator memberValidator;
     private final CartValidator cartValidator;
 
-    //14번 API 장바구니 리스트
+    //14번 API 구매목록 리스트
     public OrdersResponseDto.ordersTotalList findAllOrders(String nickname) {
         Long memberId = memberValidator.authorization(nickname).getId();
 

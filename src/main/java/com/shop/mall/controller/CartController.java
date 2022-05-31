@@ -3,8 +3,6 @@ package com.shop.mall.controller;
 import com.shop.mall.domain.Cart;
 import com.shop.mall.dto.CartRequestDto;
 import com.shop.mall.dto.CartResponseDto;
-import com.shop.mall.dto.MemberRequestDto;
-import com.shop.mall.dto.MemberResponseDto;
 import com.shop.mall.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -34,10 +32,10 @@ public class CartController {
         return cartService.cartLists(nickname);
     }
 
-    @PatchMapping("/carts/{cartId}") //21번 장바구니 수량 변경
+    @PatchMapping("/carts") //21번 장바구니 수량 변경
     public Cart modifyingEa(@RequestHeader(value = "Authorization") String nickname,
-                            @RequestBody CartRequestDto.Ea dto, @PathVariable Long cartId) {
-        return cartService.modifyingEa(nickname, dto, cartId);
+                            @RequestBody CartRequestDto.Ea dto) {
+        return cartService.modifyingEa(nickname, dto);
     }
 
 }

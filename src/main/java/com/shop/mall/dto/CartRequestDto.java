@@ -16,6 +16,7 @@ public class CartRequestDto {
     @Getter
     @AllArgsConstructor
     public static class Ea {
+        private Long cartId;
         private int ea;
     }
 }
