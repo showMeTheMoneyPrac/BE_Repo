@@ -6,6 +6,8 @@ import com.shop.mall.domain.Member;
 import com.shop.mall.domain.Product;
 import com.shop.mall.dto.CartRequestDto;
 import com.shop.mall.dto.CartResponseDto;
+import com.shop.mall.exception.ErrorCode;
+import com.shop.mall.exception.ErrorCodeException;
 import com.shop.mall.repository.CartRepository;
 import com.shop.mall.repository.ImgRepository;
 import com.shop.mall.repository.MemberRepository;
@@ -145,7 +147,8 @@ public class CartServiceTest {
         //when
         try{
             cartService.cartAdd("없는아이디",product1.getId(), dto);
-        }catch (IllegalArgumentException e){
+        }catch (ErrorCodeException e){
+            assertEquals(e.getErrorCode(), ErrorCode.MEMBER_NOT_EXIST);
             return;
         }
 
@@ -220,15 +223,6 @@ public class CartServiceTest {
             assertEquals(cartLists.get(i).getOptionContent(),cartLists2.get(i).getOptionContent());
         }
 
-    }
-
-    @Test
-    public void 장바구니_목록_조회실패() throws Exception{
-        //given
-
-        //when
-
-        //then
     }
 
 

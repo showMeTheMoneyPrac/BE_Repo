@@ -3,11 +3,14 @@ package com.shop.mall.service;
 import com.shop.mall.domain.Member;
 import com.shop.mall.dto.MemberRequestDto;
 import com.shop.mall.dto.MemberResponseDto;
+import com.shop.mall.exception.ErrorCode;
+import com.shop.mall.exception.ErrorCodeException;
 import com.shop.mall.repository.MemberRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,20 +32,12 @@ public class MemberServiceTest {
     public void 회원가입_성공() throws Exception {
         //given
         MemberRequestDto.Regist dto = MemberRequestDto.Regist.builder()
-                .email("john3210of@gmail.com")
+                .email("john3210of@gmail.co2m")
                 .password("passwordA")
                 .passwordCheck("passwordA")
                 .nickname("정요한2")
                 .address("우리집이에요")
                 .build();
-
-        Member member2 = new Member(
-                "john3210@gmail.com",
-                "정요한3",
-                "우리집3",
-                "passworddd",
-                0);
-        memberRepository.save(member2);
 
         //when
         String msg = memberService.memberRegist(dto);
@@ -55,24 +50,29 @@ public class MemberServiceTest {
     public void 회원가입_이메일중복() throws Exception {
         //given
         Member member = new Member(
-                "john3210of@gmail.com",
-                "정요한",
+                "john3210of@gmail.com1",
+                "정요한1",
                 "우리집3",
                 "passworddd",
                 0);
         memberRepository.save(member);
 
         MemberRequestDto.Regist dto = MemberRequestDto.Regist.builder()
-                .email("john3210of@gmail.com")
+                .email("john3210of@gmail.com1")
                 .password("passwordA")
                 .passwordCheck("passwordA")
                 .nickname("정요한2")
                 .address("우리집이에요")
                 .build();
         //when
-        String msg = memberService.memberRegist(dto);
-        //then
-        assertEquals(msg, "msg : 이메일 혹은 닉네임 중복");
+        try{
+            memberService.memberRegist(dto);
+        }catch (ErrorCodeException e){
+            assertEquals(e.getErrorCode(),ErrorCode.USERNAME_DUPLICATE);
+            return;
+        }
+
+
     }
 
     @Test
@@ -95,9 +95,13 @@ public class MemberServiceTest {
                 .address("우리집이에요")
                 .build();
         //when
-        String msg = memberService.memberRegist(dto);
-        //then
-        assertEquals(msg, "msg : 이메일 혹은 닉네임 중복");
+        try{
+            memberService.memberRegist(dto);
+        }catch (ErrorCodeException e){
+            assertEquals(e.getErrorCode(),ErrorCode.USERNAME_DUPLICATE);
+            return;
+        }
+
     }
 
     @Test
@@ -112,9 +116,15 @@ public class MemberServiceTest {
                 .address("우리집이에요")
                 .build();
         //when
-        String msg = memberService.memberRegist(dto);
+        try{
+            memberService.memberRegist(dto);
+        }catch (ErrorCodeException e){
+            assertEquals(e.getErrorCode(),ErrorCode.PW_NOT_MATCH_PWCHECK);
+            return;
+        }
+
         //then
-        assertEquals(msg, "msg : 패스워드 일치 하지 않음");
+
     }
 
     @Test
@@ -150,7 +160,8 @@ public class MemberServiceTest {
         //when
         try {
             memberService.memberLogin(dto);
-        } catch (IllegalArgumentException e) {
+        } catch (ErrorCodeException e) {
+            assertEquals(e.getErrorCode(),ErrorCode.LOGIN_NOT_MATCH);
             return;
         }
         //then
@@ -192,7 +203,8 @@ public class MemberServiceTest {
         //when
         try {
             memberService.memberInfo(headerNickname);
-        } catch (IllegalArgumentException e) {
+        } catch (ErrorCodeException e) {
+            assertEquals(e.getErrorCode(),ErrorCode.MEMBER_NOT_EXIST);
             return;
         }
         //then
@@ -234,7 +246,8 @@ public class MemberServiceTest {
         //when
         try {
             memberService.cashCharge("정요한2", chargeCash);
-        } catch (IllegalArgumentException e) {
+        } catch (ErrorCodeException e) {
+            assertEquals(e.getErrorCode(),ErrorCode.MEMBER_NOT_EXIST);
             return;
         }
         //then
@@ -274,7 +287,8 @@ public class MemberServiceTest {
         //when
         try {
             memberService.addressChange("정요한2", afterAddress);
-        } catch (IllegalArgumentException e) {
+        } catch (ErrorCodeException e) {
+            assertEquals(e.getErrorCode(),ErrorCode.MEMBER_NOT_EXIST);
             return;
         }
         //then
@@ -309,12 +323,21 @@ public class MemberServiceTest {
                 "우리집3",
                 "passworddd",
                 0);
+
+        Member member2 = new Member(
+                "john@gmail.com",
+                "요한",
+                "우리집3",
+                "passworddd",
+                0);
         memberRepository.save(member);
-        String afterName = "변경한 이름";
+        memberRepository.save(member2);
+        String afterName = "요한";
         //when
         try {
-            memberService.nameChange("정요한33", afterName);
-        } catch (IllegalArgumentException e) {
+            memberService.nameChange("정요한", afterName);
+        } catch (ErrorCodeException e) {
+            assertEquals(e.getErrorCode(),ErrorCode.USERNAME_DUPLICATE2);
             return;
         }
         //then
@@ -339,26 +362,22 @@ public class MemberServiceTest {
         assertEquals(msg, "msg : 회원 탈퇴 완료");
     }
 
-//    @Test
-//    @Transactional
-//    public void 회원탈퇴_실패() throws Exception{
-//        //given
-//        Member member = new Member(
-//                "john3210@gmail.com",
-//                "정요한3",
-//                "우리집3",
-//                "passworddd",
-//                0);
-//        memberRepository.save(member);
-//
-//        //when
-//        try{
-//            memberService.memberDelete("정요한33");
-//        }catch (IllegalArgumentException e){
-//            return;
-//        }
-//        //삭제는 실패가 안되는 이유 공부..
-//        //then
-//        fail("실패의 실패");
-//    }
+    @Test
+    @Transactional
+    public void 회원탈퇴_연관목록삭제성공() throws Exception{
+        //given
+        Member member = new Member(
+                "john3210@gmail.com",
+                "정요한3",
+                "우리집3",
+                "passworddd",
+                0);
+        memberRepository.save(member);
+
+
+
+        //when
+        String msg = memberService.memberDelete("정요한3");
+
+    }
 }
