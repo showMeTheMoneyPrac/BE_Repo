@@ -38,14 +38,31 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         return getSearchByReview(pageable,category,searchKeyword);
     }
 
+    @Override
+    public List<ProductResponseDto.ProductList> findAllByOffsetId(Long lastId) {
+        return getAllByOffsetId(lastId);
+    }
+
+    private List<ProductResponseDto.ProductList> getAllByOffsetId(Long lastId){
+        return jpaQueryFactory
+                .select(Projections.bean(ProductResponseDto.ProductList.class,product.id,product.title,product.category,product.reviewCnt,product.detail,product.price,product.firstImg))
+                .from(product)
+                .where(product.id.gt(lastId))
+                .orderBy(product.id.asc())
+                .limit(20)
+                .fetch();
+
+    }
+
+
+
+
+
     //searchByRecent
     private Page<ProductResponseDto.ProductList> getSearchByRecent(Pageable pageable, String category, String searchKeyword) {
         List<ProductResponseDto.ProductList> productLists = jpaQueryFactory
-                .select(Projections.bean(ProductResponseDto.ProductList.class, product.id, product.title, product.category, product.reviewCnt, product.detail, product.price, img.imgUrl))
+                .select(Projections.bean(ProductResponseDto.ProductList.class, product.id, product.title, product.category, product.reviewCnt, product.detail, product.price, product.firstImg))
                 .from(product)
-                .innerJoin(img)
-                .on(product.id.eq(img.product.id))
-                .groupBy(img.product.id)
                 .where(
                         booleanSearchKeyword(searchKeyword),
                         booleanCategory(category)
@@ -65,18 +82,14 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 )
                 .fetchOne();
 
-        System.out.println("count" + count);
         return new PageImpl<>(productLists,pageable,count);
     }
 
     //searchByCost
     private Page<ProductResponseDto.ProductList> getSearchByCost(Pageable pageable, String category, String searchKeyword) {
         List<ProductResponseDto.ProductList> productLists = jpaQueryFactory
-                .select(Projections.bean(ProductResponseDto.ProductList.class, product.id, product.title, product.category, product.reviewCnt, product.detail, product.price, img.imgUrl))
+                .select(Projections.bean(ProductResponseDto.ProductList.class, product.id, product.title, product.category, product.reviewCnt, product.detail, product.price, product.firstImg))
                 .from(product)
-                .innerJoin(img)
-                .on(product.id.eq(img.product.id))
-                .groupBy(img.product.id)
                 .where(
                         booleanSearchKeyword(searchKeyword),
                         booleanCategory(category)
@@ -100,11 +113,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     //searchByReviewCnt
     private Page<ProductResponseDto.ProductList> getSearchByReview(Pageable pageable, String category, String searchKeyword) {
         List<ProductResponseDto.ProductList> productLists = jpaQueryFactory
-                .select(Projections.bean(ProductResponseDto.ProductList.class, product.id, product.title, product.category, product.reviewCnt, product.detail, product.price, img.imgUrl))
+                .select(Projections.bean(ProductResponseDto.ProductList.class, product.id, product.title, product.category, product.reviewCnt, product.detail, product.price, product.firstImg))
                 .from(product)
-                .innerJoin(img)
-                .on(product.id.eq(img.product.id))
-                .groupBy(img.product.id)
                 .where(
                         booleanSearchKeyword(searchKeyword),
                         booleanCategory(category)

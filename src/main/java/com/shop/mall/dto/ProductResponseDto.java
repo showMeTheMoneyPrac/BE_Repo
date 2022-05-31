@@ -32,7 +32,7 @@ public class ProductResponseDto {
         private int price;
 
         @JsonProperty(value = "firstImg")
-        private String imgUrl;
+        private String firstImg;
 
         public static ProductList productListFrom(Product product) {
             return ProductList.builder()
@@ -42,7 +42,7 @@ public class ProductResponseDto {
                     .reviewCnt(product.getReviewCnt())
                     .detail(product.getDetail())
                     .price(product.getPrice())
-                    .imgUrl(product.getFirstImg())
+                    .firstImg(product.getFirstImg())
                     .build();
         }
     }
@@ -57,6 +57,7 @@ public class ProductResponseDto {
         private int reviewCnt;
         private String detail;
         private int price;
+        private String firstImg;
         private List<String> optionList;
         private List<String> imgList;
         private List<ReviewResponseDto.ReviewList> reviewList;
@@ -66,15 +67,23 @@ public class ProductResponseDto {
             List<String> imgList = new ArrayList<>();
             List<ReviewResponseDto.ReviewList> reviewList = new ArrayList<>();
 
-            product.getProductOptionList()
-                    .stream()
-                    .map(ProductOption::getOptionContent)
-                    .forEach(optionList::add);
+//            product.getProductOptionList()
+//                    .stream()
+//                    .map(ProductOption::getOptionContent)
+//                    .forEach(optionList::add);
 
-            product.getImgList()
-                    .stream()
-                    .map(Img::getImgUrl)
-                    .forEach(imgList::add);
+            for (int i=0; i<product.getProductOptionList().size();i++){
+                optionList.add(product.getProductOptionList().get(i).getOptionContent());
+            }
+
+//            product.getImgList()
+//                    .stream()
+//                    .map(Img::getImgUrl)
+//                    .forEach(imgList::add);
+
+            for(int i=0; i<product.getImgList().size();i++){
+                imgList.add(product.getImgList().get(i).getImgUrl());
+            }
 
             for (int i=0; i<product.getReviewList().size(); i++){
                 reviewList.add(reviewListFrom(product.getReviewList().get(i)));
@@ -88,6 +97,7 @@ public class ProductResponseDto {
                     .reviewCnt(product.getReviewCnt())
                     .detail(product.getDetail())
                     .price(product.getPrice())
+                    .firstImg(product.getFirstImg())
                     .optionList(optionList)
                     .imgList(imgList)
                     .reviewList(reviewList)

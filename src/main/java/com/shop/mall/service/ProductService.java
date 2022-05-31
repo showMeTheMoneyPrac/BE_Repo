@@ -1,5 +1,6 @@
 package com.shop.mall.service;
 
+import com.querydsl.jpa.impl.JPAQuery;
 import com.shop.mall.domain.Product;
 import com.shop.mall.dto.ProductResponseDto;
 import com.shop.mall.repository.Product.ProductRepository;
@@ -23,13 +24,13 @@ public class ProductService {
 
     // 8번 API
     public List<ProductResponseDto.ProductList> productList(Long lastId) {
-        List<Product> listProducts = productRepository.findAllByLastId(lastId);
-        List<ProductResponseDto.ProductList> productsList = new ArrayList<>();
-        for (Product listProduct : listProducts) {
-            productsList.add(productListFrom(listProduct));
-        }
-
-        return productsList;
+//        List<Product> listProducts = productRepository.findAllByLastId(lastId);
+//        List<ProductResponseDto.ProductList> productsList = new ArrayList<>();
+//        for (Product listProduct : listProducts) {
+//            productsList.add(productListFrom(listProduct));
+//        }
+        List<ProductResponseDto.ProductList> lists = productRepository.findAllByOffsetId(lastId);
+        return lists;
     }
 
 

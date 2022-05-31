@@ -54,7 +54,7 @@ public class OrdersService {
                         .productId(product.getId())
                         .title(product.getTitle())
                         .category(product.getCategory())
-                        .firstImg(product.getImgList().get(0).getImgUrl())
+                        .firstImg(product.getFirstImg())
                         .optionContent(detail.getOptionContent())
                         .price(product.getPrice())
                         .bill(detail.getBill())
