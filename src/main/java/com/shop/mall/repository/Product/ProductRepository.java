@@ -10,6 +10,4 @@ public interface ProductRepository extends JpaRepository<Product, Long>,ProductR
     @Query(nativeQuery = true, value = "select * from product pd where pd.product_id > :lastId ORDER BY pd.product_id asc limit 20")
     List<Product> findAllByLastId(Long lastId);
 
-//    @Query(nativeQuery = true, value = "select count(pd.product_id) from product pd")
-//    int findProductCount();
 }

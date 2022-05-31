@@ -12,8 +12,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-
-import static com.shop.mall.domain.QImg.img;
 import static com.shop.mall.domain.QProduct.product;
 import static org.aspectj.util.LangUtil.isEmpty;
 

@@ -5,7 +5,6 @@ import com.shop.mall.domain.Product;
 import com.shop.mall.domain.Review;
 import com.shop.mall.dto.ReviewRequestDto;
 import com.shop.mall.dto.ReviewResponseDto;
-import com.shop.mall.repository.Product.ProductRepository;
 import com.shop.mall.repository.ReviewRepository;
 import com.shop.mall.validator.MemberValidator;
 import com.shop.mall.validator.OrdersDetailValidator;

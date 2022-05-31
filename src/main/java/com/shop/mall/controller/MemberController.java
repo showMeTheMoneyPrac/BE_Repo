@@ -1,6 +1,7 @@
 package com.shop.mall.controller;
 
-import com.shop.mall.dto.*;
+import com.shop.mall.dto.MemberRequestDto;
+import com.shop.mall.dto.MemberResponseDto;
 import com.shop.mall.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

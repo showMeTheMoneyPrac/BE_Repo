@@ -3,14 +3,13 @@ package com.shop.mall.repository;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.shop.mall.dto.CartResponseDto;
-import com.shop.mall.dto.ProductResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.shop.mall.domain.QMember.member;
 import static com.shop.mall.domain.QCart.cart;
+import static com.shop.mall.domain.QMember.member;
 import static com.shop.mall.domain.QProduct.product;
 
 @Repository

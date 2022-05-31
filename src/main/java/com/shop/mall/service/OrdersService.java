@@ -7,7 +7,6 @@ import com.shop.mall.dto.OrdersResponseDto;
 import com.shop.mall.repository.CartRepository;
 import com.shop.mall.repository.OrdersDetailRepository;
 import com.shop.mall.repository.OrdersRepository;
-import com.shop.mall.repository.Product.ProductRepository;
 import com.shop.mall.repository.ReviewRepository;
 import com.shop.mall.validator.*;
 import lombok.RequiredArgsConstructor;

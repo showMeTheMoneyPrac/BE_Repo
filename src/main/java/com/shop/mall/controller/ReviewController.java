@@ -1,6 +1,5 @@
 package com.shop.mall.controller;
 
-import com.shop.mall.domain.Review;
 import com.shop.mall.dto.ReviewRequestDto;
 import com.shop.mall.dto.ReviewResponseDto;
 import com.shop.mall.service.ReviewService;

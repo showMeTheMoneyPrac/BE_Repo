@@ -3,8 +3,6 @@ package com.shop.mall.controller;
 import com.shop.mall.domain.Cart;
 import com.shop.mall.dto.CartRequestDto;
 import com.shop.mall.dto.CartResponseDto;
-import com.shop.mall.dto.MemberRequestDto;
-import com.shop.mall.dto.MemberResponseDto;
 import com.shop.mall.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

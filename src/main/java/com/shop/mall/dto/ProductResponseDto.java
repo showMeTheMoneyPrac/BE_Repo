@@ -1,9 +1,7 @@
 package com.shop.mall.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.shop.mall.domain.Img;
 import com.shop.mall.domain.Product;
-import com.shop.mall.domain.ProductOption;
 import lombok.*;
 
 import java.util.ArrayList;
