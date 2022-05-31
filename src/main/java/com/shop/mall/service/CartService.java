@@ -5,7 +5,7 @@ import com.shop.mall.domain.Cart;
 import com.shop.mall.domain.Product;
 import com.shop.mall.dto.CartRequestDto;
 import com.shop.mall.dto.CartResponseDto;
-import com.shop.mall.repository.CartRepository;
+import com.shop.mall.repository.Cart.CartRepository;
 import com.shop.mall.repository.ImgRepository;
 import com.shop.mall.validator.CartValidator;
 import com.shop.mall.validator.MemberValidator;

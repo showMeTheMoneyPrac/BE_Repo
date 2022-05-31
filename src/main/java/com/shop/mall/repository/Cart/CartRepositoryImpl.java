@@ -1,4 +1,4 @@
-package com.shop.mall.repository;
+package com.shop.mall.repository.Cart;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;

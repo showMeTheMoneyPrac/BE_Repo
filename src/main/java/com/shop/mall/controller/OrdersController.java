@@ -19,13 +19,15 @@ public class OrdersController {
 
     //15번 API
     @PostMapping("/orders")
-    public String orderProductList(@RequestHeader(value = "Authorization") String nickname, @RequestBody OrdersRequestDto.orderProductList dto) {
+    public String orderProductList(@RequestHeader(value = "Authorization") String nickname,
+                                   @RequestBody OrdersRequestDto.orderProductList dto) {
         return ordersService.orderProductList(nickname,dto);
     }
 
     //16번 API
     @PostMapping("/orders/{productId}")
-    public String orderProduct(@RequestHeader(value = "Authorization") String nickname, @PathVariable Long productId,@RequestBody OrdersRequestDto.orderProduct dto) {
+    public String orderProduct(@RequestHeader(value = "Authorization") String nickname, @PathVariable Long productId,
+                               @RequestBody OrdersRequestDto.orderProduct dto) {
         return ordersService.orderProduct(nickname,productId,dto);
     }
 
@@ -34,6 +36,4 @@ public class OrdersController {
     public String deleteOrders(@RequestHeader(value = "Authorization") String nickname, @PathVariable String orderDetailsId){
         return ordersService.deleteOrders(nickname,orderDetailsId);
     }
-
-
 }

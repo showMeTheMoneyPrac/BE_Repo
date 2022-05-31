@@ -4,7 +4,7 @@ import com.shop.mall.domain.*;
 import com.shop.mall.dto.OrdersDetailResponseDto;
 import com.shop.mall.dto.OrdersRequestDto;
 import com.shop.mall.dto.OrdersResponseDto;
-import com.shop.mall.repository.CartRepository;
+import com.shop.mall.repository.Cart.CartRepository;
 import com.shop.mall.repository.OrdersDetailRepository;
 import com.shop.mall.repository.OrdersRepository;
 import com.shop.mall.repository.ReviewRepository;

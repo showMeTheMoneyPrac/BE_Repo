@@ -15,6 +15,7 @@ public enum ErrorCode {
 
     //닉네임 변경시
     USERNAME_DUPLICATE2(HttpStatus.BAD_REQUEST, "400_Register_1", "이미 존재하는 닉네임 입니다."),
+
     //회원가입 시
     USERNAME_DUPLICATE(HttpStatus.BAD_REQUEST, "400_Register_1", "이미 존재하는 이메일 혹은 닉네임 입니다."),
     PW_NOT_MATCH_PWCHECK(HttpStatus.BAD_REQUEST,"400_Register_2", "패스워드와 패스워드 확인이 일치하지 않습니다."),
