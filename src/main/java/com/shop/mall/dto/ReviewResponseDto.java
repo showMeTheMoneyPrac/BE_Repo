@@ -1,21 +1,23 @@
 package com.shop.mall.dto;
 
 import com.shop.mall.domain.Review;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.time.LocalDateTime;
+import lombok.NoArgsConstructor;
 
 public class ReviewResponseDto {
 
+    @NoArgsConstructor
+    @AllArgsConstructor
     @Getter
     @Builder
-    public static class ReviewList{
+    public static class ReviewList {
         private Long reviewId;
         private String title;
         private String nickname;
         private String content;
-        private LocalDateTime createdAt;
+        private String createdAt;
 
         public static ReviewList reviewListFrom(Review review){
             return ReviewList.builder()
@@ -23,7 +25,7 @@ public class ReviewResponseDto {
                     .title(review.getTitle())
                     .nickname(review.getMember().getNickname())
                     .content(review.getContent())
-                    .createdAt(review.getCreatedAt())
+                    .createdAt(String.valueOf(review.getCreatedAt()))
                     .build();
         }
     }
