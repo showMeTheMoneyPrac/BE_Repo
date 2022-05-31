@@ -11,9 +11,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @Slf4j // 콘솔에 에러 로그 찍기!
 @RestControllerAdvice
 public class ErrorCodeExceptionHandler extends ResponseEntityExceptionHandler {
-
-
-
+    
     @ExceptionHandler( value = { ErrorCodeException.class })
     protected ResponseEntity<ErrorCodeResponse> handleCustomException(ErrorCodeException e) {
         log.error("Error - ErrorCodeException : " + e.getErrorCode());

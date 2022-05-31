@@ -12,8 +12,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-
-import static com.shop.mall.domain.QImg.img;
 import static com.shop.mall.domain.QProduct.product;
 import static org.aspectj.util.LangUtil.isEmpty;
 
@@ -25,7 +23,6 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     @Override
     public Page<ProductResponseDto.ProductList> searchByRecent(Pageable pageable, String category, String searchKeyword) {
         return getSearchByRecent(pageable, category, searchKeyword);
-        //return null;
     }
 
     @Override
@@ -40,10 +37,11 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
     @Override
     public List<ProductResponseDto.ProductList> findAllByOffsetId(Long lastId) {
-        return getAllByOffsetId(lastId);
+        return getAllByNoOffsetId(lastId);
     }
 
-    private List<ProductResponseDto.ProductList> getAllByOffsetId(Long lastId){
+    //getAllNoOffset
+    private List<ProductResponseDto.ProductList> getAllByNoOffsetId(Long lastId){
         return jpaQueryFactory
                 .select(Projections.bean(ProductResponseDto.ProductList.class,product.id,product.title,product.category,product.reviewCnt,product.detail,product.price,product.firstImg))
                 .from(product)
@@ -53,10 +51,6 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .fetch();
 
     }
-
-
-
-
 
     //searchByRecent
     private Page<ProductResponseDto.ProductList> getSearchByRecent(Pageable pageable, String category, String searchKeyword) {

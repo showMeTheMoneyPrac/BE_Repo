@@ -2,16 +2,11 @@ package com.shop.mall.service;
 
 
 import com.shop.mall.domain.Cart;
-import com.shop.mall.domain.Img;
-import com.shop.mall.domain.Member;
 import com.shop.mall.domain.Product;
 import com.shop.mall.dto.CartRequestDto;
 import com.shop.mall.dto.CartResponseDto;
-import com.shop.mall.dto.MemberResponseDto;
-import com.shop.mall.repository.CartRepository;
+import com.shop.mall.repository.Cart.CartRepository;
 import com.shop.mall.repository.ImgRepository;
-import com.shop.mall.repository.MemberRepository;
-import com.shop.mall.repository.Product.ProductRepository;
 import com.shop.mall.validator.CartValidator;
 import com.shop.mall.validator.MemberValidator;
 import com.shop.mall.validator.ProductValidator;
@@ -19,11 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
