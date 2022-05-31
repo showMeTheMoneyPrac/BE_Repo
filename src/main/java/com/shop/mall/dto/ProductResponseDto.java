@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.shop.mall.domain.Product;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +37,9 @@ public class ProductResponseDto {
     @Getter
     @Setter
     @Builder
-    public static class ProductsDetail {
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ProductsDetail implements Serializable {
         private Long productId;
         private String title;
         private String category;
