@@ -32,9 +32,9 @@ public class CartController {
         return cartService.cartLists(nickname);
     }
 
-    @PatchMapping("/carts/{cartId}") //21번 api 장바구니 수량 변경
+    @PatchMapping("/carts") //21번 장바구니 수량 변경
     public Cart modifyingEa(@RequestHeader(value = "Authorization") String nickname,
-                            @RequestBody CartRequestDto.Ea dto, @PathVariable Long cartId) {
-        return cartService.modifyingEa(nickname, dto, cartId);
+                            @RequestBody CartRequestDto.Ea dto) {
+        return cartService.modifyingEa(nickname, dto);
     }
 }

@@ -79,9 +79,10 @@ public class CartService {
         }
     }
 
-    public Cart modifyingEa(String nickname, CartRequestDto.Ea dto, Long cartId) {
+    @Transactional
+    public Cart modifyingEa(String nickname, CartRequestDto.Ea dto) {
         memberValidator.authorization(nickname);
-        Cart cart = cartValidator.findById(cartId);
+        Cart cart = cartValidator.findById(dto.getCartId());
         int onePrice = cart.getBill()/cart.getEa();
         cart.eaUpdate(dto.getEa());
         cart.billUpdate(onePrice*dto.getEa());
