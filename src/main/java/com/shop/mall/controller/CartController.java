@@ -37,5 +37,4 @@ public class CartController {
                             @RequestBody CartRequestDto.Ea dto) {
         return cartService.modifyingEa(nickname, dto);
     }
-
 }

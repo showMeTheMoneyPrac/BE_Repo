@@ -18,6 +18,7 @@ public class ProductController {
 
     private final ProductService productService;
 
+    //8번 API
     @GetMapping("/products/pages/{pageId}")
     public List<ProductResponseDto.ProductList> findAllProduct(@PathVariable Long pageId) {
         return productService.productList(pageId);

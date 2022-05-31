@@ -36,10 +36,6 @@ public class DummyController {
             productRepository.save(product);
             imgRepository.save(img);
         }
-
-
-
         return "더미생성 완료";
     }
-
 }

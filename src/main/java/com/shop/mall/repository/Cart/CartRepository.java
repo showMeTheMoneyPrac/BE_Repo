@@ -1,4 +1,4 @@
-package com.shop.mall.repository;
+package com.shop.mall.repository.Cart;
 
 import com.shop.mall.domain.Cart;
 import org.springframework.data.jpa.repository.JpaRepository;

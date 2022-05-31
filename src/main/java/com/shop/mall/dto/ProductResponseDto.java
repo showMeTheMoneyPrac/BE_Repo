@@ -1,9 +1,7 @@
 package com.shop.mall.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.shop.mall.domain.Img;
 import com.shop.mall.domain.Product;
-import com.shop.mall.domain.ProductOption;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -33,18 +31,6 @@ public class ProductResponseDto {
 
         @JsonProperty(value = "firstImg")
         private String firstImg;
-
-        public static ProductList productListFrom(Product product) {
-            return ProductList.builder()
-                    .id(product.getId())
-                    .title(product.getTitle())
-                    .category(product.getCategory())
-                    .reviewCnt(product.getReviewCnt())
-                    .detail(product.getDetail())
-                    .price(product.getPrice())
-                    .firstImg(product.getFirstImg())
-                    .build();
-        }
     }
 
     @Getter
@@ -67,19 +53,9 @@ public class ProductResponseDto {
             List<String> imgList = new ArrayList<>();
             List<ReviewResponseDto.ReviewList> reviewList = new ArrayList<>();
 
-//            product.getProductOptionList()
-//                    .stream()
-//                    .map(ProductOption::getOptionContent)
-//                    .forEach(optionList::add);
-
-            for (int i=0; i<product.getProductOptionList().size();i++){
+            for (int i=0; i<product.getProductOptionList().size();i++) {
                 optionList.add(product.getProductOptionList().get(i).getOptionContent());
             }
-
-//            product.getImgList()
-//                    .stream()
-//                    .map(Img::getImgUrl)
-//                    .forEach(imgList::add);
 
             for(int i=0; i<product.getImgList().size();i++){
                 imgList.add(product.getImgList().get(i).getImgUrl());
@@ -88,7 +64,6 @@ public class ProductResponseDto {
             for (int i=0; i<product.getReviewList().size(); i++){
                 reviewList.add(reviewListFrom(product.getReviewList().get(i)));
             }
-
 
             return ProductsDetail.builder()
                     .productId(product.getId())
