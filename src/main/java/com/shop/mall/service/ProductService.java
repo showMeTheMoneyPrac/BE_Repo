@@ -33,8 +33,9 @@ public class ProductService {
 
 
     //10번 API
-    public Page<ProductResponseDto.ProductList> conditionProductList(Pageable pageable, String sort, String category, String searchKeyword){
+    public ProductResponseDto.ProductPage conditionProductList(Pageable pageable, String sort, String category, String searchKeyword){
         Page<ProductResponseDto.ProductList> productLists = null;
+        boolean isLastPage = false;
         switch (sort){
             case "cost":
                 productLists = productRepository.searchByCost(pageable,category,searchKeyword);
@@ -48,7 +49,13 @@ public class ProductService {
                 productLists = productRepository.searchByRecent(pageable,category,searchKeyword);
                 break;
         }
+        if(productLists.getContent().size()!=20){
+            isLastPage = true;
+        }
 
-        return productLists;
+        return ProductResponseDto.ProductPage.builder()
+                .isLastPage(isLastPage)
+                .productLists(productLists.getContent())
+                .build();
     }
 }
