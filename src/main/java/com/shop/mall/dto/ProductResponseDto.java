@@ -11,6 +11,15 @@ import java.util.List;
 import static com.shop.mall.dto.ReviewResponseDto.ReviewList.reviewListFrom;
 
 public class ProductResponseDto {
+    @Getter
+    @Setter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ProductPage{
+        private Boolean isLastPage;
+        private List<ProductResponseDto.ProductList> productLists;
+    }
 
     @Getter
     @Setter
