@@ -10,4 +10,7 @@ public interface ProductRepositoryCustom {
     Page<ProductResponseDto.ProductList> searchByRecent(Pageable pageable, String category, String searchKeyword);
     Page<ProductResponseDto.ProductList> searchByCost(Pageable pageable,String category,String searchKeyword);
     Page<ProductResponseDto.ProductList> searchByReviewCnt(Pageable pageable,String category,String searchKeyword);
+
+
+    List<ProductResponseDto.ProductList> findAllByOffsetId(Long lastId);
 }

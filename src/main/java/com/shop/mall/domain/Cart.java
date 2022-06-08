@@ -43,4 +43,12 @@ public class Cart {
         this.member = member;
         this.product = product;
     }
+
+    public void eaUpdate(int ea){
+        this.ea = ea;
+    }
+
+    public void billUpdate(int bill){
+        this.bill = bill;
+    }
 }

@@ -2,9 +2,10 @@ package com.shop.mall.service;
 
 import com.shop.mall.domain.Member;
 import com.shop.mall.domain.Orders;
-import com.shop.mall.dto.*;
+import com.shop.mall.dto.MemberRequestDto;
+import com.shop.mall.dto.MemberResponseDto;
 import com.shop.mall.exception.ErrorCodeException;
-import com.shop.mall.repository.CartRepository;
+import com.shop.mall.repository.Cart.CartRepository;
 import com.shop.mall.repository.MemberRepository;
 import com.shop.mall.repository.OrdersDetailRepository;
 import com.shop.mall.repository.OrdersRepository;

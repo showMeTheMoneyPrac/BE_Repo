@@ -3,7 +3,7 @@ package com.shop.mall.validator;
 
 import com.shop.mall.domain.Cart;
 import com.shop.mall.exception.ErrorCodeException;
-import com.shop.mall.repository.CartRepository;
+import com.shop.mall.repository.Cart.CartRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

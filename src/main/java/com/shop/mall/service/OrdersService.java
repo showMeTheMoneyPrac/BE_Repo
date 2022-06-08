@@ -4,10 +4,9 @@ import com.shop.mall.domain.*;
 import com.shop.mall.dto.OrdersDetailResponseDto;
 import com.shop.mall.dto.OrdersRequestDto;
 import com.shop.mall.dto.OrdersResponseDto;
-import com.shop.mall.repository.CartRepository;
+import com.shop.mall.repository.Cart.CartRepository;
 import com.shop.mall.repository.OrdersDetailRepository;
 import com.shop.mall.repository.OrdersRepository;
-import com.shop.mall.repository.Product.ProductRepository;
 import com.shop.mall.repository.ReviewRepository;
 import com.shop.mall.validator.*;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +32,7 @@ public class OrdersService {
     private final MemberValidator memberValidator;
     private final CartValidator cartValidator;
 
-    //14번 API 장바구니 리스트
+    //14번 API 구매목록 리스트
     public OrdersResponseDto.ordersTotalList findAllOrders(String nickname) {
         Long memberId = memberValidator.authorization(nickname).getId();
 
@@ -54,7 +53,7 @@ public class OrdersService {
                         .productId(product.getId())
                         .title(product.getTitle())
                         .category(product.getCategory())
-                        .firstImg(product.getImgList().get(0).getImgUrl())
+                        .firstImg(product.getFirstImg())
                         .optionContent(detail.getOptionContent())
                         .price(product.getPrice())
                         .bill(detail.getBill())

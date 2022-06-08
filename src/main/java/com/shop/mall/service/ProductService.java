@@ -9,10 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static com.shop.mall.dto.ProductResponseDto.ProductList.productListFrom;
 
 
 @RequiredArgsConstructor
@@ -23,13 +20,8 @@ public class ProductService {
 
     // 8번 API
     public List<ProductResponseDto.ProductList> productList(Long lastId) {
-        List<Product> listProducts = productRepository.findAllByLastId(lastId);
-        List<ProductResponseDto.ProductList> productsList = new ArrayList<>();
-        for (Product listProduct : listProducts) {
-            productsList.add(productListFrom(listProduct));
-        }
-
-        return productsList;
+        List<ProductResponseDto.ProductList> lists = productRepository.findAllByOffsetId(lastId);
+        return lists;
     }
 
 
@@ -41,8 +33,9 @@ public class ProductService {
 
 
     //10번 API
-    public Page<ProductResponseDto.ProductList> conditionProductList(Pageable pageable, String sort, String category, String searchKeyword){
+    public ProductResponseDto.ProductPage conditionProductList(Pageable pageable, String sort, String category, String searchKeyword){
         Page<ProductResponseDto.ProductList> productLists = null;
+        boolean isLastPage = false;
         switch (sort){
             case "cost":
                 productLists = productRepository.searchByCost(pageable,category,searchKeyword);
@@ -56,12 +49,13 @@ public class ProductService {
                 productLists = productRepository.searchByRecent(pageable,category,searchKeyword);
                 break;
         }
+        if(productLists.getContent().size()!=20){
+            isLastPage = true;
+        }
 
-        return productLists;
+        return ProductResponseDto.ProductPage.builder()
+                .isLastPage(isLastPage)
+                .productLists(productLists.getContent())
+                .build();
     }
-
-
-
-
-
 }
