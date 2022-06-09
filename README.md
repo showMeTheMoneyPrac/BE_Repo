@@ -1,5 +1,41 @@
 # Backend_Repo
 
+##  📅 프로젝트 기간
+
+-2022년 5월 11일 ~ 2022년 6월 3일
+
+<br>
+
+## 🌱 기술 스택
+
+
+<span><img src="https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=Amazon AWS&logoColor=white"></span>
+<span><img src="https://img.shields.io/badge/S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=white"></span>
+<img src="https://img.shields.io/badge/MYSQL-4479A1?style=for-the-badge&logo=MYSQL&logoColor=white">  <img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=for-the-badge&logo=SpringBoot&logoColor=white"> <img src="https://img.shields.io/badge/JAVA-007396?style=for-the-badge&logo=java&logoColor=white">  <img src="https://img.shields.io/badge/Nginx-6DB33F?style=for-the-badge&logo=Nginx&logoColor=white">
+
+
+## 🏄‍ 팀원
+
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/leeseungsoo0701"><img src="https://avatars.githubusercontent.com/u/84774696?v=4" width="100px" /></a></td>
+    <td align="center"><a href="https://github.com/John3210of"><img src="https://avatars.githubusercontent.com/u/94155128?v=4" width="100px" /></a></td>
+  </tr>
+  <tr>
+    <td align="center"><b>이승수</b></td>
+    <td align="center"><b>정요한</b></td>
+  </tr>
+  <tr>
+    <td align="center"><b>🔨Backend</b></td>
+    <td align="center"><b>🔧Backend</b></td>
+  </tr>
+   <tr>
+    <td align="center"><a href="https://github.com/leeseungsoo0701">Github-Link</a></td>
+    <td align="center"><a href="https://github.com/John3210of">Github-Link</a></td>
+  </tr>
+</table>
+
+
 
 ### 📬커밋 종류
 > 수정한 종류에 따라 커밋 메시지를 선택
