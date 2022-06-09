@@ -48,7 +48,42 @@
 |<a href="https://github.com/leeseungsoo0701">Github-Link</a>|<a href="https://github.com/John3210of">Github-Link</a>|
 </div>
 
+<br>
+<br>
 
+
+
+## 프로젝트 구성
+### 백엔드 아키텍처
+ <div align="center">
+ <img src="https://user-images.githubusercontent.com/59475849/160796220-c55b19f4-7f08-4095-8686-1a5ea2725eb8.png" width="900" height="600">
+</div>
+
+<br>
+
+### ⚙️ 개발 환경
+- **Server** : AWS EC2(Ubuntu 18.82 LTS)  
+
+- **Framework** : Springboot(2.6.4)
+
+- **Database** : Mysql (AWS RDS,8.0.27)  
+
+- **ETC** : AWS S3, Redis
+
+## 
+### 📝 공통 문서
+- **ERD(Entity Relationship Diagram)** - <a href="https://github.com/HangHae99ProjectTeam10/SharePod-Server/wiki/ERD" >상세보기 - WIKI 이동</a>
+  
+- **API(Application Programming Interface)** - <a href="https://github.com/HangHae99ProjectTeam10/SharePod-Server/wiki/API" >상세보기 - WIKI 이동</a>
+
+##
+###  💡 문제 해결과정
+
+
+
+
+<br>
+<br>
 
 
 ## 📬Commit Rule
