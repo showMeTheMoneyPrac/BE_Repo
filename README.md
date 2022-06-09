@@ -39,6 +39,17 @@
 </table>
 <br> <br> 
 
+ <div align="center">
+  
+|이승수|정요한|
+|:--------:|:--------:|
+|<img src="https://avatars.githubusercontent.com/u/84774696?v=4" width=200>|<img src="https://avatars.githubusercontent.com/u/94155128?v=4" width=200>|
+|🔨Backend|🔨Backend|
+|<a href="https://github.com/leeseungsoo0701">Github-Link</a>|<a href="https://github.com/John3210of">Github-Link</a>|
+</div>
+
+
+
 
 ## 📬Commit Rule
 > 수정한 종류에 따라 커밋 메시지를 선택
