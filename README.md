@@ -50,17 +50,15 @@
 - **ETC** : AWS S3, Redis
 
 ## 
-## 📝 공통 문서
-- **ERD(Entity Relationship Diagram)** - <a href="https://github.com/HangHae99ProjectTeam10/SharePod-Server/wiki/ERD" >상세보기 - WIKI 이동</a>
+## 📝 ERD
+![drawSQL-export-2022-06-09_23_31](https://user-images.githubusercontent.com/84774696/172872428-6d70e3d8-3999-4287-ae31-597636d25bf7.png)
+<br>
+<br>
   
-- **API(Application Programming Interface)** - <a href="https://github.com/HangHae99ProjectTeam10/SharePod-Server/wiki/API" >상세보기 - WIKI 이동</a>
 
 ##
 ## 💡 문제 해결과정
 -  #### 로그인 너란 친구란 JWT - <a href="https://github.com/HangHae99ProjectTeam10/SharePod-Server/wiki/WIKI,-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EB%84%88%EB%9E%80-%EC%B9%9C%EA%B5%AC%EB%9E%80-JWT" >WIKI</a>
-
-
-
 <br>
 <br>
 
