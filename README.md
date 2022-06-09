@@ -40,7 +40,7 @@
 <br> <br> 
 
 
-## 📬Commit Role
+## 📬Commit Rule
 > 수정한 종류에 따라 커밋 메시지를 선택
 
 |메시지명|설명|
