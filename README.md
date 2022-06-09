@@ -18,27 +18,6 @@
 
 
 ## 🏄‍ 팀원
-
-<table>
-  <tr>
-    <td align="center"><a href="https://github.com/leeseungsoo0701"><img src="https://avatars.githubusercontent.com/u/84774696?v=4" width="100px" /></a></td>
-    <td align="center"><a href="https://github.com/John3210of"><img src="https://avatars.githubusercontent.com/u/94155128?v=4" width="100px" /></a></td>
-  </tr>
-  <tr>
-    <td align="center"><b>이승수</b></td>
-    <td align="center"><b>정요한</b></td>
-  </tr>
-  <tr>
-    <td align="center"><b>🔨Backend</b></td>
-    <td align="center"><b>🔧Backend</b></td>
-  </tr>
-   <tr>
-    <td align="center"><a href="https://github.com/leeseungsoo0701">Github-Link</a></td>
-    <td align="center"><a href="https://github.com/John3210of">Github-Link</a></td>
-  </tr>
-</table>
-<br> <br> 
-
  <div align="center">
   
 |이승수|정요한|
@@ -61,7 +40,7 @@
 
 <br>
 
-### ⚙️ 개발 환경
+## ⚙️ 개발 환경
 - **Server** : AWS EC2(Ubuntu 18.82 LTS)  
 
 - **Framework** : Springboot(2.6.4)
@@ -71,14 +50,14 @@
 - **ETC** : AWS S3, Redis
 
 ## 
-### 📝 공통 문서
+## 📝 공통 문서
 - **ERD(Entity Relationship Diagram)** - <a href="https://github.com/HangHae99ProjectTeam10/SharePod-Server/wiki/ERD" >상세보기 - WIKI 이동</a>
   
 - **API(Application Programming Interface)** - <a href="https://github.com/HangHae99ProjectTeam10/SharePod-Server/wiki/API" >상세보기 - WIKI 이동</a>
 
 ##
-###  💡 문제 해결과정
-
+## 💡 문제 해결과정
+-  #### 로그인 너란 친구란 JWT - <a href="https://github.com/HangHae99ProjectTeam10/SharePod-Server/wiki/WIKI,-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EB%84%88%EB%9E%80-%EC%B9%9C%EA%B5%AC%EB%9E%80-JWT" >WIKI</a>
 
 
 
