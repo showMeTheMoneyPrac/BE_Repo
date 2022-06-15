@@ -59,6 +59,15 @@
 ##
 ## 💡 문제 해결과정
 -  #### 로그인 너란 친구란 JWT - <a href="https://github.com/HangHae99ProjectTeam10/SharePod-Server/wiki/WIKI,-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EB%84%88%EB%9E%80-%EC%B9%9C%EA%B5%AC%EB%9E%80-JWT" >WIKI</a>
+-  #### 프로젝트 규칙: Github Flow ✅ VS Git Flow - <a href="https://github.com/showMeTheMoneyPrac/BE_Repo/wiki/Github-Flow-%E2%9C%85--VS-Git-Flow" >WIKI</a>
+-  #### 요구사항 구체화: 요구사항 상세 확인서 - <a href="https://github.com/showMeTheMoneyPrac/BE_Repo/wiki/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD-%EC%83%81%EC%84%B8-%ED%99%95%EC%9D%B8%EC%84%9C" >WIKI</a>
+-  #### ERD: DataBase 설계  - <a href="https://github.com/showMeTheMoneyPrac/BE_Repo/wiki/DataBase-%EC%84%A4%EA%B3%84(%EC%B4%88%EA%B8%B0-%EC%9A%94%EA%B5%AC-%EB%B6%84%EC%84%9D,-%EA%B8%B0%EB%8A%A5-%EB%AA%A9%EB%A1%9D,-%EA%B0%9C%EC%B2%B4%EC%99%80-%EC%86%8D%EC%84%B1,-%EA%B0%9C%EC%B2%B4%EC%99%80-%EA%B4%80%EA%B3%84,DB-%EC%8A%A4%ED%82%A4%EB%A7%88)" >WIKI</a>
+-  #### TEST Code 기반 개발: TDD - <a href="https://github.com/showMeTheMoneyPrac/BE_Repo/wiki/TDD" >WIKI</a>
+-  #### 스케일 업: Entity -> DTO - <a href="https://github.com/showMeTheMoneyPrac/BE_Repo/wiki/Entity-%E2%86%92-DTO" >WIKI</a>
+-  #### 스케일 업: 동적쿼리(QueryDsl) - <a href="https://github.com/showMeTheMoneyPrac/BE_Repo/wiki/%EB%8F%99%EC%A0%81-%EC%BF%BC%EB%A6%AC-(QueryDsl)" >WIKI</a>
+-  #### 리팩토링: DB 역정규화  - <a href="https://github.com/showMeTheMoneyPrac/BE_Repo/wiki/DB-%EC%97%AD%EC%A0%95%EA%B7%9C%ED%99%94" >WIKI</a>
+-  #### 캐싱: Redis를 이용한 단순 캐싱 - <a href="https://github.com/showMeTheMoneyPrac/BE_Repo/wiki/Cache" >WIKI</a>
+-  #### 부하테스트: NGrinder - <a href="https://github.com/showMeTheMoneyPrac/BE_Repo/wiki/Ngrinder" >WIKI</a>
 <br>
 <br>
 
