@@ -1,10 +1,7 @@
 package com.shop.mall.domain;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -15,6 +12,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Setter
 public class Orders extends Timestamped{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,8 +35,9 @@ public class Orders extends Timestamped{
     private Member member;
 
 
-
-
-
-
+    public Orders(String address, int totalPrice, Member member) {
+        this.address = address;
+        this.totalPrice = totalPrice;
+        this.member = member;
+    }
 }

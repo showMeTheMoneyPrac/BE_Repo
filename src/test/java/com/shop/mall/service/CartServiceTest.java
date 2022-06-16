@@ -115,10 +115,10 @@ public class CartServiceTest {
         String msg3 = cartService.cartAdd(member2.getNickname(),product3.getId(), dto3);
 
         //then
-        assertEquals(msg,"msg : 담기 완료");
-        assertEquals(msg1,"msg : 담기 완료");
-        assertEquals(msg2,"msg : 담기 완료");
-        assertEquals(msg3,"msg : 담기 완료");
+        assertEquals(msg,"장바구니 담기 성공");
+        assertEquals(msg1,"장바구니 담기 성공");
+        assertEquals(msg2,"장바구니 담기 성공");
+        assertEquals(msg3,"장바구니 담기 성공");
     }
 
     @Test
@@ -227,9 +227,87 @@ public class CartServiceTest {
 
     }
 
+    @Test
+    public void 장바구니_리스트_삭제() throws Exception{
+        //given
+        Member member1 = new Member(
+                "john3210@gmail.com",
+                "정요한1",
+                "우리집1",
+                "passworddd",
+                100000);
+        memberRepository.save(member1);
+
+        Product product1 = Product.builder()
+                .category("카테고리")
+                .detail("설명1")
+                .reviewCnt(0)
+                .price(20000)
+                .title("타이틀")
+                .build();
+        productRepository.save(product1);
+
+        List<Img> imgList1 = new ArrayList<>();
+        Img img1 = new Img("test1",product1);
+        imgList1.add(img1);
+        imgRepository.save(img1);
+
+        Cart cart = new Cart("option",3,1000,member1,product1);
+        Cart cart2 = new Cart("option",3,1000,member1,product1);
+        cartRepository.save(cart);
+        cartRepository.save(cart2);
+        Long cartAddId = cart.getId();
+        Long cartAddId2 = cart2.getId();
+        String cartAddIdToString = cartAddId.toString();
+        String cartAddId2ToString = cartAddId2.toString();
+
+
+        //when
+        cartService.cartDelete("정요한1",cartAddIdToString+","+cartAddId2ToString);
+
+    }
+
+    @Test
+    public void 장바구니_수량_수정() throws Exception{
+        //given
+        Member member1 = new Member(
+                "john3210@gmail.com",
+                "정요한1",
+                "우리집1",
+                "passworddd",
+                100000);
+        memberRepository.save(member1);
+
+        Product product1 = Product.builder()
+                .category("카테고리")
+                .detail("설명1")
+                .reviewCnt(0)
+                .price(20000)
+                .title("타이틀")
+                .build();
+        productRepository.save(product1);
+
+        List<Img> imgList1 = new ArrayList<>();
+        Img img1 = new Img("test1",product1);
+        imgList1.add(img1);
+        imgRepository.save(img1);
+
+        Cart cart = new Cart("option",3,1000,member1,product1);
+        cartRepository.save(cart);
+        Long cartAddId = cart.getId();
+        CartRequestDto.Ea ea = new CartRequestDto.Ea(cartAddId,3);
+
+
+        //when
+        Cart modifyingEa = cartService.modifyingEa(member1.getNickname(),ea);
+
+        //then
+        assertEquals(modifyingEa.getEa(),ea.getEa());
+
+    }
+
 
     public void inputData() {
-
         //이렇게 하는게 맞는지 찾아볼것.
         Member member1 = new Member(
                 "john3210@gmail.com",

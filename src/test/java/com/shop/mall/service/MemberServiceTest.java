@@ -1,16 +1,17 @@
 package com.shop.mall.service;
 
 import com.shop.mall.domain.Member;
+import com.shop.mall.domain.Orders;
 import com.shop.mall.dto.MemberRequestDto;
 import com.shop.mall.dto.MemberResponseDto;
 import com.shop.mall.exception.ErrorCode;
 import com.shop.mall.exception.ErrorCodeException;
 import com.shop.mall.repository.MemberRepository;
+import com.shop.mall.repository.OrdersRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,8 @@ public class MemberServiceTest {
     MemberRepository memberRepository;
     @Autowired
     MemberService memberService;
+    @Autowired
+    OrdersRepository ordersRepository;
 
     @Test
     @Transactional
@@ -374,10 +377,50 @@ public class MemberServiceTest {
                 0);
         memberRepository.save(member);
 
+        Orders orders = new Orders(
+                "장충단로 4길 28-29",
+                10000,
+                member
+        );
+        ordersRepository.save(orders);
+
 
 
         //when
         String msg = memberService.memberDelete("정요한3");
+
+    }
+
+    @Test
+    @Transactional
+    public void 회원탈퇴_연관목록삭제실패() throws Exception{
+        //given
+        Member member = new Member(
+                "john3210@gmail.com",
+                "정요한3",
+                "우리집3",
+                "passworddd",
+                0);
+        memberRepository.save(member);
+
+        Orders orders = new Orders(
+                "장충단로 4길 28-29",
+                10000,
+                member
+        );
+        ordersRepository.save(orders);
+
+
+
+        //when
+        try {
+            memberService.memberDelete("정요한2");
+        } catch (ErrorCodeException e) {
+            assertEquals(e.getErrorCode(),ErrorCode.MEMBER_NOT_EXIST);
+            return;
+        }
+        //then
+        fail("실패의 실패");
 
     }
 }
