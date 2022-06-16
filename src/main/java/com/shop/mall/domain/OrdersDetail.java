@@ -39,4 +39,11 @@ public class OrdersDetail {
     @JoinColumn(name = "product_id")
     private Product product;
 
+    public OrdersDetail(String optionContent, int ea, int bill, Orders orders, Product product) {
+        this.optionContent = optionContent;
+        this.ea = ea;
+        this.bill = bill;
+        this.orders = orders;
+        this.product = product;
+    }
 }
