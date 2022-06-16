@@ -79,6 +79,10 @@ public class OrdersServiceTest {
         ordersDetailRepository.save(ordersDetail1);
         ordersDetailRepository.save(ordersDetail2);
 
+        ordersDetail1.setOrders(orders);
+        ordersDetail2.setOrders(orders);
+
+
         OrdersResponseDto.ordersTotalList ordersTotalList = ordersService.findAllOrders("정요한1");
         int bill = ordersTotalList.getOrdersList().get(0).getTotalPrice();
 
