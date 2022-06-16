@@ -109,16 +109,16 @@ public class CartServiceTest {
         CartRequestDto.Add dto3 = new CartRequestDto.Add("옵션3",60000,4);
 
         //when
-        String msg = cartService.cartAdd(member1.getNickname(),product1.getId(), dto);
-        String msg1 = cartService.cartAdd(member1.getNickname(),product2.getId(), dto1);
-        String msg2 = cartService.cartAdd(member2.getNickname(),product1.getId(), dto2);
-        String msg3 = cartService.cartAdd(member2.getNickname(),product3.getId(), dto3);
+        Long msg = cartService.cartAdd(member1.getNickname(),product1.getId(), dto);
+        Long msg1 = cartService.cartAdd(member1.getNickname(),product2.getId(), dto1);
+        Long msg2 = cartService.cartAdd(member2.getNickname(),product1.getId(), dto2);
+        Long msg3 = cartService.cartAdd(member2.getNickname(),product3.getId(), dto3);
 
         //then
-        assertEquals(msg,"msg : 담기 완료");
-        assertEquals(msg1,"msg : 담기 완료");
-        assertEquals(msg2,"msg : 담기 완료");
-        assertEquals(msg3,"msg : 담기 완료");
+        assertEquals(msg,cartRepository.findById(msg).get().getId());
+        assertEquals(msg1,cartRepository.findById(msg1).get().getId());
+        assertEquals(msg2,cartRepository.findById(msg2).get().getId());
+        assertEquals(msg3,cartRepository.findById(msg3).get().getId());
     }
 
     @Test
@@ -227,9 +227,84 @@ public class CartServiceTest {
 
     }
 
+    @Test
+    public void 장바구니_리스트_삭제() throws Exception{
+        //given
+        Member member1 = new Member(
+                "john3210@gmail.com",
+                "정요한1",
+                "우리집1",
+                "passworddd",
+                100000);
+        memberRepository.save(member1);
+
+        Product product1 = Product.builder()
+                .category("카테고리")
+                .detail("설명1")
+                .reviewCnt(0)
+                .price(20000)
+                .title("타이틀")
+                .build();
+        productRepository.save(product1);
+
+        List<Img> imgList1 = new ArrayList<>();
+        Img img1 = new Img("test1",product1);
+        imgList1.add(img1);
+        imgRepository.save(img1);
+
+        CartRequestDto.Add dto = new CartRequestDto.Add("옵션",20000,3);
+        CartRequestDto.Add dto2 = new CartRequestDto.Add("옵션2",20000,3);
+        Long cartAddId = cartService.cartAdd("정요한1",product1.getId(), dto);
+        Long cartAddId2 = cartService.cartAdd("정요한1",product1.getId(), dto2);
+        String cartAddIdToString = cartAddId.toString();
+        String cartAddId2ToString = cartAddId2.toString();
+
+
+        //when
+        cartService.cartDelete("정요한1",cartAddIdToString+","+cartAddId2ToString);
+
+    }
+
+    @Test
+    public void 장바구니_수량_수정() throws Exception{
+        //given
+        Member member1 = new Member(
+                "john3210@gmail.com",
+                "정요한1",
+                "우리집1",
+                "passworddd",
+                100000);
+        memberRepository.save(member1);
+
+        Product product1 = Product.builder()
+                .category("카테고리")
+                .detail("설명1")
+                .reviewCnt(0)
+                .price(20000)
+                .title("타이틀")
+                .build();
+        productRepository.save(product1);
+
+        List<Img> imgList1 = new ArrayList<>();
+        Img img1 = new Img("test1",product1);
+        imgList1.add(img1);
+        imgRepository.save(img1);
+
+        CartRequestDto.Add dto = new CartRequestDto.Add("옵션",20000,3);
+        Long cartId = cartService.cartAdd(member1.getNickname(),product1.getId(),dto);
+        CartRequestDto.Ea ea = new CartRequestDto.Ea(cartId,3);
+
+
+        //when
+        Cart cart = cartService.modifyingEa(member1.getNickname(),ea);
+
+        //then
+        assertEquals(cart.getEa(),cartRepository.findById(cartId).get().getEa());
+
+    }
+
 
     public void inputData() {
-
         //이렇게 하는게 맞는지 찾아볼것.
         Member member1 = new Member(
                 "john3210@gmail.com",
