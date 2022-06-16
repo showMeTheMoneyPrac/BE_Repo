@@ -18,8 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -42,16 +41,12 @@ class ProductServiceTest {
         }
 
         //when
-        PageRequest pageable= PageRequest.of(0,20, Sort.Direction.DESC, "id");
-        Page<ProductResponseDto.ProductList> productPages = productRepository.searchByRecent(pageable,null,null);
+        List<ProductResponseDto.ProductList> productLists = productService.productList(10L);
+
 
         //then
-        List<ProductResponseDto.ProductList> content = productPages.getContent();
-
-        assertEquals(20, content.size());
-        assertEquals(0, productPages.getNumber());
-        assertTrue(productPages.isFirst());
-        assertTrue(productPages.hasNext());
+        assertEquals(20, productLists.size());
+        assertFalse(productLists.isEmpty());
     }
 
     @Test
@@ -75,8 +70,7 @@ class ProductServiceTest {
         Long productId = productRepository.save(new Product(imgList,productOptionList,reviewList)).getId();
 
         //when
-        Product product = productRepository.findById(productId).orElseThrow(()-> new IllegalArgumentException("해당 상품이 존재하지 않습니다"));
-        ProductResponseDto.ProductsDetail productsDetail = ProductResponseDto.ProductsDetail.productsDetailFrom(product);
+        ProductResponseDto.ProductsDetail productsDetail = productService.productsDetail(productId);
 
 
         //then
@@ -100,15 +94,13 @@ class ProductServiceTest {
 
         //when
         PageRequest pageable= PageRequest.of(0,20);
-        Page<ProductResponseDto.ProductList> productPages = productRepository.searchByRecent(pageable,null,null);
+        ProductResponseDto.ProductPage productPages = productService.conditionProductList(pageable,"recent",null,null);
 
         //then
-        List<ProductResponseDto.ProductList> content = productPages.getContent();
+        List<ProductResponseDto.ProductList> content = productPages.getProductLists();
 
         assertEquals(20, content.size());
-        assertEquals(0, productPages.getNumber());
-        assertTrue(productPages.isFirst());
-        assertTrue(productPages.hasNext());
+        assertEquals(false, productPages.getIsLastPage());
     }
 
 
@@ -125,15 +117,13 @@ class ProductServiceTest {
 
         //when
         PageRequest pageable= PageRequest.of(0,20);
-        Page<ProductResponseDto.ProductList> productPages = productRepository.searchByCost(pageable,null,null);
+        ProductResponseDto.ProductPage productPages = productService.conditionProductList(pageable,"cost",null,null);
 
         //then
-        List<ProductResponseDto.ProductList> content = productPages.getContent();
+        List<ProductResponseDto.ProductList> content = productPages.getProductLists();
 
         assertEquals(20, content.size());
-        assertEquals(0, productPages.getNumber());
-        assertTrue(productPages.isFirst());
-        assertTrue(productPages.hasNext());
+        assertEquals(false, productPages.getIsLastPage());
     }
 
     @Test
@@ -149,15 +139,13 @@ class ProductServiceTest {
 
         //when
         PageRequest pageable= PageRequest.of(0,2);
-        Page<ProductResponseDto.ProductList> productPages = productRepository.searchByRecent(pageable,null,"쇼츠");
+        ProductResponseDto.ProductPage productPages = productService.conditionProductList(pageable,"review",null,"쇼츠");
 
         //then
-        List<ProductResponseDto.ProductList> content = productPages.getContent();
+        List<ProductResponseDto.ProductList> content = productPages.getProductLists();
 
         assertEquals(2, content.size());
-        assertEquals(0, productPages.getNumber());
-        assertTrue(productPages.isFirst());
-        //assertTrue(productPages.hasNext());
+        assertEquals(true, productPages.getIsLastPage());
     }
 
     @Test
@@ -181,7 +169,6 @@ class ProductServiceTest {
         assertEquals(2, content.size());
         assertEquals(0, productPages.getNumber());
         assertTrue(productPages.isFirst());
-        //assertTrue(productPages.hasNext());
     }
 
     @Test
@@ -205,7 +192,6 @@ class ProductServiceTest {
         assertEquals(2, content.size());
         assertEquals(0, productPages.getNumber());
         assertTrue(productPages.isFirst());
-        //assertTrue(productPages.hasNext());
     }
 
     @Test
@@ -229,7 +215,6 @@ class ProductServiceTest {
         assertEquals(2, content.size());
         assertEquals(0, productPages.getNumber());
         assertTrue(productPages.isFirst());
-        //assertTrue(productPages.hasNext());
     }
 
 
