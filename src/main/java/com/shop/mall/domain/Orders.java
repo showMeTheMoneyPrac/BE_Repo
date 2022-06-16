@@ -37,8 +37,9 @@ public class Orders extends Timestamped{
     private Member member;
 
 
-
-
-
-
+    public Orders(String address, int totalPrice, Member member) {
+        this.address = address;
+        this.totalPrice = totalPrice;
+        this.member = member;
+    }
 }
