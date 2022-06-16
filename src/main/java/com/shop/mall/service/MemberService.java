@@ -78,8 +78,7 @@ public class MemberService {
         //orders 삭제
         ordersRepository.deleteAllByMember_Id(member.getId());
         
-        memberRepository.deleteByNickname(nickname).orElseThrow(
-                () -> new ErrorCodeException(MEMBER_NOT_EXIST));
+        memberRepository.deleteByNickname(nickname);
         return "msg : 회원 탈퇴 완료";
     }
 }
