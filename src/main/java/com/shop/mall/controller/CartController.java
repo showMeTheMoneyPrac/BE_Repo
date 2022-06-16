@@ -20,7 +20,7 @@ public class CartController {
     }
 
     @PostMapping("/carts/{productId}") //12번 api(장바구니 담기)
-    public Long cartAdd(@RequestHeader(value = "Authorization") String nickname, @PathVariable Long productId,
+    public String cartAdd(@RequestHeader(value = "Authorization") String nickname, @PathVariable Long productId,
                           @RequestBody CartRequestDto.Add dto) {
         return cartService.cartAdd(nickname, productId, dto);
     }
