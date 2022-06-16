@@ -109,16 +109,16 @@ public class CartServiceTest {
         CartRequestDto.Add dto3 = new CartRequestDto.Add("옵션3",60000,4);
 
         //when
-        Long msg = cartService.cartAdd(member1.getNickname(),product1.getId(), dto);
-        Long msg1 = cartService.cartAdd(member1.getNickname(),product2.getId(), dto1);
-        Long msg2 = cartService.cartAdd(member2.getNickname(),product1.getId(), dto2);
-        Long msg3 = cartService.cartAdd(member2.getNickname(),product3.getId(), dto3);
+        String msg = cartService.cartAdd(member1.getNickname(),product1.getId(), dto);
+        String msg1 = cartService.cartAdd(member1.getNickname(),product2.getId(), dto1);
+        String msg2 = cartService.cartAdd(member2.getNickname(),product1.getId(), dto2);
+        String msg3 = cartService.cartAdd(member2.getNickname(),product3.getId(), dto3);
 
         //then
-        assertEquals(msg,cartRepository.findById(msg).get().getId());
-        assertEquals(msg1,cartRepository.findById(msg1).get().getId());
-        assertEquals(msg2,cartRepository.findById(msg2).get().getId());
-        assertEquals(msg3,cartRepository.findById(msg3).get().getId());
+        assertEquals(msg,"장바구니 담기 성공");
+        assertEquals(msg1,"장바구니 담기 성공");
+        assertEquals(msg2,"장바구니 담기 성공");
+        assertEquals(msg3,"장바구니 담기 성공");
     }
 
     @Test
@@ -252,10 +252,12 @@ public class CartServiceTest {
         imgList1.add(img1);
         imgRepository.save(img1);
 
-        CartRequestDto.Add dto = new CartRequestDto.Add("옵션",20000,3);
-        CartRequestDto.Add dto2 = new CartRequestDto.Add("옵션2",20000,3);
-        Long cartAddId = cartService.cartAdd("정요한1",product1.getId(), dto);
-        Long cartAddId2 = cartService.cartAdd("정요한1",product1.getId(), dto2);
+        Cart cart = new Cart("option",3,1000,member1,product1);
+        Cart cart2 = new Cart("option",3,1000,member1,product1);
+        cartRepository.save(cart);
+        cartRepository.save(cart2);
+        Long cartAddId = cart.getId();
+        Long cartAddId2 = cart2.getId();
         String cartAddIdToString = cartAddId.toString();
         String cartAddId2ToString = cartAddId2.toString();
 
@@ -290,16 +292,17 @@ public class CartServiceTest {
         imgList1.add(img1);
         imgRepository.save(img1);
 
-        CartRequestDto.Add dto = new CartRequestDto.Add("옵션",20000,3);
-        Long cartId = cartService.cartAdd(member1.getNickname(),product1.getId(),dto);
-        CartRequestDto.Ea ea = new CartRequestDto.Ea(cartId,3);
+        Cart cart = new Cart("option",3,1000,member1,product1);
+        cartRepository.save(cart);
+        Long cartAddId = cart.getId();
+        CartRequestDto.Ea ea = new CartRequestDto.Ea(cartAddId,3);
 
 
         //when
-        Cart cart = cartService.modifyingEa(member1.getNickname(),ea);
+        Cart modifyingEa = cartService.modifyingEa(member1.getNickname(),ea);
 
         //then
-        assertEquals(cart.getEa(),cartRepository.findById(cartId).get().getEa());
+        assertEquals(modifyingEa.getEa(),ea.getEa());
 
     }
 

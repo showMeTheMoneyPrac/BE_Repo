@@ -32,7 +32,7 @@ public class CartService {
     }
 
     @Transactional
-    public Long cartAdd(String nickname, Long productId, CartRequestDto.Add dto) {
+    public String cartAdd(String nickname, Long productId, CartRequestDto.Add dto) {
         Product product = productValidator.authorization(productId);
 
         Cart cart = Cart.builder()
@@ -44,7 +44,7 @@ public class CartService {
                 .build();
 
         Long cartId = cartRepository.save(cart).getId();
-        return cartId;
+        return "장바구니 담기 성공";
     }
 
     public void cartDelete(String nickname, String array) {
