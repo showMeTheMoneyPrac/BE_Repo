@@ -139,6 +139,4 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     private BooleanExpression booleanCategory(String category) {
         return isEmpty(category) ? null : product.category.eq(category);
     }
-
-
 }

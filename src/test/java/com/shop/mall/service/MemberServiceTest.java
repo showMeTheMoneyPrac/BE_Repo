@@ -32,7 +32,7 @@ public class MemberServiceTest {
 
     @Test
     @Transactional
-    public void 회원가입_성공() throws Exception {
+    public void 회원가입_성공(){
         //given
         MemberRequestDto.Regist dto = MemberRequestDto.Regist.builder()
                 .email("john3210of@gmail.co2m")
@@ -50,7 +50,7 @@ public class MemberServiceTest {
 
     @Test
     @Transactional
-    public void 회원가입_이메일중복() throws Exception {
+    public void 회원가입_이메일중복(){
         //given
         Member member = new Member(
                 "john3210of@gmail.com1",
@@ -80,7 +80,7 @@ public class MemberServiceTest {
 
     @Test
     @Transactional
-    public void 회원가입_이름중복() throws Exception {
+    public void 회원가입_이름중복(){
         //given
         Member member = new Member(
                 "john3210@gmail.com",
@@ -109,7 +109,7 @@ public class MemberServiceTest {
 
     @Test
     @Transactional
-    public void 회원가입_비밀번호_불일치() throws Exception {
+    public void 회원가입_비밀번호_불일치(){
         //given
         MemberRequestDto.Regist dto = MemberRequestDto.Regist.builder()
                 .email("john3210of@gmail.com")
@@ -132,7 +132,7 @@ public class MemberServiceTest {
 
     @Test
     @Transactional
-    public void 로그인_성공() throws Exception {
+    public void 로그인_성공(){
         //given
         Member member = new Member(
                 "john3210@gmail.com",
@@ -150,7 +150,7 @@ public class MemberServiceTest {
 
     @Test
     @Transactional
-    public void 로그인_실패() throws Exception {
+    public void 로그인_실패(){
         //given
         Member member = new Member(
                 "john3210@gmail.com",
@@ -173,7 +173,7 @@ public class MemberServiceTest {
 
     @Test
     @Transactional
-    public void 유저정보조회_성공() throws Exception {
+    public void 유저정보조회_성공(){
         //given
         Member member = new Member(
                 "john3210@gmail.com",
@@ -193,7 +193,7 @@ public class MemberServiceTest {
 
     @Test
     @Transactional
-    public void 유저정보조회_실패() throws Exception {
+    public void 유저정보조회_실패(){
         //given
         Member member = new Member(
                 "john3210@gmail.com",
@@ -202,7 +202,7 @@ public class MemberServiceTest {
                 "passworddd",
                 0);
         memberRepository.save(member);
-        String headerNickname = "정요한아니양";
+        String headerNickname = "정요한X";
         //when
         try {
             memberService.memberInfo(headerNickname);
@@ -216,7 +216,7 @@ public class MemberServiceTest {
 
     @Test
     @Transactional
-    public void 캐시충전_성공() throws Exception {
+    public void 캐시충전_성공(){
         //given
         Member member = new Member(
                 "john3210@gmail.com",
@@ -236,7 +236,7 @@ public class MemberServiceTest {
 
     @Test
     @Transactional
-    public void 캐시충전_실패_id없음() throws Exception {
+    public void 캐시충전_실패_id없음(){
         //given
         Member member = new Member(
                 "john3210@gmail.com",
@@ -259,7 +259,7 @@ public class MemberServiceTest {
 
     @Test
     @Transactional
-    public void 주소변경_성공() throws Exception {
+    public void 주소변경_성공(){
         //given
         Member member = new Member(
                 "john3210@gmail.com",
@@ -277,7 +277,7 @@ public class MemberServiceTest {
 
     @Test
     @Transactional
-    public void 주소변경_실패() throws Exception {
+    public void 주소변경_실패(){
         //given
         Member member = new Member(
                 "john3210@gmail.com",
@@ -300,7 +300,7 @@ public class MemberServiceTest {
 
     @Test
     @Transactional
-    public void 닉네임변경_성공() throws Exception {
+    public void 닉네임변경_성공(){
         //given
         Member member = new Member(
                 "john3210@gmail.com",
@@ -318,7 +318,7 @@ public class MemberServiceTest {
 
     @Test
     @Transactional
-    public void 닉네임변경_실패() throws Exception {
+    public void 닉네임변경_실패(){
         //given
         Member member = new Member(
                 "john3210@gmail.com",
@@ -349,7 +349,7 @@ public class MemberServiceTest {
 
     @Test
     @Transactional
-    public void 회원탈퇴_성공() throws Exception {
+    public void 회원탈퇴_성공(){
         //given
         Member member = new Member(
                 "john3210@gmail.com",
@@ -367,7 +367,7 @@ public class MemberServiceTest {
 
     @Test
     @Transactional
-    public void 회원탈퇴_연관목록삭제성공() throws Exception{
+    public void 회원탈퇴_연관목록삭제성공(){
         //given
         Member member = new Member(
                 "john3210@gmail.com",
@@ -393,7 +393,7 @@ public class MemberServiceTest {
 
     @Test
     @Transactional
-    public void 회원탈퇴_연관목록삭제실패() throws Exception{
+    public void 회원탈퇴_연관목록삭제실패(){
         //given
         Member member = new Member(
                 "john3210@gmail.com",

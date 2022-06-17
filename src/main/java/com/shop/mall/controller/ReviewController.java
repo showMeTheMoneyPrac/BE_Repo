@@ -13,13 +13,15 @@ public class ReviewController {
 
     //18번 API 리뷰 작성
     @PostMapping("/reviews/{orderDetailId}")
-    public ReviewResponseDto.Write writeReview(@RequestHeader(value = "Authorization") String nickname, @PathVariable Long orderDetailId, @RequestBody ReviewRequestDto.Write dto) {
+    public ReviewResponseDto.Write writeReview(@RequestHeader(value = "Authorization") String nickname, @PathVariable Long orderDetailId,
+                                               @RequestBody ReviewRequestDto.Write dto) {
         return reviewService.writeReview(nickname, orderDetailId, dto);
     }
 
     //29번 API 리뷰 수정
     @PutMapping("/reviews/{reviewId}")
-    public ReviewResponseDto.Write updateReview(@RequestHeader(value = "Authorization") String nickname,@PathVariable Long reviewId,@RequestBody ReviewRequestDto.Write dto){
+    public ReviewResponseDto.Write updateReview(@RequestHeader(value = "Authorization") String nickname,@PathVariable Long reviewId,
+                                                @RequestBody ReviewRequestDto.Write dto){
         return reviewService.updateReview(nickname,reviewId,dto);
     }
 
