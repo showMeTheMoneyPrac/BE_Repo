@@ -43,7 +43,7 @@ public class CartServiceTest {
     ImgRepository imgRepository;
 
     @Test
-    public void 장바구니_담기_성공() throws Exception{
+    public void 장바구니_담기_성공(){
         //given
         Member member1 = new Member(
                 "john3210@gmail.com",
@@ -122,7 +122,7 @@ public class CartServiceTest {
     }
 
     @Test
-    public void 장바구니_담기_실패_id불일치() throws Exception{
+    public void 장바구니_담기_실패_id불일치(){
         //given
         Member member1 = new Member(
                 "john3210@gmail.com",
@@ -159,7 +159,7 @@ public class CartServiceTest {
     }
 
     @Test
-    public void 장바구니_목록_조회성공() throws Exception{
+    public void 장바구니_목록_조회성공(){
         //given
         Member member1 = new Member(
                 "john3210@gmail.com",
@@ -228,7 +228,7 @@ public class CartServiceTest {
     }
 
     @Test
-    public void 장바구니_리스트_삭제() throws Exception{
+    public void 장바구니_리스트_삭제(){
         //given
         Member member1 = new Member(
                 "john3210@gmail.com",
@@ -268,7 +268,7 @@ public class CartServiceTest {
     }
 
     @Test
-    public void 장바구니_수량_수정() throws Exception{
+    public void 장바구니_수량_수정(){
         //given
         Member member1 = new Member(
                 "john3210@gmail.com",
@@ -303,88 +303,6 @@ public class CartServiceTest {
 
         //then
         assertEquals(modifyingEa.getEa(),ea.getEa());
-
-    }
-
-
-    public void inputData() {
-        //이렇게 하는게 맞는지 찾아볼것.
-        Member member1 = new Member(
-                "john3210@gmail.com",
-                "정요한1",
-                "우리집1",
-                "passworddd",
-                100000);
-        memberRepository.save(member1);
-
-        Member member2 = new Member(
-                "john310@gmail.com",
-                "정요한2",
-                "우리집2",
-                "passworddd",
-                0);
-        memberRepository.save(member2);
-
-        Product product1 = Product.builder()
-                .category("카테고리")
-                .detail("설명1")
-                .reviewCnt(0)
-                .price(20000)
-                .title("타이틀")
-                .build();
-        productRepository.save(product1);
-
-        Product product2 = Product.builder()
-                .category("카테고리")
-                .detail("설명2")
-                .reviewCnt(0)
-                .price(40000)
-                .title("타이틀2")
-                .build();
-        productRepository.save(product2);
-
-        Product product3 = Product.builder()
-                .category("카테고리2")
-                .detail("설명3")
-                .reviewCnt(0)
-                .price(50000)
-                .title("타이틀3")
-                .build();
-        productRepository.save(product3);
-
-        List<Img> imgList1 = new ArrayList<>();
-        Img img1 = new Img("test1",product1);
-        imgList1.add(img1);
-        imgRepository.save(img1);
-
-        List<Img> imgList2 = new ArrayList<>();
-        Img img2 = new Img("test2",product2);
-        imgList2.add(img2);
-        imgRepository.save(img2);
-
-        List<Img> imgList3 = new ArrayList<>();
-        Img img3 = new Img("test3",product3);
-        imgList3.add(img3);
-        imgRepository.save(img3);
-
-        Cart cart = Cart.builder()
-                .ea(2)
-                .bill(40000)
-                .option("라지")
-                .member(member1)
-                .product(product1)
-                .build();
-        cartRepository.save(cart);
-
-
-        Cart cart2 = Cart.builder()
-                .ea(3)
-                .bill(50000)
-                .option("아주라지")
-                .member(member1)
-                .product(product1)
-                .build();
-        cartRepository.save(cart2);
 
     }
 }

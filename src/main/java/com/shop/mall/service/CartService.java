@@ -6,7 +6,6 @@ import com.shop.mall.domain.Product;
 import com.shop.mall.dto.CartRequestDto;
 import com.shop.mall.dto.CartResponseDto;
 import com.shop.mall.repository.Cart.CartRepository;
-import com.shop.mall.repository.ImgRepository;
 import com.shop.mall.validator.CartValidator;
 import com.shop.mall.validator.MemberValidator;
 import com.shop.mall.validator.ProductValidator;
@@ -20,7 +19,6 @@ import java.util.List;
 @Service
 public class CartService {
     private final CartRepository cartRepository;
-    private final ImgRepository imgRepository;
 
     private final MemberValidator memberValidator;
     private final ProductValidator productValidator;
@@ -43,10 +41,11 @@ public class CartService {
                 .product(product)
                 .build();
 
-        Long cartId = cartRepository.save(cart).getId();
+        cartRepository.save(cart);
         return "장바구니 담기 성공";
     }
 
+    @Transactional
     public void cartDelete(String nickname, String array) {
         memberValidator.authorization(nickname);
         String[] target = array.split(","); //문자열로 받아서 리스트로 전환

@@ -13,5 +13,4 @@ public interface OrdersRepository extends JpaRepository<Orders,Long> {
     @Modifying
     @Transactional
     void deleteAllByMember_Id(Long memberId);
-
 }

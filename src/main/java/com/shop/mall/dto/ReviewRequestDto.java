@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 public class ReviewRequestDto {
+
     @Getter
     @Builder
     public static class Write{

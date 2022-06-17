@@ -22,13 +22,14 @@ public class ProductController {
     //8번 API 상품 전체 목록
     @Cacheable(value = "product_id", cacheManager = "productCacheManager")
     @GetMapping("/products/pages/{pageId}")
-    public List<ProductResponseDto.ProductList> findAllProduct(@PathVariable Long pageId) throws InterruptedException {
+    public List<ProductResponseDto.ProductList> findAllProduct(@PathVariable Long pageId){
         return productService.productList(pageId);
     }
+
     //9번 API 상품 상세 데이터
     @Cacheable(value = "productdetail_id", cacheManager = "productCacheManager")
     @GetMapping("/products/{productId}")
-    public ProductResponseDto.ProductsDetail productDetail(@PathVariable Long productId) throws InterruptedException {
+    public ProductResponseDto.ProductsDetail productDetail(@PathVariable Long productId){
         return productService.productsDetail(productId);
     }
 
@@ -37,5 +38,4 @@ public class ProductController {
     public ProductResponseDto.ProductPage findConditionsProduct(@PageableDefault(size = 20) Pageable pageable, @RequestParam(value = "sort") String sort, @RequestParam(value = "category") String category, @RequestParam(value = "searchKeyword") String searchKeyword){
         return productService.conditionProductList(pageable,sort,category,searchKeyword);
     }
-
 }

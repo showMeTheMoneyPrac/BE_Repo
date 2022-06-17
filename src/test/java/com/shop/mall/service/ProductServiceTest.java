@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +30,7 @@ class ProductServiceTest {
 
     @Test
     @DisplayName("8번 API 첫번째 페이징 성공")
-    public void productFirstList() throws Exception {
+    public void productFirstList(){
         //given
         for (int i=0;i<15;i++){
             List<Img> imgList = new ArrayList<>();
@@ -51,7 +50,7 @@ class ProductServiceTest {
 
     @Test
     @DisplayName("9번 API 상품 상세보기")
-    public void productsDetail() throws Exception {
+    public void productsDetail(){
         //given
         Member member = new Member("seanlee0701asdasd@naver.com","seanlee0701asdasd","중구","password",1000);
 
@@ -83,7 +82,7 @@ class ProductServiceTest {
 
     @Test
     @DisplayName("10번 API searchProduct_제약조건 없음")
-    public void searchProduct_전체보기() throws Exception {
+    public void searchProduct_전체보기(){
         //given
         for (int i=0;i<15;i++){
             List<Img> imgList = new ArrayList<>();
@@ -106,7 +105,7 @@ class ProductServiceTest {
 
     @Test
     @DisplayName("10번 API searchProduct_제약조건_price순")
-    public void searchProduct_제약조건_price순() throws Exception {
+    public void searchProduct_제약조건_price순(){
         //given
         for (int i=0;i<15;i++){
             List<Img> imgList = new ArrayList<>();
@@ -128,7 +127,7 @@ class ProductServiceTest {
 
     @Test
     @DisplayName("10번 API searchProduct_제약조건_검색어")
-    public void searchProduct_제약조건_검색어() throws Exception {
+    public void searchProduct_제약조건_검색어(){
         //given
         for (int i=0;i<15;i++){
             List<Img> imgList = new ArrayList<>();
@@ -150,7 +149,7 @@ class ProductServiceTest {
 
     @Test
     @DisplayName("10번 API searchProduct_제약조건_카테고리")
-    public void searchProduct_제약조건_카테고리() throws Exception {
+    public void searchProduct_제약조건_카테고리(){
         //given
         for (int i=0;i<15;i++){
             List<Img> imgList = new ArrayList<>();
@@ -173,7 +172,7 @@ class ProductServiceTest {
 
     @Test
     @DisplayName("10번 API searchProduct_제약조건_검색어_카테고리")
-    public void searchProduct_제약조건_검색어_카테고리() throws Exception {
+    public void searchProduct_제약조건_검색어_카테고리(){
         //given
         for (int i=0;i<15;i++){
             List<Img> imgList = new ArrayList<>();
@@ -196,7 +195,7 @@ class ProductServiceTest {
 
     @Test
     @DisplayName("10번 API searchProduct_제약조건_리뷰갯수순_검색어_카테고리")
-    public void searchProduct_제약조건_리뷰갯수순_검색어_카테고리() throws Exception {
+    public void searchProduct_제약조건_리뷰갯수순_검색어_카테고리(){
         //given
         for (int i=0;i<15;i++){
             List<Img> imgList = new ArrayList<>();
