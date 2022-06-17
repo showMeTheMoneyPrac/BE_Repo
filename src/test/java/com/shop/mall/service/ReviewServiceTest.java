@@ -48,7 +48,7 @@ class ReviewServiceTest {
     @Test
     @Transactional
     @DisplayName("리뷰 작성 성공")
-    void 리뷰_작성_성공() throws Exception {
+    void 리뷰_작성_성공(){
         //given
         //member 생성
         Member member = new Member(
@@ -97,7 +97,7 @@ class ReviewServiceTest {
     @Test
     @Transactional
     @DisplayName("리뷰 수정 성공")
-    void 리뷰_수정_성공() throws Exception {
+    void 리뷰_수정_성공(){
         //given
         //member 생성
         Member member = new Member(
@@ -133,7 +133,7 @@ class ReviewServiceTest {
     @Test
     @Transactional
     @DisplayName("리뷰 수정 실패")
-    void 리뷰_수정_실패() throws Exception {
+    void 리뷰_수정_실패(){
         //given
         //member 생성
         Member member = new Member(

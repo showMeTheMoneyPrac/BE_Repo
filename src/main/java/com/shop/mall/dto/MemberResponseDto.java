@@ -5,8 +5,6 @@ import lombok.Getter;
 
 public class MemberResponseDto {
 
-
-
     @AllArgsConstructor
     @Getter
     public static class Address {

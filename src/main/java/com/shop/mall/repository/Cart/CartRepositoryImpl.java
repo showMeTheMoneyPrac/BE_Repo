@@ -33,8 +33,5 @@ public class CartRepositoryImpl implements CartRepositoryCustom{
                 .where(member.nickname.eq(nickname))
                 .orderBy(cart.id.asc())
                 .fetch();
-
     }
-
-
 }
